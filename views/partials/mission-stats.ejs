@@ -1,0 +1,14 @@
+<section class="section-pad bg-white">
+  <div class="container">
+    <div class="row g-4">
+      <% items.forEach((item) => { %>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card h-100">
+            <div class="stat-value"><%= item.value %></div>
+            <div class="stat-label"><%= item.label %></div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>

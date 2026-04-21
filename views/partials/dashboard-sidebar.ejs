@@ -1,0 +1,22 @@
+<aside class="dashboard-sidebar-shell">
+  <div class="sidebar-brand">
+    <span class="brand-mark">SIM</span>
+    <div>
+      <div class="fw-bold"><%= site.brand %></div>
+      <small class="text-muted">Supporter Dashboard</small>
+    </div>
+  </div>
+  <div class="sidebar-profile card-soft mt-4">
+    <div class="avatar-circle"><%= content.userProfile.name.charAt(0) %></div>
+    <div>
+      <div class="fw-semibold"><%= content.userProfile.name %></div>
+      <small class="text-muted"><%= content.userProfile.role %></small>
+    </div>
+  </div>
+  <nav class="sidebar-nav mt-4">
+    <% site.dashboardNav.forEach((item) => { %>
+      <a href="<%= item.href %>" class="sidebar-link <%= currentPath === item.href ? 'active' : '' %>"><%= item.label %></a>
+    <% }) %>
+  </nav>
+  <a href="/" class="btn btn-outline-dark rounded-pill mt-4">Back to Website</a>
+</aside>

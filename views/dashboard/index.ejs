@@ -1,0 +1,11 @@
+<section class="dashboard-section">
+  <div class="row g-4 mb-4">
+    <% content.userStats.forEach((item) => { %>
+      <div class="col-md-4"><%- include('../partials/dashboard-widget', { item }) %></div>
+    <% }) %>
+  </div>
+  <div class="row g-4">
+    <div class="col-xl-7"><div class="content-card h-100"><h2 class="h4">Recent donation activity</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Date</th><th>Campaign</th><th>Amount</th><th>Status</th></tr></thead><tbody><% content.userDonations.forEach((item) => { %><tr><td><%= item.date %></td><td><%= item.campaign %></td><td><%= item.amount %></td><td><span class="badge text-bg-light"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></div>
+    <div class="col-xl-5"><div class="content-card h-100"><h2 class="h4">Active sponsorships</h2><% content.userSponsorships.forEach((item) => { %><div class="list-item-row"><div><div class="fw-semibold"><%= item.type %></div><small class="text-muted"><%= item.target %> • <%= item.date %></small></div><span class="badge text-bg-success-subtle text-success"><%= item.status %></span></div><% }) %></div></div>
+  </div>
+</section>

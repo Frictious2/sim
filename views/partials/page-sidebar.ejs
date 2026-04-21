@@ -1,0 +1,8 @@
+<aside class="page-sidebar content-card h-100">
+  <h3 class="h5 mb-3"><%= title || 'Explore More' %></h3>
+  <div class="sidebar-nav compact-nav">
+    <% links.forEach((item) => { %>
+      <a href="<%= item.href %>" class="sidebar-link <%= currentPath === item.href ? 'active' : '' %>"><%= item.label %></a>
+    <% }) %>
+  </div>
+</aside>

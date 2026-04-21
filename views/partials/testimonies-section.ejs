@@ -1,0 +1,20 @@
+<section class="section-pad bg-cream">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Voices from the field</span>
+      <h2 class="section-title text-dark mt-3">Real stories of prayer, courage, and transformation.</h2>
+    </div>
+    <div class="row g-4">
+      <% items.forEach((item) => { %>
+        <div class="col-lg-4">
+          <div class="testimonial-card h-100">
+            <div class="quote-mark">“</div>
+            <p class="mb-4"><%= item.quote %></p>
+            <div class="fw-semibold"><%= item.name %></div>
+            <small class="text-muted"><%= item.role %></small>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>

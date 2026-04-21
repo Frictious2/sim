@@ -1,0 +1,20 @@
+<%- include('../partials/page-banner', { eyebrow: 'Projects and programs', heading: 'Visible opportunities to strengthen communities.', description: 'Browse mission initiatives with clear summaries, imagery, and fundraising progress indicators.' }) %>
+<section class="section-pad pt-0 bg-cream">
+  <div class="container">
+    <div class="row g-4">
+      <% content.featuredProjects.forEach((project) => { %>
+        <div class="col-lg-4">
+          <article class="project-card h-100">
+            <img src="<%= project.image %>" alt="<%= project.title %>" class="img-fluid rounded-4 project-image mb-4">
+            <span class="badge text-bg-light rounded-pill"><%= project.location %></span>
+            <h3 class="h4 mt-3"><%= project.title %></h3>
+            <p class="text-muted"><%= project.summary %></p>
+            <div class="progress mt-3"><div class="progress-bar" style="width: <%= project.progress %>%"></div></div>
+            <div class="d-flex justify-content-between mt-3 small text-muted"><span><%= project.raised %> raised</span><span><%= project.goal %> goal</span></div>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<%- include('../partials/call-to-action') %>

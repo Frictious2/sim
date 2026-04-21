@@ -1,0 +1,21 @@
+<%- include('../partials/page-banner', { eyebrow: 'Contact', heading: 'Reach out about prayer, partnership, or volunteering.', description: 'A welcoming contact page designed to feel personal, trustworthy, and easy to engage.' }) %>
+<section class="section-pad pt-0 bg-white">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <%- include('../partials/page-sidebar', { title: 'Connect Through', links: [{ label: 'Partnership enquiries', href: '/contact' }, { label: 'Support a project', href: '/projects' }, { label: 'Sponsor a child or program', href: '/sponsor' }, { label: 'Give to the mission', href: '/donate' }] }) %>
+      </div>
+      <div class="col-lg-8">
+        <div class="content-card bg-sand">
+          <form class="row g-3">
+            <div class="col-md-6"><input class="form-control" placeholder="Your name"></div>
+            <div class="col-md-6"><input class="form-control" type="email" placeholder="Your email"></div>
+            <div class="col-12"><input class="form-control" placeholder="Subject"></div>
+            <div class="col-12"><textarea class="form-control" rows="6" placeholder="How can we help?"></textarea></div>
+            <div class="col-12"><button type="button" class="btn btn-sunrise rounded-pill px-4">Send Message</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

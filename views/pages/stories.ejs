@@ -1,0 +1,17 @@
+<%- include('../partials/page-banner', { eyebrow: 'Stories', heading: 'Human stories of prayer, resilience, and transformation.', description: 'These cards help the platform feel relational and grounded in real community experience.' }) %>
+<section class="section-pad pt-0 bg-white">
+  <div class="container">
+    <div class="row g-4">
+      <% content.stories.forEach((story) => { %>
+        <div class="col-lg-4">
+          <div class="story-card h-100">
+            <span class="badge text-bg-light rounded-pill"><%= story.tag %></span>
+            <h3 class="h4 mt-3"><%= story.title %></h3>
+            <p class="text-muted mb-0"><%= story.excerpt %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<%- include('../partials/testimonies-section', { items: content.testimonials }) %>
