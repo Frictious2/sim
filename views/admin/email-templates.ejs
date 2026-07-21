@@ -1,0 +1,52 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head d-flex justify-content-between align-items-start flex-wrap gap-3">
+      <div>
+        <h2 class="admin-panel-title mb-1">Email templates</h2>
+        <p class="text-muted mb-0">Edit the acknowledgements and admin alerts used across donations, sponsorships, volunteer applications, prayer workflows, and contact follow-up.</p>
+      </div>
+    </div>
+
+    <% if (templates && templates.length) { %>
+      <div class="table-responsive mt-4">
+        <table class="table admin-table align-middle">
+          <thead>
+            <tr>
+              <th>Template</th>
+              <th>Key</th>
+              <th>Status</th>
+              <th>Updated</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% templates.forEach((item) => { %>
+              <tr>
+                <td>
+                  <strong><%= item.name %></strong>
+                  <div class="small text-muted"><%= item.subject %></div>
+                </td>
+                <td><code><%= item.template_key %></code></td>
+                <td>
+                  <span class="badge <%= item.is_active ? 'text-bg-success-subtle text-success' : 'text-bg-secondary' %>">
+                    <%= item.is_active ? 'Active' : 'Inactive' %>
+                  </span>
+                </td>
+                <td class="text-muted small"><%= item.updatedDisplay %></td>
+                <td class="text-end">
+                  <a href="/admin/email-templates/<%= item.id %>/edit" class="btn btn-outline-dark rounded-pill btn-sm">Edit Template</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="admin-empty-state mt-4">
+        <div class="empty-state-icon"><i class="bi bi-envelope-paper"></i></div>
+        <h3 class="h5 mb-2">No email templates available</h3>
+        <p class="text-muted mb-0">Run the CMS seed to load the default SIM communication templates.</p>
+      </div>
+    <% } %>
+  </div>
+</section>

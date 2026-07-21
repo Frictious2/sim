@@ -1,0 +1,55 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div>
+        <h2 class="admin-panel-title mb-1">Homepage sections</h2>
+        <p class="text-muted mb-0">Manage the structured content blocks that feed the homepage while preserving the existing design.</p>
+      </div>
+    </div>
+
+    <div class="table-responsive mt-4">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr>
+            <th>Section key</th>
+            <th>Title</th>
+            <th>Sort order</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (sections.length) { %>
+            <% sections.forEach((item) => { %>
+              <tr>
+                <td><strong><%= item.section_key %></strong></td>
+                <td><%= item.title || 'Untitled section' %></td>
+                <td><%= item.sort_order %></td>
+                <td><span class="badge <%= item.is_active ? 'text-bg-success-subtle text-success' : 'text-bg-light text-dark' %>"><%= item.statusLabel %></span></td>
+                <td><%= item.updatedDisplay %></td>
+                <td>
+                  <div class="table-actions">
+                    <a href="/admin/homepage-content/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                    <form action="/admin/homepage-content/<%= item.id %>/toggle" method="post" class="d-inline">
+                      <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill"><%= item.is_active ? 'Deactivate' : 'Activate' %></button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="6">
+                <div class="admin-empty-state">
+                  <h3 class="h5 mb-2">No homepage sections yet</h3>
+                  <p class="text-muted mb-0">Run the CMS seed to populate structured homepage content.</p>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Recent audit logs</h2>
+        <p class="text-muted mb-0">A lightweight record of recent content and media actions across the CMS.</p>
+      </div>
+    </div>
+
+    <% if (logs.length) { %>
+      <div class="table-responsive mt-3">
+        <table class="table admin-table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>User</th>
+              <th>Action</th>
+              <th>Entity</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% logs.forEach((item) => { %>
+              <tr>
+                <td><%= item.createdDisplay %></td>
+                <td><%= item.user_name || 'System' %></td>
+                <td><code><%= item.action %></code></td>
+                <td><%= item.entity_type || 'General' %> <%= item.entity_id ? '#' + item.entity_id : '' %></td>
+                <td><span class="text-muted"><%= item.metadataPreview || 'No additional metadata' %></span></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="admin-empty-state mt-3">
+        <div class="empty-state-icon"><i class="bi bi-journal-text"></i></div>
+        <h3 class="h5 mb-2">No audit activity recorded yet</h3>
+        <p class="text-muted mb-0">Recent CMS actions will begin appearing here as staff create, update, archive, and manage content.</p>
+      </div>
+    <% } %>
+  </div>
+</section>

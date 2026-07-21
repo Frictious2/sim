@@ -1,0 +1,6 @@
+-- Optional manual seed reference.
+-- Prefer using: node scripts/seed-admin.js
+-- This file is illustrative so live credentials stay in .env.
+-- Example:
+-- INSERT INTO users (name, email, password_hash, role, status)
+-- VALUES ('SIM Administrator', 'admin@example.com', '<bcrypt-hash>', 'admin', 'active');

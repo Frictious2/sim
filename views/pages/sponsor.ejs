@@ -1,2 +1,404 @@
-<%- include('../partials/page-header', { eyebrow: 'Sponsorship', heading: 'Sponsor a child, program, or mission initiative.', description: 'This UI phase presents the sponsorship pathways with warm, ministry-centered language and presentational forms.' }) %>
-<section class="section-pad pt-0 bg-white"><div class="container"><div class="row g-4 mb-4"><% content.sponsorshipOptions.forEach((item) => { %><div class="col-lg-4"><div class="content-card h-100"><span class="badge text-bg-warning-subtle text-dark rounded-pill"><%= item.amount %></span><h3 class="h4 mt-3"><%= item.title %></h3><p class="text-muted mb-0"><%= item.text %></p></div></div><% }) %></div><div class="content-card bg-sand"><div class="row g-4 align-items-center"><div class="col-lg-5"><h3 class="h4">Sponsorship interest form</h3><p class="text-muted mb-0">Designed for future integration while already reflecting the emotional tone of a thoughtful sponsor journey.</p></div><div class="col-lg-7"><form class="row g-3"><div class="col-md-6"><input class="form-control" placeholder="Sponsor name"></div><div class="col-md-6"><input class="form-control" type="email" placeholder="Email address"></div><div class="col-md-6"><select class="form-select"><option>Choose sponsorship type</option><option>Child Sponsorship</option><option>Program Sponsorship</option><option>Project Sponsorship</option></select></div><div class="col-md-6"><input class="form-control" placeholder="Preferred focus"></div><div class="col-12"><button type="button" class="btn btn-sunrise rounded-pill px-4">Start Sponsorship</button></div></form></div></div></div></div></section>
+<%- include('../partials/page-banner', {
+  eyebrow: 'Sponsor a Child',
+  heading: 'Give a child consistent support, hopeful encouragement, and a stronger path forward.',
+  description: 'Child sponsorship at Salone Interior Missions is designed to be compassionate, trustworthy, and deeply connected to the life of the local community.'
+}) %>
+
+<section class="section-pad pt-0 bg-white sponsor-intro-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <div class="image-stack-card">
+          <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80" alt="Children in a learning circle" class="img-fluid rounded-5 sponsor-hero-image">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <span class="eyebrow text-dark">What sponsorship means</span>
+        <h2 class="section-title text-dark mt-3">Sponsorship is more than financial help. It is a commitment to hope, dignity, and consistent care.</h2>
+        <p class="text-muted">Through child sponsorship, supporters help make space for education support, prayerful encouragement, practical care, and a stronger local support system around each child. The goal is not dependency, but dignity, continuity, and the assurance that a child is seen and supported.</p>
+        <p class="text-muted mb-0">Salone Interior Missions works through trusted local relationships so sponsorship becomes part of a larger story of discipleship, family strengthening, and community transformation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream sponsorship-steps-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">How sponsorship works</span>
+      <h2 class="section-title text-dark mt-3">A simple, transparent journey from compassion to ongoing support.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-3">
+        <div class="step-card h-100">
+          <div class="step-number">01</div>
+          <h3 class="h5 mt-4">Choose a sponsorship focus</h3>
+          <p class="text-muted mb-0">Review child, program, or mission-worker profiles and prayerfully identify where you feel led to help.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="step-card h-100">
+          <div class="step-number">02</div>
+          <h3 class="h5 mt-4">Share your interest</h3>
+          <p class="text-muted mb-0">Tell us the kind of sponsorship support you want to offer and the level of commitment that feels right.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="step-card h-100">
+          <div class="step-number">03</div>
+          <h3 class="h5 mt-4">Support reaches the field</h3>
+          <p class="text-muted mb-0">Local teams help direct support with accountability, pastoral sensitivity, and a clear focus on real ministry needs.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="step-card h-100">
+          <div class="step-number">04</div>
+          <h3 class="h5 mt-4">Stay connected to the story</h3>
+          <p class="text-muted mb-0">Sponsors remain close to the mission through updates, stories, and ongoing opportunities to pray and engage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white sponsorship-impact-section">
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-4">
+        <div class="impact-benefit-card h-100">
+          <div class="icon-badge"><i class="bi bi-mortarboard"></i></div>
+          <h3 class="h5 mt-4">Education support</h3>
+          <p class="text-muted mb-0">Sponsorship helps remove barriers to learning by supporting school-related needs and steady encouragement.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="impact-benefit-card h-100">
+          <div class="icon-badge"><i class="bi bi-heart"></i></div>
+          <h3 class="h5 mt-4">Care with dignity</h3>
+          <p class="text-muted mb-0">Support is shaped to strengthen the child's wider care environment with compassion, consistency, and respect.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="impact-benefit-card h-100">
+          <div class="icon-badge"><i class="bi bi-house-heart"></i></div>
+          <h3 class="h5 mt-4">Community-rooted impact</h3>
+          <p class="text-muted mb-0">Child sponsorship becomes part of a broader ministry story involving families, local churches, and community support.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="child-profiles" class="section-pad bg-cream child-profiles-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <span class="eyebrow text-dark">Child profiles</span>
+        <h2 class="section-title text-dark mt-3">Children currently highlighted for sponsorship prayer and support.</h2>
+      </div>
+      <div class="small text-muted">Profiles use protected display details to preserve dignity and safety.</div>
+    </div>
+    <div class="row g-4">
+      <% (catalog.children || []).forEach((child) => { %>
+        <div class="col-md-6 col-xl-4">
+          <article class="child-card h-100">
+            <% if (child.image) { %>
+              <img src="<%= child.image %>" alt="<%= child.name %> profile" class="img-fluid rounded-4 child-image mb-4">
+            <% } else { %>
+              <div class="admin-image-preview-card child-image mb-4 d-flex align-items-center justify-content-center">
+                <div class="admin-image-preview-empty">Protected child profile image</div>
+              </div>
+            <% } %>
+            <h3 class="h5 mb-1"><%= child.name %></h3>
+            <div class="text-muted small mb-3">
+              <%= child.age ? `Age ${child.age}` : 'Child profile' %><%= child.community ? ` • ${child.community}` : '' %>
+            </div>
+            <p class="text-muted mb-3"><%= child.biography %></p>
+            <a href="<%= child.href || '#interest-form' %>" class="btn btn-sunrise rounded-pill w-100">Sponsor This Child</a>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white sponsorship-project-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <span class="eyebrow text-dark">Program sponsorship</span>
+        <h2 class="section-title text-dark mt-3">Support ministry programs that strengthen many lives at once.</h2>
+      </div>
+      <div class="small text-muted">Program support helps whole learning spaces, outreach teams, and community initiatives.</div>
+    </div>
+    <div class="row g-4">
+      <% (catalog.projects || []).forEach((project) => { %>
+        <div class="col-lg-6">
+          <article class="child-card h-100">
+            <% if (project.image) { %>
+              <img src="<%= project.image %>" alt="<%= project.title %>" class="img-fluid rounded-4 child-image mb-4">
+            <% } else { %>
+              <div class="admin-image-preview-card child-image mb-4 d-flex align-items-center justify-content-center">
+                <div class="admin-image-preview-empty">Program image placeholder</div>
+              </div>
+            <% } %>
+            <div class="small text-uppercase text-muted fw-semibold"><%= project.category || 'Sponsorship Project' %></div>
+            <h3 class="h5 mt-2 mb-2"><%= project.title %></h3>
+            <p class="text-muted mb-4"><%= project.summary %></p>
+            <a href="<%= project.href || '#interest-form' %>" class="btn btn-outline-dark rounded-pill">Support This Program</a>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream sponsorship-worker-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <span class="eyebrow text-dark">Mission worker support</span>
+        <h2 class="section-title text-dark mt-3">Walk closely with field workers carrying the Gospel into interior communities.</h2>
+      </div>
+      <div class="small text-muted">Mission worker support helps sustain presence, prayer, travel, and discipleship ministry.</div>
+    </div>
+    <div class="row g-4">
+      <% (catalog.workers || []).forEach((worker) => { %>
+        <div class="col-lg-6">
+          <article class="child-card h-100">
+            <div class="row g-4 align-items-center">
+              <div class="col-md-4">
+                <% if (worker.image) { %>
+                  <img src="<%= worker.image %>" alt="<%= worker.name %>" class="img-fluid rounded-4 child-image">
+                <% } else { %>
+                  <div class="admin-image-preview-card child-image d-flex align-items-center justify-content-center">
+                    <div class="admin-image-preview-empty">Mission worker image</div>
+                  </div>
+                <% } %>
+              </div>
+              <div class="col-md-8">
+                <div class="small text-uppercase text-muted fw-semibold"><%= worker.location || 'Mission field' %></div>
+                <h3 class="h5 mt-2 mb-2"><%= worker.name %></h3>
+                <div class="text-muted small mb-3"><%= worker.ministryFocus %></div>
+                <p class="text-muted mb-4"><%= worker.biography %></p>
+                <a href="<%= worker.href || '#interest-form' %>" class="btn btn-outline-dark rounded-pill">Support This Worker</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white sponsorship-plans-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Sponsorship plans</span>
+      <h2 class="section-title text-dark mt-3">Choose the level of support that fits your commitment.</h2>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-4">
+        <div class="plan-card h-100">
+          <div class="small text-uppercase text-muted fw-semibold">Essential support</div>
+          <div class="display-6 fw-bold mt-2">NLe 35<span class="fs-6 fw-medium">/month</span></div>
+          <p class="text-muted mt-3">A core child sponsorship plan supporting educational and care-related needs.</p>
+          <ul class="check-list mt-3">
+            <li>Monthly support focus</li>
+            <li>Child-centered care pathway</li>
+            <li>Mission updates included</li>
+          </ul>
+          <a href="#interest-form" class="btn btn-outline-dark rounded-pill w-100 mt-3">Choose Plan</a>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="plan-card featured-plan h-100">
+          <div class="small text-uppercase text-white-50 fw-semibold">Most chosen</div>
+          <div class="display-6 fw-bold mt-2 text-white">NLe 50<span class="fs-6 fw-medium">/month</span></div>
+          <p class="mt-3 text-white-50">A stronger monthly sponsorship level that helps widen support around the child's context.</p>
+          <ul class="check-list plan-check-list mt-3">
+            <li>Enhanced care contribution</li>
+            <li>Supports wider field ministry stability</li>
+            <li>Ongoing mission story updates</li>
+          </ul>
+          <a href="#interest-form" class="btn btn-light rounded-pill w-100 mt-3">Choose Plan</a>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="plan-card h-100">
+          <div class="small text-uppercase text-muted fw-semibold">Family support plus</div>
+          <div class="display-6 fw-bold mt-2">NLe 75<span class="fs-6 fw-medium">/month</span></div>
+          <p class="text-muted mt-3">A broader sponsorship commitment that helps reinforce both child and surrounding support needs.</p>
+          <ul class="check-list mt-3">
+            <li>Expanded monthly support</li>
+            <li>Helps reinforce ministry context</li>
+            <li>Designed for long-term partnership</li>
+          </ul>
+          <a href="#interest-form" class="btn btn-outline-dark rounded-pill w-100 mt-3">Choose Plan</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="interest-form" class="section-pad bg-cream sponsor-interest-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <span class="eyebrow text-dark">Sponsorship interest</span>
+        <h2 class="section-title text-dark mt-3">Tell us how you would like to partner.</h2>
+        <p class="text-muted">This form begins the conversation. Our team can follow up about child sponsorship, project sponsorship, mission-worker support, or a more general sponsorship pathway.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="content-card bg-white">
+          <form class="row g-3" method="post" action="/sponsor">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Full name</label>
+              <input class="form-control" name="sponsorName" value="<%= formData.sponsorName || (currentUser ? currentUser.name : '') %>" placeholder="Your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Email address</label>
+              <input class="form-control" type="email" name="sponsorEmail" value="<%= formData.sponsorEmail || (currentUser ? currentUser.email : '') %>" placeholder="Email address" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Phone number</label>
+              <input class="form-control" name="sponsorPhone" value="<%= formData.sponsorPhone || '' %>" placeholder="Phone number">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Sponsorship type</label>
+              <select class="form-select" name="sponsorshipType" required>
+                <option value="child" <%= formData.sponsorshipType === 'child' || !formData.sponsorshipType ? 'selected' : '' %>>Child sponsorship</option>
+                <option value="project" <%= formData.sponsorshipType === 'project' ? 'selected' : '' %>>Project sponsorship</option>
+                <option value="mission_worker" <%= formData.sponsorshipType === 'mission_worker' ? 'selected' : '' %>>Mission worker support</option>
+                <option value="general" <%= formData.sponsorshipType === 'general' ? 'selected' : '' %>>General sponsorship interest</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Preferred plan</label>
+              <select class="form-select" name="preferredPlan" required>
+                <option value="monthly" <%= formData.preferredPlan === 'monthly' || !formData.preferredPlan ? 'selected' : '' %>>Monthly</option>
+                <option value="quarterly" <%= formData.preferredPlan === 'quarterly' ? 'selected' : '' %>>Quarterly</option>
+                <option value="annual" <%= formData.preferredPlan === 'annual' ? 'selected' : '' %>>Annual</option>
+                <option value="one_time" <%= formData.preferredPlan === 'one_time' ? 'selected' : '' %>>One-time</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Preferred amount</label>
+              <div class="input-group">
+                <span class="input-group-text">NLe</span>
+                <input class="form-control" name="amount" value="<%= formData.amount || '' %>" placeholder="Optional amount">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Preferred contact method</label>
+              <select class="form-select" name="preferredContactMethod">
+                <option value="">Choose one</option>
+                <option value="email" <%= formData.preferredContactMethod === 'email' ? 'selected' : '' %>>Email</option>
+                <option value="phone" <%= formData.preferredContactMethod === 'phone' ? 'selected' : '' %>>Phone</option>
+                <option value="whatsapp" <%= formData.preferredContactMethod === 'whatsapp' ? 'selected' : '' %>>WhatsApp</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Message</label>
+              <textarea class="form-control" name="message" rows="5" placeholder="Share the sponsorship path you feel drawn toward"><%= formData.message || '' %></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-sunrise rounded-pill px-4">Submit Sponsorship Interest</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream faq-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Frequently asked questions</span>
+      <h2 class="section-title text-dark mt-3">Common questions sponsors may ask before taking the next step.</h2>
+    </div>
+    <div class="accordion accordion-flush faq-accordion" id="sponsorshipFaq">
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">How is sponsorship support used?</button>
+        </h2>
+        <div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#sponsorshipFaq">
+          <div class="accordion-body text-muted">Support is directed through ministry structures that help meet education, care, and child-related support needs while staying sensitive to the wider community context.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">Will I receive updates about the ministry?</button>
+        </h2>
+        <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#sponsorshipFaq">
+          <div class="accordion-body text-muted">Yes. Sponsors can expect story-led updates, field insights, and ongoing encouragement that help them remain connected to the mission.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree">Why are child details protected?</button>
+        </h2>
+        <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#sponsorshipFaq">
+          <div class="accordion-body text-muted">We prioritize dignity, safety, and appropriate privacy. That is why public profile cards use protected display formats rather than exposing full personal details.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour">Can I support the wider mission too?</button>
+        </h2>
+        <div id="faqFour" class="accordion-collapse collapse" data-bs-parent="#sponsorshipFaq">
+          <div class="accordion-body text-muted">Absolutely. Many sponsors also choose to support community projects, leadership training, outreach, or the general mission fund alongside child sponsorship.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white trust-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <span class="eyebrow text-dark">Trust and transparency</span>
+        <h2 class="section-title text-dark mt-3">We want sponsorship to feel compassionate, professional, and accountable.</h2>
+        <p class="text-muted">Salone Interior Missions approaches sponsorship with careful stewardship, local partnership, and clear communication. We do not present children as marketing tools. We present them as lives worthy of dignity, protection, and thoughtful care.</p>
+        <p class="text-muted mb-0">Our aim is to help sponsors give with confidence, knowing that support is part of a broader ministry effort rooted in local relationships, pastoral sensitivity, and long-term community transformation.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="trust-grid">
+          <div class="trust-item">
+            <strong>Protected profiles</strong>
+            <span>Public cards use limited identity details to preserve dignity and safety.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Local accountability</strong>
+            <span>Support flows through trusted ministry relationships close to the field.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Story-led updates</strong>
+            <span>Sponsors stay connected through thoughtful communication rather than vague reporting.</span>
+          </div>
+          <div class="trust-item">
+            <strong>Mission-wide impact</strong>
+            <span>Child support is part of a wider movement of discipleship, care, and community strengthening.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Take the next step</span>
+        <h2 class="section-title mt-3 text-white">Choose a child profile, support a ministry program, or stand with a mission worker serving in the field.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="#child-profiles" class="btn btn-light rounded-pill px-4">View Profiles</a>
+        <a href="/contact" class="btn btn-outline-light rounded-pill px-4">Ask a Question</a>
+      </div>
+    </div>
+  </div>
+</section>

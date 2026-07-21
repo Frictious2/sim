@@ -1,0 +1,61 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Donation details</h2>
+        <p class="text-muted mb-0">Review the donor record, proof file, and status history before taking action.</p>
+      </div>
+      <a href="/admin/donations" class="btn btn-outline-dark rounded-pill btn-sm">Back to donations</a>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-7">
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>Donor</span><strong><%= donation.donor_name %></strong></div>
+          <div class="admin-detail-card"><span>Email</span><strong><%= donation.donor_email %></strong></div>
+          <div class="admin-detail-card"><span>Phone</span><strong><%= donation.donor_phone || 'Not provided' %></strong></div>
+          <div class="admin-detail-card"><span>Amount</span><strong><%= donation.amountDisplay %></strong></div>
+          <div class="admin-detail-card"><span>Designation</span><strong><%= donation.designationLabel %></strong></div>
+          <div class="admin-detail-card"><span>Payment method</span><strong><%= donation.paymentMethodLabel %></strong></div>
+          <div class="admin-detail-card"><span>Donation type</span><strong><%= donation.donationTypeLabel %></strong></div>
+          <div class="admin-detail-card"><span>Reference</span><strong><%= donation.payment_reference || 'No reference supplied' %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><%= donation.statusLabel %></strong></div>
+          <div class="admin-detail-card"><span>Submitted</span><strong><%= donation.createdDisplay %></strong></div>
+          <% if (donation.verifiedDisplay) { %><div class="admin-detail-card"><span>Reviewed</span><strong><%= donation.verifiedDisplay %></strong></div><% } %>
+        </div>
+        <div class="content-card mt-4"><h3 class="h5 mb-3">Donor message</h3><p class="text-muted mb-0"><%= donation.message || 'No message or prayer note was attached to this donation.' %></p></div>
+        <% if (donation.rejection_reason) { %><div class="content-card mt-4 border border-danger-subtle"><h3 class="h5 mb-3">Rejection reason</h3><p class="text-muted mb-0"><%= donation.rejection_reason %></p></div><% } %>
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Status timeline</h3>
+          <% if (timeline && timeline.length) { %>
+            <div class="timeline-list">
+              <% timeline.forEach((item) => { %>
+                <div class="timeline-item">
+                  <strong><%= item.newStatusLabel %></strong>
+                  <div class="small text-muted"><%= item.createdDisplay %><% if (item.changed_by_name) { %> • <%= item.changed_by_name %><% } %></div>
+                  <% if (item.oldStatusLabel) { %><div class="small text-muted">From <%= item.oldStatusLabel %></div><% } %>
+                  <% if (item.note) { %><div class="text-muted mt-1"><%= item.note %></div><% } %>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted mb-0">No status history has been recorded yet.</p>
+          <% } %>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card bg-sand mb-4"><h3 class="h5 mb-3">Proof file</h3><% if (donation.proof_file_url) { %><a href="<%= donation.proof_file_url %>" target="_blank" rel="noopener" class="btn btn-outline-dark rounded-pill btn-sm">Open proof file</a><% } else { %><p class="text-muted mb-0">No proof file was supplied for this record.</p><% } %></div>
+        <div class="content-card mb-4">
+          <h3 class="h5 mb-3">Receipt</h3>
+          <% if (donation.receipt_number) { %>
+            <div class="admin-detail-card mb-3"><span>Receipt number</span><strong><%= donation.receipt_number %></strong></div>
+            <a href="/admin/donations/<%= donation.id %>/receipt" target="_blank" rel="noopener" class="btn btn-outline-dark rounded-pill btn-sm">Open printable receipt</a>
+          <% } else { %>
+            <p class="text-muted mb-0">A receipt number will be generated when this donation is verified.</p>
+          <% } %>
+        </div>
+        <div class="content-card"><h3 class="h5 mb-3">Actions</h3><div class="d-grid gap-3"><form method="post" action="/admin/donations/<%= donation.id %>/verify"><input type="hidden" name="redirectTo" value="detail"><button type="submit" class="btn btn-sunrise rounded-pill w-100">Verify Donation</button></form><form method="post" action="/admin/donations/<%= donation.id %>/reject"><input type="hidden" name="redirectTo" value="detail"><textarea class="form-control mb-2" name="rejectionReason" rows="3" placeholder="Why is this donation being rejected?"></textarea><button type="submit" class="btn btn-outline-dark rounded-pill w-100">Reject Donation</button></form><form method="post" action="/admin/donations/<%= donation.id %>/cancel"><input type="hidden" name="redirectTo" value="detail"><button type="submit" class="btn btn-outline-secondary rounded-pill w-100">Cancel Donation</button></form></div></div>
+      </div>
+    </div>
+  </div>
+</section>

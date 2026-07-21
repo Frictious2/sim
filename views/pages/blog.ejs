@@ -1,23 +1,115 @@
-<%- include('../partials/page-banner', { eyebrow: 'Blog', heading: 'Mission reflections, updates, and ministry insight.', description: 'A clean card-based blog layout for stories, strategic reflections, and field updates.' }) %>
-<section class="section-pad pt-0 bg-cream">
+﻿<%- include('../partials/page-banner', {
+  eyebrow: 'Blog, News and Updates',
+  heading: 'Follow the stories, field updates, and ministry reflections shaping the mission.',
+  description: 'Read how Salone Interior Missions is serving communities, encouraging churches, supporting children, and sharing the Gospel across Sierra Leone.'
+}) %>
+
+<% const featuredPost = content.blogPosts[0]; %>
+<section class="section-pad pt-0 bg-white featured-post-section">
   <div class="container">
-    <div class="row g-4">
+    <div class="featured-post-card">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <img src="<%= featuredPost && featuredPost.image ? featuredPost.image : 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80' %>" alt="Featured mission update" class="img-fluid rounded-5 featured-post-image">
+        </div>
+        <div class="col-lg-6">
+          <span class="badge text-bg-warning-subtle text-dark rounded-pill">Featured update</span>
+          <h2 class="section-title text-dark mt-3"><%= featuredPost ? featuredPost.title : 'Why Mission Partnership Must Feel Personal' %></h2>
+          <p class="text-muted"><%= featuredPost ? featuredPost.excerpt : 'Healthy ministry support grows where stewardship, prayer, and local ownership meet. This featured reflection explores why meaningful mission partnership depends on trust, nearness, and a clear sense of shared calling.' %></p>
+          <div class="small text-muted mb-4"><%= featuredPost ? `${featuredPost.author} • ${featuredPost.date}` : 'SIM Communications • April 2026' %></div>
+          <a href="/blog/<%= featuredPost && featuredPost.slug ? featuredPost.slug : 'featured-post' %>" class="btn btn-sunrise rounded-pill px-4">Read Featured Story</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream blog-listing-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
       <div class="col-lg-8">
         <div class="row g-4">
-          <% content.blogPosts.forEach((post) => { %>
+          <% content.blogPosts.forEach((post, index) => { %>
             <div class="col-md-6">
-              <article class="story-card h-100">
+              <article class="blog-card h-100">
+                <img src="<%= post.image || (content.gallery[index] ? content.gallery[index].image : 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80') %>" alt="<%= post.title %>" class="img-fluid rounded-4 blog-card-image mb-4">
                 <span class="badge text-bg-warning-subtle text-dark rounded-pill"><%= post.category %></span>
                 <h3 class="h4 mt-3"><%= post.title %></h3>
                 <p class="text-muted"><%= post.excerpt %></p>
-                <small class="text-muted"><%= post.author %> � <%= post.date %></small>
+                <div class="small text-muted mb-3"><%= post.author %> • <%= post.date %></div>
+                <a href="/blog/<%= post.slug || 'featured-post' %>" class="btn btn-outline-dark rounded-pill btn-sm">Read More</a>
               </article>
             </div>
           <% }) %>
         </div>
+
+        <nav class="mt-5" aria-label="Blog pagination">
+          <ul class="pagination custom-pagination mb-0">
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            <li class="page-item active"><span class="page-link">1</span></li>
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+          </ul>
+        </nav>
       </div>
+
       <div class="col-lg-4">
-        <%- include('../partials/page-sidebar', { title: 'Browse Pages', links: site.publicNav.slice(0, 6) }) %>
+        <div class="blog-sidebar d-grid gap-4">
+          <div class="content-card">
+            <h3 class="h5 mb-3">Search</h3>
+            <div class="input-group">
+              <input class="form-control" placeholder="Search updates">
+              <button class="btn btn-outline-dark" type="button"><i class="bi bi-search"></i></button>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3 class="h5 mb-3">Categories</h3>
+            <div class="d-grid gap-2">
+              <a href="#" class="sidebar-chip">Mission Strategy</a>
+              <a href="#" class="sidebar-chip">Education</a>
+              <a href="#" class="sidebar-chip">Leadership</a>
+              <a href="#" class="sidebar-chip">Community Renewal</a>
+              <a href="#" class="sidebar-chip">Stories</a>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <h3 class="h5 mb-3">Recent Posts</h3>
+            <div class="recent-post-list d-grid gap-3">
+              <% content.blogPosts.forEach((post) => { %>
+                <a href="/blog/<%= post.slug || 'featured-post' %>" class="recent-post-link">
+                  <strong><%= post.title %></strong>
+                  <span><%= post.date %></span>
+                </a>
+              <% }) %>
+            </div>
+          </div>
+
+          <div class="content-card bg-sand">
+            <h3 class="h5 mb-3">Newsletter Signup</h3>
+            <p class="text-muted">Receive ministry updates, stories, and prayer-focused news from the field.</p>
+            <form action="/newsletter/subscribe" method="post" class="d-grid gap-2">
+              <input type="hidden" name="source" value="blog-sidebar">
+              <input class="form-control" type="email" name="email" placeholder="Email address" required>
+              <button class="btn btn-sunrise rounded-pill" type="submit">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Stay connected</span>
+        <h2 class="section-title mt-3 text-white">Keep following the mission story through updates, prayer, generosity, and partnership.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/get-involved" class="btn btn-light rounded-pill px-4">Get Involved</a>
+        <a href="/donate" class="btn btn-outline-light rounded-pill px-4">Support the Mission</a>
       </div>
     </div>
   </div>

@@ -1,0 +1,76 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Prayer request details</h2>
+        <p class="text-muted mb-0">Review the full prayer request, update its status, and keep internal follow-up notes together.</p>
+      </div>
+      <a href="/admin/prayer" class="btn btn-outline-dark rounded-pill btn-sm">Back to prayer desk</a>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-7">
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>Name</span><strong><%= prayerRequest.name || 'Anonymous' %></strong></div>
+          <div class="admin-detail-card"><span>Email</span><strong><%= prayerRequest.email || 'Not provided' %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><%= prayerRequest.statusLabel %></strong></div>
+          <div class="admin-detail-card"><span>Visibility</span><strong><%= prayerRequest.is_public ? 'Public shareable' : 'Private only' %></strong></div>
+          <div class="admin-detail-card"><span>Submitted</span><strong><%= prayerRequest.createdDisplay %></strong></div>
+        </div>
+
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Prayer request</h3>
+          <p class="text-muted mb-0"><%= prayerRequest.request_text %></p>
+        </div>
+
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Internal note history</h3>
+          <% if (notes && notes.length) { %>
+            <div class="timeline-list">
+              <% notes.forEach((note) => { %>
+                <div class="timeline-item">
+                  <strong><%= note.created_by_name || 'Admin note' %></strong>
+                  <div class="small text-muted"><%= note.createdDisplay %></div>
+                  <div class="text-muted mt-1"><%= note.note %></div>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted mb-0">No internal notes recorded yet.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="content-card">
+          <h3 class="h5 mb-3">Update status</h3>
+          <form method="post" action="/admin/prayer/requests/<%= prayerRequest.id %>/status" class="d-grid gap-3">
+            <input type="hidden" name="redirectTo" value="detail">
+            <select class="form-select" name="status">
+              <% prayerRequestStatuses.forEach((status) => { %>
+                <option value="<%= status %>" <%= prayerRequest.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) %></option>
+              <% }) %>
+            </select>
+            <textarea class="form-control" name="adminNote" rows="4" placeholder="Optional note about this status update"></textarea>
+            <button type="submit" class="btn btn-sunrise rounded-pill w-100">Save Status</button>
+          </form>
+        </div>
+
+        <div class="content-card mt-4 bg-sand">
+          <h3 class="h5 mb-3">Add internal note</h3>
+          <form method="post" action="/admin/prayer/requests/<%= prayerRequest.id %>/note">
+            <textarea class="form-control mb-3" name="adminNote" rows="5" placeholder="Record any pastoral follow-up or care notes"></textarea>
+            <button type="submit" class="btn btn-outline-dark rounded-pill w-100">Save Note</button>
+          </form>
+        </div>
+
+        <div class="content-card mt-4">
+          <form method="post" action="/admin/prayer/requests/<%= prayerRequest.id %>/archive">
+            <input type="hidden" name="redirectTo" value="detail">
+            <button type="submit" class="btn btn-outline-secondary rounded-pill w-100">Archive Request</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1"><%= formTitle %></h2>
+        <p class="text-muted mb-0">Use this editor to manage ministry updates while preserving the public storytelling design.</p>
+      </div>
+      <a href="/admin/blog-posts" class="btn btn-outline-dark rounded-pill btn-sm">Back to Posts</a>
+    </div>
+
+    <form action="<%= formAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-lg-8">
+        <label class="form-label fw-semibold">Post title <span class="text-danger">*</span></label>
+        <input class="form-control" name="title" id="blogTitle" data-slug-source data-slug-target="blogSlug" value="<%= blogPost ? blogPost.title : '' %>" required>
+        <div class="form-text">Use a clear, ministry-facing title that will also work well on the public blog listing.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Slug</label>
+        <input class="form-control" id="blogSlug" data-slug-field name="slug" value="<%= blogPost ? blogPost.slug : '' %>" placeholder="Auto-generated if left blank">
+        <div class="form-text">Short URL path for the article.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Category</label>
+        <input class="form-control" name="category" value="<%= blogPost ? (blogPost.category || '') : '' %>" placeholder="Mission Strategy">
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+        <select class="form-select" name="status">
+          <% ['draft', 'published', 'archived'].forEach((status) => { %>
+            <option value="<%= status %>" <%= blogPost && blogPost.status === status ? 'selected' : (!blogPost && status === 'draft' ? 'selected' : '') %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+          <% }) %>
+        </select>
+        <div class="form-text">Draft keeps it private, Published sends it live, Archived hides it while preserving the record.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Featured image URL</label>
+        <input class="form-control" data-image-preview-input="blog-image" name="featuredImage" value="<%= blogPost ? (blogPost.featured_image || '') : '' %>" placeholder="https://...">
+        <div class="form-text">Upload images in Media Library, then paste the media URL here.</div>
+      </div>
+      <div class="col-12">
+        <div class="admin-image-preview-card" data-image-preview-target="blog-image">
+          <div class="admin-image-preview-empty">Image preview will appear here.</div>
+        </div>
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-semibold">Excerpt</label>
+        <textarea class="form-control" data-character-count-target="blog-excerpt-count" name="excerpt" rows="3" placeholder="Short summary for listing cards"><%= blogPost ? (blogPost.excerpt || '') : '' %></textarea>
+        <div class="d-flex justify-content-between form-text">
+          <span>Used in blog cards, related posts, and previews.</span>
+          <span><span data-character-count="blog-excerpt-count">0</span> characters</span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Meta title</label>
+        <input class="form-control" name="metaTitle" value="<%= blogPost ? (blogPost.meta_title || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Meta description</label>
+        <input class="form-control" data-character-count-target="blog-meta-count" name="metaDescription" value="<%= blogPost ? (blogPost.meta_description || '') : '' %>">
+        <div class="d-flex justify-content-between form-text">
+          <span>Recommended for search previews and social sharing.</span>
+          <span><span data-character-count="blog-meta-count">0</span> characters</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <%- include('../partials/rich-text-editor', {
+          label: 'Body',
+          required: true,
+          helperText: 'Use the editor for headings, lists, links, emphasis, and blockquotes. Unsafe scripts and embeds will be removed automatically.',
+          fieldId: 'blogBody',
+          name: 'body',
+          value: blogPost ? blogPost.body : '',
+          placeholder: 'Write the ministry update here...'
+        }) %>
+      </div>
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Post</button>
+        <a href="/admin/blog-posts" class="btn btn-outline-dark rounded-pill px-4">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

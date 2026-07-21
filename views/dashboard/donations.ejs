@@ -1,1 +1,70 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Donation history</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Date</th><th>Campaign</th><th>Amount</th><th>Status</th></tr></thead><tbody><% content.userDonations.forEach((item) => { %><tr><td><%= item.date %></td><td><%= item.campaign %></td><td><%= item.amount %></td><td><span class="badge text-bg-light"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section">
+  <div class="content-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="h4 mb-1">My donations</h2>
+        <p class="text-muted mb-0">Review your donation history, current review status, receipt availability, and next steps.</p>
+      </div>
+      <a href="/donate" class="btn btn-outline-dark rounded-pill btn-sm">Donate Again</a>
+    </div>
+
+    <form method="get" action="/dashboard/donations" class="row g-3 mb-4">
+      <div class="col-md-4">
+        <label class="form-label small text-muted">Status</label>
+        <select class="form-select" name="status">
+          <option value="">All statuses</option>
+          <% donationStatuses.forEach((item) => { %>
+            <option value="<%= item.value %>" <%= filters.status === item.value ? 'selected' : '' %>><%= item.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small text-muted">Designation</label>
+        <select class="form-select" name="designation">
+          <option value="">All designations</option>
+          <% donationDesignations.forEach((item) => { %>
+            <option value="<%= item.value %>" <%= filters.designation === item.value ? 'selected' : '' %>><%= item.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Apply Filters</button>
+        <a href="/dashboard/donations" class="btn btn-outline-dark rounded-pill px-4">Reset</a>
+      </div>
+    </form>
+
+    <div class="table-responsive">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr><th>Date</th><th>Designation</th><th>Type</th><th>Reference</th><th>Amount</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% if (donations && donations.length) { %>
+            <% donations.forEach((item) => { %>
+              <tr>
+                <td><%= item.dateDisplay %></td>
+                <td><%= item.designationLabel %></td>
+                <td><%= item.donationTypeLabel %></td>
+                <td><span class="text-muted"><%= item.referenceLabel %></span></td>
+                <td><strong><%= item.amountDisplay %></strong></td>
+                <td><span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span></td>
+                <td><a href="/dashboard/donations/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">View</a></td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="7">
+                <div class="admin-empty-state">
+                  <div class="empty-state-icon"><i class="bi bi-wallet2"></i></div>
+                  <h3 class="h5 mb-2">No donations yet</h3>
+                  <p class="text-muted mb-3">When you submit a donation record, it will appear here with its review status and any receipt details.</p>
+                  <a href="/donate" class="btn btn-sunrise rounded-pill">Give to the Mission</a>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

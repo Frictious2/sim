@@ -1,0 +1,41 @@
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-7">
+      <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">Application details</h2>
+            <p class="text-muted mb-0">Review your volunteer application and the current next step in the review process.</p>
+          </div>
+          <a href="/dashboard/applications" class="btn btn-outline-dark rounded-pill btn-sm">Back to applications</a>
+        </div>
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>Area of interest</span><strong><%= application.focusLabel %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><span class="badge <%= application.statusMeta.badgeClass %>"><%= application.statusLabel %></span></strong></div>
+          <div class="admin-detail-card"><span>Submitted</span><strong><%= application.createdDisplay %></strong></div>
+          <% if (application.reviewedDisplay) { %><div class="admin-detail-card"><span>Reviewed</span><strong><%= application.reviewedDisplay %></strong></div><% } %>
+          <div class="admin-detail-card"><span>Availability</span><strong><%= application.availability || 'Not provided' %></strong></div>
+          <div class="admin-detail-card"><span>Location</span><strong><%= application.location || 'Not provided' %></strong></div>
+        </div>
+        <div class="content-card mt-4"><h3 class="h5 mb-3">Experience</h3><p class="text-muted mb-0"><%= application.experience || 'No prior experience details were supplied.' %></p></div>
+        <div class="content-card mt-4"><h3 class="h5 mb-3">Motivation</h3><p class="text-muted mb-0"><%= application.motivation || 'No motivation statement was supplied.' %></p></div>
+      </div>
+    </div>
+
+    <div class="col-xl-5">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card bg-sand">
+          <h3 class="h5 mb-3">Next step</h3>
+          <p class="text-muted mb-0"><%= application.nextStep %></p>
+        </div>
+        <div class="content-card">
+          <h3 class="h5 mb-3">Take another step</h3>
+          <div class="d-grid gap-2">
+            <a href="/get-involved#volunteer-interest" class="btn btn-sunrise rounded-pill">Submit Another Interest</a>
+            <a href="/dashboard/prayer" class="btn btn-outline-dark rounded-pill">Visit Prayer Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

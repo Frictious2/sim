@@ -1,0 +1,43 @@
+<section class="dashboard-section">
+  <div class="content-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="h4 mb-1">My applications</h2>
+        <p class="text-muted mb-0">Track the volunteer applications you have submitted and the latest review status.</p>
+      </div>
+      <a href="/get-involved#volunteer-interest" class="btn btn-outline-dark rounded-pill btn-sm">Apply to Serve</a>
+    </div>
+    <div class="row g-4">
+      <% if (applications && applications.length) { %>
+        <% applications.forEach((item) => { %>
+          <div class="col-lg-6">
+            <article class="application-card h-100">
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <div class="small text-uppercase text-muted fw-semibold">Volunteer application</div>
+                  <h3 class="h5 mb-1"><%= item.focusLabel %></h3>
+                  <div class="text-muted small">Submitted <%= item.submittedLabel %></div>
+                </div>
+                <span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span>
+              </div>
+              <div class="application-next-step">
+                <strong>Next step</strong>
+                <span><%= item.nextStep %></span>
+              </div>
+              <a href="/dashboard/applications/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill mt-3">View Details</a>
+            </article>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <div class="admin-empty-state">
+            <div class="empty-state-icon"><i class="bi bi-person-lines-fill"></i></div>
+            <h3 class="h5 mb-2">No applications yet</h3>
+            <p class="text-muted mb-3">Volunteer applications you submit from the public site will appear here.</p>
+            <a href="/get-involved#volunteer-interest" class="btn btn-sunrise rounded-pill">Apply to Serve</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>

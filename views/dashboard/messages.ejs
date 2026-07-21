@@ -1,0 +1,54 @@
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-8">
+      <div class="content-card h-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">Messages and updates</h2>
+            <p class="text-muted mb-0">A unified inbox-style view for ministry communication and supporter care.</p>
+          </div>
+          <button type="button" class="btn btn-outline-dark rounded-pill btn-sm">Mark all as read</button>
+        </div>
+        <div class="message-list d-grid gap-3">
+          <% content.userMessages.forEach((item) => { %>
+            <article class="message-card <%= item.status === 'New' ? 'is-new' : '' %>">
+              <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                  <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                    <span class="badge text-bg-light rounded-pill"><%= item.type %></span>
+                    <% if (item.status === 'New') { %><span class="badge text-bg-warning-subtle text-dark rounded-pill">New</span><% } %>
+                  </div>
+                  <h3 class="h5 mb-1"><%= item.subject %></h3>
+                  <div class="small text-muted mb-2"><%= item.source %> • <%= item.date %></div>
+                  <p class="text-muted mb-0"><%= item.preview %></p>
+                </div>
+                <button type="button" class="btn btn-outline-dark rounded-pill btn-sm">Open</button>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card bg-sand">
+          <h3 class="h5 mb-3">Communication preferences</h3>
+          <div class="mini-stat-row"><span>Preferred channel</span><strong><%= currentUser && currentUser.email ? 'Email' : 'Contact team' %></strong></div>
+          <div class="mini-stat-row"><span>Prayer notes</span><strong><%= content.userProfile.prayerCommitment %></strong></div>
+          <div class="mini-stat-row"><span>Story updates</span><strong>Published blog updates</strong></div>
+        </div>
+        <div class="content-card">
+          <h3 class="h5 mb-3">Latest blog preview</h3>
+          <% if (latestUpdate) { %>
+            <h4 class="h6"><%= latestUpdate.title %></h4>
+            <p class="text-muted mb-3"><%= latestUpdate.excerpt || 'Read the latest ministry update from the field.' %></p>
+            <a href="<%= latestUpdate.href %>" class="btn btn-outline-dark rounded-pill btn-sm">Read article</a>
+          <% } else { %>
+            <p class="text-muted mb-0">Published SIM updates will appear here as soon as they are available.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

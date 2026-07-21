@@ -1,0 +1,44 @@
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-7">
+      <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">Sponsorship interest details</h2>
+            <p class="text-muted mb-0">Review what you submitted and where the supporter-care conversation currently stands.</p>
+          </div>
+          <a href="/dashboard/sponsorships" class="btn btn-outline-dark rounded-pill btn-sm">Back to sponsorships</a>
+        </div>
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>Type</span><strong><%= sponsorship.typeLabel %></strong></div>
+          <div class="admin-detail-card"><span>Preferred plan</span><strong><%= sponsorship.planLabel %></strong></div>
+          <div class="admin-detail-card"><span>Preferred amount</span><strong><%= sponsorship.amountDisplay %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><span class="badge <%= sponsorship.statusMeta.badgeClass %>"><%= sponsorship.statusLabel %></span></strong></div>
+          <div class="admin-detail-card"><span>Submitted</span><strong><%= sponsorship.createdDisplay %></strong></div>
+          <% if (sponsorship.reviewedDisplay) { %><div class="admin-detail-card"><span>Reviewed</span><strong><%= sponsorship.reviewedDisplay %></strong></div><% } %>
+          <div class="admin-detail-card"><span>Preferred contact method</span><strong><%= sponsorship.preferred_contact_method || 'No preference shared' %></strong></div>
+        </div>
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Your message</h3>
+          <p class="text-muted mb-0"><%= sponsorship.message || 'No message was included with this sponsorship interest.' %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-5">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card bg-sand">
+          <h3 class="h5 mb-3">Next steps</h3>
+          <p class="text-muted mb-0"><%= sponsorship.nextStep %></p>
+        </div>
+        <div class="content-card">
+          <h3 class="h5 mb-3">Take another step</h3>
+          <div class="d-grid gap-2">
+            <a href="/sponsor" class="btn btn-sunrise rounded-pill">Submit Another Interest</a>
+            <a href="/donate" class="btn btn-outline-dark rounded-pill">Support the Mission</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

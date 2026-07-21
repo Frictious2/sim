@@ -1,0 +1,29 @@
+<% if (pagination && pagination.totalPages > 1) { %>
+  <nav aria-label="Pagination" class="admin-pagination-wrap mt-4">
+    <ul class="pagination custom-pagination mb-0">
+      <li class="page-item <%= pagination.hasPrevious ? '' : 'disabled' %>">
+        <% if (pagination.hasPrevious) { %>
+          <a class="page-link" href="<%= helpers.buildQueryString(filters, { page: pagination.page - 1, limit: pagination.limit }) %>">Previous</a>
+        <% } else { %>
+          <span class="page-link">Previous</span>
+        <% } %>
+      </li>
+      <% for (let pageNumber = 1; pageNumber <= pagination.totalPages; pageNumber += 1) { %>
+        <li class="page-item <%= pageNumber === pagination.page ? 'active' : '' %>">
+          <% if (pageNumber === pagination.page) { %>
+            <span class="page-link"><%= pageNumber %></span>
+          <% } else { %>
+            <a class="page-link" href="<%= helpers.buildQueryString(filters, { page: pageNumber, limit: pagination.limit }) %>"><%= pageNumber %></a>
+          <% } %>
+        </li>
+      <% } %>
+      <li class="page-item <%= pagination.hasNext ? '' : 'disabled' %>">
+        <% if (pagination.hasNext) { %>
+          <a class="page-link" href="<%= helpers.buildQueryString(filters, { page: pagination.page + 1, limit: pagination.limit }) %>">Next</a>
+        <% } else { %>
+          <span class="page-link">Next</span>
+        <% } %>
+      </li>
+    </ul>
+  </nav>
+<% } %>

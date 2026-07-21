@@ -1,0 +1,74 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Notification logs</h2>
+        <p class="text-muted mb-0">Review sent, skipped, and failed notification attempts without disrupting public or admin workflows.</p>
+      </div>
+    </div>
+
+    <form method="get" action="/admin/notification-logs" class="row g-3 mt-2">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Search</label>
+        <input class="form-control" name="q" value="<%= filters.q || '' %>" placeholder="Recipient, subject, type">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Status</label>
+        <select class="form-select" name="status">
+          <option value="">All statuses</option>
+          <% notificationStatuses.forEach((status) => { %>
+            <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Type</label>
+        <select class="form-select" name="type">
+          <option value="">All types</option>
+          <% notificationTypes.forEach((type) => { %>
+            <option value="<%= type %>" <%= filters.type === type ? 'selected' : '' %>><%= type %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-2 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill w-100">Filter</button>
+      </div>
+    </form>
+
+    <% if (logs && logs.length) { %>
+      <div class="table-responsive mt-4">
+        <table class="table admin-table align-middle">
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Subject</th>
+              <th>Error</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% logs.forEach((item) => { %>
+              <tr>
+                <td><%= item.recipient_email || 'Not specified' %></td>
+                <td><code><%= item.notification_type %></code></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td><%= item.subject %></td>
+                <td class="text-muted small"><%= item.error_message || 'None' %></td>
+                <td class="text-muted small"><%= item.createdDisplay %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <%- include('../partials/pagination', { pagination, filters }) %>
+    <% } else { %>
+      <div class="admin-empty-state mt-4">
+        <div class="empty-state-icon"><i class="bi bi-bell"></i></div>
+        <h3 class="h5 mb-2">No notification logs yet</h3>
+        <p class="text-muted mb-0">Notification attempts will appear here once public or admin workflows trigger communication events.</p>
+      </div>
+    <% } %>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-7">
+      <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">Assigned sponsorship details</h2>
+            <p class="text-muted mb-0">Review the sponsorship connection, latest updates, and prayer-focused next steps.</p>
+          </div>
+          <a href="/dashboard/sponsorships" class="btn btn-outline-dark rounded-pill btn-sm">Back to sponsorships</a>
+        </div>
+
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>Assignment type</span><strong><%= assignment.target.typeLabel %></strong></div>
+          <div class="admin-detail-card"><span>Assigned to</span><strong><%= assignment.target.title %></strong></div>
+          <div class="admin-detail-card"><span>Location or focus</span><strong><%= assignment.target.subtitle || 'SIM ministry context' %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><%= assignment.statusLabel %></strong></div>
+          <div class="admin-detail-card"><span>Assigned on</span><strong><%= assignment.assignmentDateDisplay %></strong></div>
+        </div>
+
+        <% if (assignment.notes) { %>
+          <div class="content-card mt-4">
+            <h3 class="h5 mb-3">Assignment note</h3>
+            <p class="text-muted mb-0"><%= assignment.notes %></p>
+          </div>
+        <% } %>
+
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Recent sponsor-facing updates</h3>
+          <% if (assignment.updates && assignment.updates.length) { %>
+            <div class="timeline-list">
+              <% assignment.updates.forEach((item) => { %>
+                <div class="timeline-item">
+                  <strong><%= item.title %></strong>
+                  <div class="small text-muted"><%= item.typeLabel %> • <%= item.createdDisplay %></div>
+                  <div class="text-muted mt-1"><%- item.update_text %></div>
+                  <% if (item.image_url) { %>
+                    <a href="<%= item.image_url %>" target="_blank" rel="noopener" class="btn btn-outline-dark btn-sm rounded-pill mt-2">Open Related Image</a>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted mb-0">No sponsor-facing updates have been posted for this assignment yet.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-5">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card bg-sand">
+          <h3 class="h5 mb-3">How to respond</h3>
+          <p class="text-muted mb-0">Please keep this assignment in prayer and stay connected through future dashboard updates. If you have questions, the SIM team would be glad to help.</p>
+        </div>
+
+        <div class="content-card">
+          <h3 class="h5 mb-3">Helpful next steps</h3>
+          <div class="d-grid gap-2">
+            <a href="/contact" class="btn btn-outline-dark rounded-pill">Ask the SIM Team</a>
+            <a href="/get-involved" class="btn btn-sunrise rounded-pill">Explore More Ways to Serve</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

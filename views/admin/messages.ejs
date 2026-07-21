@@ -1,1 +1,80 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Messages</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Name</th><th>Subject</th><th>Date</th><th>Status</th></tr></thead><tbody><% content.adminMessages.forEach((item) => { %><tr><td><%= item.name %></td><td><%= item.subject %></td><td><%= item.date %></td><td><span class="badge text-bg-warning-subtle text-dark"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div>
+        <h2 class="admin-panel-title mb-1">Contact messages</h2>
+        <p class="text-muted mb-0">Review public contact form submissions, mark progress, and archive completed conversations.</p>
+      </div>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/messages">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search names, emails, subjects, or message text">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% ['new', 'read', 'replied', 'archived'].forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/messages" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <div class="table-responsive mt-4">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Received</th>
+            <th>Status</th>
+            <th>Preview</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (messages.length) { %>
+            <% messages.forEach((item) => { %>
+              <tr>
+                <td>
+                  <strong><%= item.name %></strong>
+                  <div class="small text-muted"><%= item.email %></div>
+                </td>
+                <td><%= item.subject || 'General inquiry' %></td>
+                <td><%= item.createdDisplay %></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td><%= item.preview %></td>
+                <td>
+                  <div class="table-actions">
+                    <a href="/admin/messages/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">View</a>
+                    <% if (item.status !== 'replied') { %>
+                      <form action="/admin/messages/<%= item.id %>/status" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="replied">
+                        <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Mark Replied</button>
+                      </form>
+                    <% } %>
+                    <form action="/admin/messages/<%= item.id %>/status" method="post" class="d-inline">
+                      <input type="hidden" name="status" value="archived">
+                      <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Archive</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="6">
+                <div class="admin-empty-state">
+                  <div class="empty-state-icon"><i class="bi bi-envelope-heart"></i></div>
+                  <h3 class="h5 mb-2">No contact messages match this view</h3>
+                  <p class="text-muted mb-0">Messages submitted through the public contact form will begin appearing here.</p>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

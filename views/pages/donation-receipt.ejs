@@ -1,0 +1,37 @@
+<section class="section-pad bg-white">
+  <div class="container">
+    <div class="content-card receipt-card">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+        <div>
+          <span class="eyebrow text-dark">Salone Interior Missions</span>
+          <h1 class="section-title text-dark mt-3">Donation Receipt</h1>
+          <p class="text-muted mb-0">Thank you for your generosity and partnership in the mission.</p>
+        </div>
+        <button type="button" class="btn btn-outline-dark rounded-pill btn-sm" onclick="window.print()">Print Receipt</button>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="admin-detail-stack">
+            <div class="admin-detail-card"><span>Receipt number</span><strong><%= donation.receipt_number %></strong></div>
+            <div class="admin-detail-card"><span>Donor name</span><strong><%= donation.donor_name %></strong></div>
+            <div class="admin-detail-card"><span>Email</span><strong><%= donation.donor_email %></strong></div>
+            <div class="admin-detail-card"><span>Phone</span><strong><%= donation.donor_phone || 'Not provided' %></strong></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="admin-detail-stack">
+            <div class="admin-detail-card"><span>Amount</span><strong><%= donation.currency %> <%= Number(donation.amount || 0).toFixed(2) %></strong></div>
+            <div class="admin-detail-card"><span>Designation</span><strong><%= donation.designation.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) %></strong></div>
+            <div class="admin-detail-card"><span>Payment method</span><strong><%= donation.payment_method.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) %></strong></div>
+            <div class="admin-detail-card"><span>Reference</span><strong><%= donation.payment_reference || 'No reference supplied' %></strong></div>
+            <div class="admin-detail-card"><span>Verified date</span><strong><%= helpers.formatDateTime(donation.verified_at || donation.receipt_generated_at || donation.updated_at) %></strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="content-card mt-4 bg-sand">
+        <h2 class="h5 mb-3">Thank you</h2>
+        <p class="text-muted mb-0">Your support helps Salone Interior Missions continue Gospel outreach, discipleship, child support, and community care across Sierra Leone. We are grateful for your partnership.</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,4 +1,4 @@
-<section class="section-pad bg-white">
+﻿<section class="section-pad bg-white">
   <div class="container">
     <div class="newsletter-card">
       <div class="row g-4 align-items-center">
@@ -8,10 +8,11 @@
           <p class="text-muted mb-0"><%= newsletter.text %></p>
         </div>
         <div class="col-lg-5">
-          <div class="newsletter-mock d-flex flex-column flex-sm-row gap-2">
-            <input class="form-control" type="email" placeholder="<%= newsletter.placeholder %>">
-            <button class="btn btn-sunrise rounded-pill px-4" type="button"><%= newsletter.button %></button>
-          </div>
+          <form action="/newsletter/subscribe" method="post" class="newsletter-mock d-flex flex-column flex-sm-row gap-2">
+            <input type="hidden" name="source" value="shared-newsletter-block">
+            <input class="form-control" type="email" name="email" placeholder="<%= newsletter.placeholder %>" required>
+            <button class="btn btn-sunrise rounded-pill px-4" type="submit"><%= newsletter.button %></button>
+          </form>
         </div>
       </div>
     </div>

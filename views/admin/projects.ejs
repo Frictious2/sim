@@ -1,1 +1,78 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Projects</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Project</th><th>Location</th><th>Progress</th><th>Raised</th><th>Goal</th></tr></thead><tbody><% content.featuredProjects.forEach((item) => { %><tr><td><%= item.title %></td><td><%= item.location %></td><td><%= item.progress %>%</td><td><%= item.raised %></td><td><%= item.goal %></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div>
+        <h2 class="admin-panel-title mb-1">Projects and programs</h2>
+        <p class="text-muted mb-0">Manage live mission initiatives, field programs, and featured homepage items.</p>
+      </div>
+      <a href="/admin/projects/new" class="btn btn-sunrise rounded-pill">Create Project</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/projects">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search titles, locations, summaries, or slugs">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% ['planned', 'active', 'completed', 'paused'].forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="category">
+        <option value="">All categories</option>
+        <% categories.forEach((category) => { %>
+          <option value="<%= category %>" <%= filters.category === category ? 'selected' : '' %>><%= category %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/projects" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <div class="admin-list-summary mt-3">
+      Showing <strong><%= pagination.from %>-<%= pagination.to %></strong> of <strong><%= pagination.total %></strong> projects
+    </div>
+
+    <div class="row g-4 mt-1">
+      <% if (projects.length) { %>
+        <% projects.forEach((item) => { %>
+          <div class="col-lg-4">
+            <article class="admin-resource-card h-100">
+              <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                  <div class="small text-uppercase text-muted fw-semibold"><%= item.category || 'Mission Project' %></div>
+                  <h3 class="h5 mt-2 mb-2"><%= item.title %></h3>
+                </div>
+                <% if (item.is_featured) { %><span class="badge text-bg-warning-subtle text-dark">Featured</span><% } %>
+              </div>
+              <p class="text-muted mb-3"><%= item.location || 'Sierra Leone' %></p>
+              <div class="mini-stat-row"><span>Status</span><strong><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></strong></div>
+              <div class="mini-stat-row"><span>Progress label</span><strong><%= item.progress_label || 'Not set' %></strong></div>
+              <div class="mini-stat-row"><span>Updated</span><strong><%= item.updatedDisplay %></strong></div>
+              <p class="text-muted mt-3 mb-3"><%= item.summary || 'No summary added yet.' %></p>
+              <div class="table-actions">
+                <a href="/admin/projects/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                <form action="/admin/projects/<%= item.id %>/status" method="post" class="d-inline">
+                  <input type="hidden" name="action" value="<%= item.is_featured ? 'unfeature' : 'feature' %>">
+                  <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill"><%= item.is_featured ? 'Unfeature' : 'Feature' %></button>
+                </form>
+                <form action="/admin/projects/<%= item.id %>/status" method="post" class="d-inline">
+                  <input type="hidden" name="action" value="<%= item.status === 'active' ? 'paused' : 'active' %>">
+                  <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill"><%= item.status === 'active' ? 'Pause' : 'Activate' %></button>
+                </form>
+              </div>
+            </article>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <div class="admin-empty-state">
+            <div class="empty-state-icon"><i class="bi bi-diagram-3"></i></div>
+            <h3 class="h5 mb-2">No projects or programs match this view</h3>
+            <p class="text-muted mb-3">Create a project so public program cards can begin using live mission data.</p>
+            <a href="/admin/projects/new" class="btn btn-sunrise rounded-pill">Create First Project</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

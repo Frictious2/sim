@@ -1,1 +1,102 @@
-<section class="dashboard-section"><div class="row g-4"><% content.adminStats.forEach((item) => { %><div class="col-md-6 col-xl-3"><%- include('../partials/dashboard-widget', { item }) %></div><% }) %></div><div class="content-card mt-4"><h2 class="h4">Admin dashboard preview</h2><p class="text-muted mb-0">This layout demonstrates how management views can feel structured, calm, and readable without becoming overly corporate or cold.</p></div></section>
+﻿<section class="dashboard-section admin-dashboard-section">
+  <div class="admin-hero-card mb-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-xl-8">
+        <span class="eyebrow text-dark">Operations overview</span>
+        <h2 class="admin-hero-title mt-3 mb-3">Keep the mission organized, responsive, and ready for action.</h2>
+        <p class="text-muted mb-0">This admin dashboard brings together supporter activity, content publishing, sponsorship oversight, and incoming requests in one calm, modern workspace built for ministry staff.</p>
+      </div>
+      <div class="col-xl-4">
+        <div class="admin-hero-cta">
+          <div class="small text-uppercase text-muted fw-semibold">Priority queue</div>
+          <div class="admin-hero-metric"><%= (engagementQueue.pendingDonations || 0) + (engagementQueue.newSponsorships || 0) + (engagementQueue.newVolunteers || 0) %> pending reviews</div>
+          <p class="text-muted mb-3">There are <%= engagementQueue.pendingDonations || 0 %> pending donations, <%= engagementQueue.newSponsorships || 0 %> new sponsorship interests, and <%= engagementQueue.newVolunteers || 0 %> new volunteer applications awaiting follow-up.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="/admin/volunteers" class="btn btn-sunrise rounded-pill px-4">Review Applications</a>
+            <a href="/admin/messages" class="btn btn-outline-dark rounded-pill px-4">Open Inbox</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <% content.adminStats.forEach((item) => { %>
+      <div class="col-sm-6 col-xl-3"><%- include('../partials/dashboard-widget', { item }) %></div>
+    <% }) %>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xxl-7">
+      <div class="content-card h-100 admin-panel-card">
+        <div class="admin-panel-head">
+          <div>
+            <h2 class="admin-panel-title mb-1">Recent donations</h2>
+            <p class="text-muted mb-0">Latest giving activity across the platform.</p>
+          </div>
+          <a href="/admin/donations" class="btn btn-outline-dark rounded-pill btn-sm">View all donations</a>
+        </div>
+        <div class="table-responsive mt-4">
+          <table class="table align-middle dashboard-table mb-0">
+            <thead>
+              <tr>
+                <th>Donor</th>
+                <th>Campaign</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% const latestDonations = donationSummary && donationSummary.length ? donationSummary : content.adminDonations; %>
+              <% latestDonations.forEach((item) => { %>
+                <tr>
+                  <td><strong><%= item.donor %></strong></td>
+                  <td><%= item.campaign %></td>
+                  <td><%= item.date %></td>
+                  <td><strong><%= item.amount %></strong></td>
+                  <td><span class="badge <%= item.statusBadgeClass || (item.status === 'Completed' ? 'text-bg-success-subtle text-success' : 'text-bg-warning-subtle text-dark') %>"><%= item.status %></span></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xxl-5">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card admin-panel-card">
+          <div class="admin-panel-head">
+            <div>
+              <h2 class="admin-panel-title mb-1">Latest blog posts</h2>
+              <p class="text-muted mb-0">Recent publishing activity and content status.</p>
+            </div>
+            <a href="/admin/blog-posts" class="btn btn-outline-dark rounded-pill btn-sm">Manage posts</a>
+          </div>`r`n          <% const latestBlogRows = typeof blogSummary !== 'undefined' && blogSummary.length ? blogSummary : content.adminBlogPosts; %>
+          <% latestBlogRows.forEach((item) => { %>
+            <div class="list-item-row dashboard-list-row admin-activity-row">
+              <div>
+                <div class="fw-semibold"><%= item.title %></div>
+                <small class="text-muted d-block"><%= item.category %> • <%= item.updated || item.updatedDisplay || '' %></small>
+              </div>
+              <% const statusText = item.statusLabel || item.status; %>
+              <span class="badge <%= statusText === 'Published' || statusText === 'published' ? 'text-bg-success-subtle text-success' : 'text-bg-light text-dark' %>"><%= statusText %></span>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="content-card admin-panel-card admin-action-card">
+          <span class="badge text-bg-warning-subtle text-dark rounded-pill mb-3">Stronger next step</span>
+          <h2 class="admin-panel-title">Move quickly on the items that shape trust.</h2>
+          <p class="text-muted">Respond to new inquiries, keep sponsorship records current, and follow up on <%= engagementQueue.newPrayerRequests || 0 %> new prayer requests and <%= engagementQueue.unreadMessages || 0 %> unread contact messages so the public-facing ministry experience stays clear and credible.</p>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <a href="/admin/homepage-content" class="btn btn-sunrise rounded-pill px-4">Update Homepage</a>
+            <a href="/admin/prayer" class="btn btn-outline-dark rounded-pill px-4">Open Prayer Desk</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

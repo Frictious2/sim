@@ -1,7 +1,7 @@
 <%- include('../partials/page-banner', {
   eyebrow: 'Mission and Vision',
-  heading: 'A Gospel-rooted mission for spiritual renewal, strong churches, and transformed communities.',
-  description: 'This page expresses the theological and organizational convictions guiding Salone Interior Missions as it serves interior communities across Sierra Leone.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'A Gospel-rooted mission for spiritual renewal, strong churches, and transformed communities.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'This page expresses the theological and organizational convictions guiding Salone Interior Missions as it serves interior communities across Sierra Leone.'
 }) %>
 
 <section class="section-pad pt-0 bg-white mission-statement-section">
@@ -11,12 +11,12 @@
         <div class="content-card h-100 highlight-card">
           <span class="eyebrow text-dark">Our mission</span>
           <h2 class="section-title text-dark mt-3">To proclaim the Gospel of Jesus Christ, disciple believers, strengthen local churches, and serve interior communities with compassionate, faithful presence.</h2>
-          <p class="text-muted mb-0">We exist to help people encounter Christ, grow in biblical faith, and experience practical expressions of God’s love through evangelism, discipleship, leadership formation, and community-centered ministry.</p>
+          <p class="text-muted mb-0">We exist to help people encounter Christ, grow in biblical faith, and experience practical expressions of GodÂ’s love through evangelism, discipleship, leadership formation, and community-centered ministry.</p>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="quote-panel h-100">
-          <div class="quote-mark">“</div>
+          <div class="quote-mark">Â“</div>
           <p class="quote-text">Go therefore and make disciples of all nations... teaching them to observe all that I have commanded you.</p>
           <div class="quote-ref">Matthew 28:19-20</div>
         </div>
@@ -25,12 +25,22 @@
   </div>
 </section>
 
+<% if (pageRecord && pageRecord.body) { %>
+  <section class="section-pad pt-0 bg-white">
+    <div class="container">
+      <div class="content-card">
+        <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+      </div>
+    </div>
+  </section>
+<% } %>
+
 <section class="section-pad bg-cream vision-statement-section">
   <div class="container">
     <div class="row g-5 align-items-center">
       <div class="col-lg-5 order-2 order-lg-1">
         <div class="quote-panel alt-quote-panel h-100">
-          <div class="quote-mark">“</div>
+          <div class="quote-mark">Â“</div>
           <p class="quote-text">Let your light shine before others, so that they may see your good works and give glory to your Father who is in heaven.</p>
           <div class="quote-ref">Matthew 5:16</div>
         </div>
@@ -50,7 +60,7 @@
   <div class="container">
     <div class="section-intro text-center mb-5">
       <span class="eyebrow text-dark">Scripture-inspired foundation</span>
-      <h2 class="section-title text-dark mt-3">Biblical convictions shaping the ministry’s direction.</h2>
+      <h2 class="section-title text-dark mt-3">Biblical convictions shaping the ministryÂ’s direction.</h2>
     </div>
     <div class="row g-4">
       <div class="col-lg-4">
@@ -111,7 +121,7 @@
         <div class="objective-card h-100">
           <div class="icon-badge"><i class="bi bi-heart-pulse"></i></div>
           <h3 class="h5 mt-4">Serve communities holistically</h3>
-          <p class="text-muted mb-0">Demonstrate Christ’s love through child support, family strengthening, literacy initiatives, and practical compassion.</p>
+          <p class="text-muted mb-0">Demonstrate ChristÂ’s love through child support, family strengthening, literacy initiatives, and practical compassion.</p>
         </div>
       </div>
     </div>
@@ -143,7 +153,7 @@
           </div>
           <div class="action-item">
             <strong>Serve compassionately</strong>
-            <span>Walk with children, families, and communities through practical care that reflects Christ’s love.</span>
+            <span>Walk with children, families, and communities through practical care that reflects ChristÂ’s love.</span>
           </div>
         </div>
       </div>

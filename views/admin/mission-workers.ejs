@@ -1,0 +1,27 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Mission workers</h2>
+        <p class="text-muted mb-0">Manage field workers who can be supported directly through sponsorship partnerships.</p>
+      </div>
+      <a href="/admin/mission-workers/create" class="btn btn-sunrise rounded-pill">Create Mission Worker</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/mission-workers">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search code, name, location, or ministry focus">
+      <select class="form-select" name="status"><option value="">All statuses</option><% workerStatuses.forEach((status) => { %><option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option><% }) %></select>
+      <select class="form-select" name="location"><option value="">All locations</option><% locations.forEach((location) => { %><option value="<%= location %>" <%= filters.location === location ? 'selected' : '' %>><%= location %></option><% }) %></select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/mission-workers" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <% if (workers.length) { %>
+      <div class="table-responsive mt-3"><table class="table admin-table align-middle mb-0"><thead><tr><th>Worker</th><th>Location</th><th>Status</th><th>Support target</th><th>Created</th><th class="text-end">Actions</th></tr></thead><tbody><% workers.forEach((item) => { %><tr><td><div class="fw-semibold"><%= item.worker_code %> • <%= item.first_name %> <%= item.last_name %></div><small class="text-muted d-block"><%= item.ministry_focus %></small></td><td><%= item.location %></td><td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td><td><%= item.support_target ? `NLe ${item.support_target}` : 'Not set' %></td><td><%= item.createdDisplay %></td><td class="text-end"><div class="d-flex justify-content-end gap-2 flex-wrap"><a href="/admin/mission-workers/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a><form method="post" action="/admin/mission-workers/<%= item.id %>/archive" class="d-inline"><button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">Archive</button></form></div></td></tr><% }) %></tbody></table></div>
+    <% } else { %>
+      <div class="admin-empty-state mt-3"><div class="empty-state-icon"><i class="bi bi-person-workspace"></i></div><h3 class="h5 mb-2">No mission workers yet</h3><p class="text-muted mb-3">Create mission worker profiles so supporters can stand behind field ministry directly.</p><a href="/admin/mission-workers/create" class="btn btn-sunrise rounded-pill">Create Mission Worker</a></div>
+    <% } %>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

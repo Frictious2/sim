@@ -1,1 +1,97 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Blog posts</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Date</th></tr></thead><tbody><% content.blogPosts.forEach((item) => { %><tr><td><%= item.title %></td><td><%= item.category %></td><td><%= item.author %></td><td><%= item.date %></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div>
+        <h2 class="admin-panel-title mb-1">Blog post library</h2>
+        <p class="text-muted mb-0">Create, update, publish, archive, and review website stories from the database-backed CMS.</p>
+      </div>
+      <a href="/admin/blog-posts/new" class="btn btn-sunrise rounded-pill">Create Post</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/blog-posts">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search titles, excerpts, body copy, or slugs">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% ['draft', 'published', 'archived'].forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="category">
+        <option value="">All categories</option>
+        <% categories.forEach((category) => { %>
+          <option value="<%= category %>" <%= filters.category === category ? 'selected' : '' %>><%= category %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/blog-posts" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <div class="admin-list-summary mt-3">
+      Showing <strong><%= pagination.from %>-<%= pagination.to %></strong> of <strong><%= pagination.total %></strong> posts
+    </div>
+
+    <div class="table-responsive mt-3">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Updated</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (blogPosts.length) { %>
+            <% blogPosts.forEach((item) => { %>
+              <tr>
+                <td>
+                  <strong><%= item.title %></strong>
+                  <div class="small text-muted mt-1"><%= item.excerptPreview %></div>
+                </td>
+                <td><%= item.category || 'Updates' %></td>
+                <td><%= item.authorName %></td>
+                <td><%= item.updatedDisplay %></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td>
+                  <div class="table-actions">
+                    <a href="/admin/blog-posts/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                    <% if (item.status !== 'published') { %>
+                      <form action="/admin/blog-posts/<%= item.id %>/status" method="post" class="d-inline">
+                        <input type="hidden" name="action" value="published">
+                        <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Publish</button>
+                      </form>
+                    <% } else { %>
+                      <form action="/admin/blog-posts/<%= item.id %>/status" method="post" class="d-inline">
+                        <input type="hidden" name="action" value="draft">
+                        <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Move to Draft</button>
+                      </form>
+                    <% } %>
+                    <form action="/admin/blog-posts/<%= item.id %>/status" method="post" class="d-inline">
+                      <input type="hidden" name="action" value="archived">
+                      <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Archive</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="6">
+                <div class="admin-empty-state">
+                  <div class="empty-state-icon"><i class="bi bi-journal-richtext"></i></div>
+                  <h3 class="h5 mb-2">No blog posts match this view</h3>
+                  <p class="text-muted mb-3">Create the first ministry update or adjust your filters to see more results.</p>
+                  <a href="/admin/blog-posts/new" class="btn btn-sunrise rounded-pill">Create First Post</a>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

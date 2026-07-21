@@ -1,17 +1,120 @@
-<%- include('../partials/page-banner', { eyebrow: 'Stories', heading: 'Human stories of prayer, resilience, and transformation.', description: 'These cards help the platform feel relational and grounded in real community experience.' }) %>
-<section class="section-pad pt-0 bg-white">
+﻿<%- include('../partials/page-banner', {
+  eyebrow: 'Stories and Testimonies',
+  heading: 'Stories of hope, courage, prayer, and transformation across the mission field.',
+  description: 'These testimonies help supporters see the ministry not only through programs and priorities, but through the lives, communities, and moments being shaped by faithful service.'
+}) %>
+
+<section class="section-pad pt-0 bg-white stories-intro-section">
   <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-7">
+        <span class="eyebrow text-dark">Why stories matter</span>
+        <h2 class="section-title text-dark mt-3">Real-life testimony helps people trust the work and connect with the heart behind it.</h2>
+        <p class="text-muted">Stories remind us that mission is not only strategy, structure, or support systems. It is people encountering hope, leaders being strengthened, children growing in confidence, and communities slowly changing through faithful presence and Gospel witness.</p>
+        <p class="text-muted mb-0">This page is designed to feel visual, honest, and deeply human, helping visitors connect to the mission through the lives and voices behind the ministry.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card bg-sand h-100">
+          <h3 class="h5">What these stories reveal</h3>
+          <ul class="check-list mt-3 mb-0">
+            <li>Transformation often begins with small acts of faithfulness</li>
+            <li>Prayer and partnership help sustain local ministry</li>
+            <li>Children, pastors, and families all carry part of the story</li>
+            <li>Hope grows where dignity and the Gospel are both present</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% const featuredTestimony = content.testimonials[0]; %>
+<section class="section-pad bg-cream featured-testimony-section">
+  <div class="container">
+    <div class="featured-story-card">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <img src="<%= featuredTestimony && featuredTestimony.image ? featuredTestimony.image : 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=80' %>" alt="Featured testimony image" class="img-fluid rounded-5 featured-story-image">
+        </div>
+        <div class="col-lg-6">
+          <span class="badge text-bg-warning-subtle text-dark rounded-pill">Featured testimony</span>
+          <h2 class="section-title text-dark mt-3"><%= featuredTestimony ? featuredTestimony.name : 'A classroom reopened, and with it came renewed confidence for children and families.' %></h2>
+          <p class="text-muted"><%= featuredTestimony && featuredTestimony.story ? featuredTestimony.story : 'When local volunteers and ministry partners helped restore a simple learning space in one interior community, the impact reached far beyond reading lessons.' %></p>
+          <blockquote class="article-quote mt-4">
+            <p><%= featuredTestimony ? featuredTestimony.quote : 'The children came back smiling. What looked like a small reopening became a sign that hope had not left our community.' %></p>
+          </blockquote>
+          <div class="small text-muted mt-3"><%= featuredTestimony ? featuredTestimony.role : 'Shared by Mariama K., community teacher in Kono District' %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white stories-grid-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+      <div>
+        <span class="eyebrow text-dark">Story collection</span>
+        <h2 class="section-title text-dark mt-3">Moments of witness, resilience, and renewal.</h2>
+      </div>
+    </div>
     <div class="row g-4">
-      <% content.stories.forEach((story) => { %>
-        <div class="col-lg-4">
-          <div class="story-card h-100">
+      <% content.stories.forEach((story, index) => { %>
+        <div class="col-md-6 col-xl-4">
+          <article class="story-testimony-card h-100">
+            <img src="<%= story.image || (content.gallery[index] ? content.gallery[index].image : 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80') %>" alt="<%= story.title %>" class="img-fluid rounded-4 story-testimony-image mb-4">
             <span class="badge text-bg-light rounded-pill"><%= story.tag %></span>
             <h3 class="h4 mt-3"><%= story.title %></h3>
-            <p class="text-muted mb-0"><%= story.excerpt %></p>
-          </div>
+            <p class="text-muted"><%= story.excerpt %></p>
+            <a href="/stories" class="btn btn-outline-dark rounded-pill btn-sm">Read Story</a>
+          </article>
+        </div>
+      <% }) %>
+      <% content.testimonials.forEach((item, index) => { %>
+        <div class="col-md-6 col-xl-4">
+          <article class="story-testimony-card testimonial-variant h-100">
+            <img src="<%= item.image || (content.gallery[index + 2] ? content.gallery[index + 2].image : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80') %>" alt="<%= item.name %> testimony" class="img-fluid rounded-4 story-testimony-image mb-4">
+            <span class="badge text-bg-warning-subtle text-dark rounded-pill">Testimony</span>
+            <h3 class="h5 mt-3"><%= item.name %></h3>
+            <p class="text-muted">"<%= item.quote %>"</p>
+            <small class="text-muted d-block mb-3"><%= item.role %></small>
+            <a href="/stories" class="btn btn-outline-dark rounded-pill btn-sm">Read Testimony</a>
+          </article>
         </div>
       <% }) %>
     </div>
   </div>
 </section>
-<%- include('../partials/testimonies-section', { items: content.testimonials }) %>
+
+<section class="section-pad bg-cream video-testimony-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <span class="eyebrow text-dark">Video testimony</span>
+        <h2 class="section-title text-dark mt-3">A future space for field voices, ministry updates, and visual stories.</h2>
+        <p class="text-muted">This section is a placeholder for future video testimonies from pastors, families, ministry workers, and community partners. It is designed to support a more immersive storytelling experience while remaining static in the current UI phase.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="video-placeholder-card">
+          <div class="video-play-button"><i class="bi bi-play-fill"></i></div>
+          <div class="video-placeholder-text">Video testimony placeholder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Be part of the story</span>
+        <h2 class="section-title mt-3 text-white">Pray, give, sponsor, and partner so more lives and communities can encounter hope through the mission.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/get-involved" class="btn btn-light rounded-pill px-4">Get Involved</a>
+        <a href="/donate" class="btn btn-outline-light rounded-pill px-4">Support the Mission</a>
+      </div>
+    </div>
+  </div>
+</section>

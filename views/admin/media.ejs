@@ -1,0 +1,123 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-4">
+      <div class="content-card admin-panel-card admin-form-card">
+        <div class="admin-panel-head">
+          <div>
+            <h2 class="admin-panel-title mb-1">Upload media</h2>
+            <p class="text-muted mb-0">Upload JPG, PNG, or WEBP images up to 5MB each. Files are validated by type and binary signature.</p>
+          </div>
+        </div>
+
+        <form action="/admin/media/upload" method="post" enctype="multipart/form-data" class="row g-3 mt-1">
+          <div class="col-12">
+            <label class="form-label fw-semibold">Image file <span class="text-danger">*</span></label>
+            <input class="form-control" type="file" name="mediaFile" accept=".jpg,.jpeg,.png,.webp" required>
+            <div class="form-text">Supported formats: JPG, PNG, WEBP. Maximum size: 5MB.</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Title</label>
+            <input class="form-control" name="title" placeholder="Field outreach prayer circle">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Alt text</label>
+            <input class="form-control" name="altText" placeholder="Children gathered for reading and prayer">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Usage type</label>
+            <input class="form-control" name="usageType" placeholder="homepage, gallery, blog, project">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-sunrise rounded-pill px-4">Upload Image</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-xl-8">
+      <div class="content-card admin-panel-card">
+        <div class="admin-panel-head">
+          <div>
+            <h2 class="admin-panel-title mb-1">Media library</h2>
+            <p class="text-muted mb-0">Upload once, then paste the media URL into blog, project, homepage, testimony, or gallery forms.</p>
+          </div>
+        </div>
+
+        <form class="admin-filter-bar mt-3" method="get" action="/admin/media">
+          <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search titles, alt text, or filenames">
+          <select class="form-select" name="mimeType">
+            <option value="">All file types</option>
+            <% mimeTypes.forEach((type) => { %>
+              <option value="<%= type %>" <%= filters.mimeType === type ? 'selected' : '' %>><%= type %></option>
+            <% }) %>
+          </select>
+          <select class="form-select" name="usageType">
+            <option value="">All usage types</option>
+            <% usageTypes.forEach((type) => { %>
+              <option value="<%= type %>" <%= filters.usageType === type ? 'selected' : '' %>><%= type %></option>
+            <% }) %>
+          </select>
+          <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+          <a href="/admin/media" class="btn btn-outline-secondary rounded-pill">Reset</a>
+        </form>
+
+        <% if (mediaItems.length) { %>
+          <div class="row g-3 mt-1">
+            <% mediaItems.forEach((item) => { %>
+              <div class="col-md-6 col-xxl-4">
+                <article class="content-card h-100 media-library-card">
+                  <img src="<%= item.public_url %>" alt="<%= item.alt_text || item.title || 'Media upload' %>" class="img-fluid rounded-4 media-library-image mb-3">
+                  <div class="fw-semibold"><%= item.title || item.original_filename || item.filename %></div>
+                  <div class="small text-muted mb-2"><%= item.mime_type %> • <%= item.fileSizeLabel %></div>
+                  <div class="small text-muted mb-2">Uploaded by <%= item.uploadedByName %></div>
+                  <div class="small text-muted mb-2">Usage: <%= item.usage_type || 'Not set' %></div>
+                  <div class="small text-muted text-break mb-3"><%= item.public_url %></div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-dark rounded-pill btn-sm" data-copy-url="<%= item.public_url %>">Copy URL</button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-dark rounded-pill btn-sm"
+                      data-media-preview-trigger
+                      data-media-title="<%= item.title || item.original_filename || item.filename %>"
+                      data-media-url="<%= item.public_url %>"
+                      data-media-alt="<%= item.alt_text || item.title || 'Media preview' %>"
+                      data-media-meta="<%= item.mime_type %> • <%= item.fileSizeLabel %> • <%= item.usage_type || 'No usage type' %>"
+                    >Preview</button>
+                    <form action="/admin/media/<%= item.id %>/delete" method="post" class="d-inline">
+                      <button type="submit" class="btn btn-outline-danger rounded-pill btn-sm">Delete</button>
+                    </form>
+                  </div>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="admin-empty-state mt-3">
+            <div class="empty-state-icon"><i class="bi bi-image"></i></div>
+            <h3 class="h5 mb-2">No media files match this view</h3>
+            <p class="text-muted mb-0">Upload your first image here, then reuse its URL across homepage sections, blog posts, projects, testimonies, and gallery items.</p>
+          </div>
+        <% } %>
+
+        <%- include('../partials/pagination', { pagination, filters }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="mediaPreviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content admin-preview-modal">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <h3 class="h5 mb-1" data-media-preview-title>Media preview</h3>
+          <p class="text-muted mb-0 small" data-media-preview-meta></p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="Media preview" class="img-fluid rounded-4 w-100" data-media-preview-image>
+      </div>
+    </div>
+  </div>
+</div>

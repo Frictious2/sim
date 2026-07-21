@@ -1,1 +1,65 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Users</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead><tbody><% content.adminUsers.forEach((item) => { %><tr><td><%= item.name %></td><td><%= item.email %></td><td><span class="badge text-bg-light"><%= item.role %></span></td><td><%= item.joined %></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div class="admin-filter-group">
+        <input class="form-control" placeholder="Search users">
+        <select class="form-select"><option>All roles</option><option>Admin</option><option>Donor</option><option>Sponsor</option><option>Volunteer</option></select>
+        <select class="form-select"><option>All statuses</option><option>Active</option><option>Pending</option></select>
+      </div>
+      <div class="table-actions">
+        <button type="button" class="btn btn-sunrise rounded-pill" data-bs-toggle="modal" data-bs-target="#editUserModal">Add User</button>
+      </div>
+    </div>
+    <div class="table-responsive mt-4">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <% content.adminUsers.forEach((item) => { %>
+            <tr>
+              <td><strong><%= item.name %></strong></td>
+              <td><%= item.email %></td>
+              <td><%= item.role %></td>
+              <td><%= item.joined %></td>
+              <td><span class="badge <%= item.status === 'Active' ? 'text-bg-success-subtle text-success' : 'text-bg-warning-subtle text-dark' %>"><%= item.status %></span></td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-outline-dark btn-sm rounded-pill" data-bs-toggle="offcanvas" data-bs-target="#viewUserDrawer">View</button>
+                  <button type="button" class="btn btn-outline-dark btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button>
+                  <button type="button" class="btn btn-outline-dark btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#deactivateUserModal">Deactivate</button>
+                  <button type="button" class="btn btn-outline-dark btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Reset Password</button>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<%
+const userDrawerBody = `
+  <div class="admin-detail-stack">
+    <div class="admin-detail-card"><span>Name</span><strong>Grace Conteh</strong></div>
+    <div class="admin-detail-card"><span>Email</span><strong>grace@example.com</strong></div>
+    <div class="admin-detail-card"><span>Role</span><strong>Donor and Sponsor</strong></div>
+    <div class="admin-detail-card"><span>Giving summary</span><strong>$460 this year</strong></div>
+    <div class="admin-detail-note">This drawer previews what a future staff user-detail panel could show before real database integration.</div>
+  </div>`;
+const editUserBody = `
+  <div class="row g-3">
+    <div class="col-md-6"><label class="form-label">Full name</label><input class="form-control" value="Grace Conteh"></div>
+    <div class="col-md-6"><label class="form-label">Role</label><select class="form-select"><option>Donor</option><option>Sponsor</option><option>Volunteer</option></select></div>
+    <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" value="grace@example.com"></div>
+    <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"><option>Active</option><option>Pending</option></select></div>
+    <div class="col-12"><label class="form-label">Internal note</label><textarea class="form-control" rows="4" placeholder="Add a staff note"></textarea></div>
+  </div>`;
+const deactivateUserBody = `<p class="mb-3">This confirmation UI would let staff deactivate a user account while keeping history intact.</p><div class="form-check"><input class="form-check-input" type="checkbox" id="keepHistory"><label class="form-check-label" for="keepHistory">Keep donation and sponsorship history attached</label></div>`;
+const resetPasswordBody = `<p class="mb-3">A password reset link will be sent to <strong>grace@example.com</strong> in a future backend phase.</p><label class="form-label">Staff note</label><textarea class="form-control" rows="3" placeholder="Optional note for the activity log"></textarea>`;
+%>
+<%- include('../partials/admin-drawer', { id: 'viewUserDrawer', eyebrow: 'User details', title: 'Grace Conteh', description: 'Supporter profile preview for staff review.', body: userDrawerBody, confirmLabel: 'Save Note' }) %>
+<%- include('../partials/admin-modal', { id: 'editUserModal', size: 'modal-lg', eyebrow: 'Edit user', title: 'Update supporter record', description: 'Static form preview only.', body: editUserBody, confirmLabel: 'Save Changes' }) %>
+<%- include('../partials/admin-modal', { id: 'deactivateUserModal', eyebrow: 'Deactivate user', title: 'Confirm account deactivation', description: 'This does not submit anywhere in Phase 1.', body: deactivateUserBody, confirmLabel: 'Deactivate User', confirmClass: 'btn btn-danger' }) %>
+<%- include('../partials/admin-modal', { id: 'resetPasswordModal', eyebrow: 'Reset password', title: 'Send reset confirmation', body: resetPasswordBody, confirmLabel: 'Send Reset Link' }) %>

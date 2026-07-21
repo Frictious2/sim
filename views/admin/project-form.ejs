@@ -1,0 +1,93 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1"><%= formTitle %></h2>
+        <p class="text-muted mb-0">Manage a mission initiative without changing the public presentation structure.</p>
+      </div>
+      <a href="/admin/projects" class="btn btn-outline-dark rounded-pill btn-sm">Back to Projects</a>
+    </div>
+
+    <form action="<%= formAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-lg-8">
+        <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+        <input class="form-control" name="title" id="projectTitle" data-slug-source data-slug-target="projectSlug" value="<%= project ? project.title : '' %>" required>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Slug</label>
+        <input class="form-control" id="projectSlug" data-slug-field name="slug" value="<%= project ? project.slug : '' %>" placeholder="Auto-generated if left blank">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Location</label>
+        <input class="form-control" name="location" value="<%= project ? (project.location || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Category</label>
+        <input class="form-control" name="category" value="<%= project ? (project.category || '') : '' %>" placeholder="Outreach, Training, Community Care">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+        <select class="form-select" name="status">
+          <% ['planned', 'active', 'completed', 'paused'].forEach((status) => { %>
+            <option value="<%= status %>" <%= project && project.status === status ? 'selected' : (!project && status === 'planned' ? 'selected' : '') %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Progress label</label>
+        <input class="form-control" name="progressLabel" value="<%= project ? (project.progress_label || '') : '' %>" placeholder="Most needed right now">
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-semibold">Featured image URL</label>
+        <input class="form-control" data-image-preview-input="project-image" name="featuredImage" value="<%= project ? (project.featured_image || '') : '' %>" placeholder="https://...">
+        <div class="form-text">Upload images in Media Library, then paste the media URL here.</div>
+      </div>
+      <div class="col-12">
+        <div class="admin-image-preview-card" data-image-preview-target="project-image">
+          <div class="admin-image-preview-empty">Image preview will appear here.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Meta title</label>
+        <input class="form-control" name="metaTitle" value="<%= project ? (project.meta_title || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Meta description</label>
+        <input class="form-control" data-character-count-target="project-meta-count" name="metaDescription" value="<%= project ? (project.meta_description || '') : '' %>">
+        <div class="d-flex justify-content-between form-text">
+          <span>Recommended for search previews and social sharing.</span>
+          <span><span data-character-count="project-meta-count">0</span> characters</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-semibold">Summary</label>
+        <textarea class="form-control" data-character-count-target="project-summary-count" name="summary" rows="3"><%= project ? (project.summary || '') : '' %></textarea>
+        <div class="d-flex justify-content-between form-text">
+          <span>Used in cards and program previews.</span>
+          <span><span data-character-count="project-summary-count">0</span> characters</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <%- include('../partials/rich-text-editor', {
+          label: 'Description',
+          required: false,
+          helperText: 'Use headings, lists, links, emphasis, and blockquotes to make the project story easier for staff to manage and for visitors to read.',
+          fieldId: 'projectDescription',
+          name: 'description',
+          value: project ? (project.description || '') : '',
+          placeholder: 'Describe the ministry program, current progress, and needs...'
+        }) %>
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="isFeatured" id="isFeatured" <%= project && project.is_featured ? 'checked' : '' %>>
+          <label class="form-check-label" for="isFeatured">Feature this project on the homepage</label>
+        </div>
+      </div>
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Project</button>
+        <a href="/admin/projects" class="btn btn-outline-dark rounded-pill px-4">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Testimonies</h2>
+        <p class="text-muted mb-0">Manage the stories and testimony quotes shown on the public stories page and homepage previews.</p>
+      </div>
+      <a href="/admin/testimonies/create" class="btn btn-sunrise rounded-pill">Create Testimony</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/testimonies">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search names, locations, quotes, or story text">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% ['draft', 'published', 'archived'].forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="featured">
+        <option value="">All visibility</option>
+        <option value="featured" <%= filters.featured === 'featured' ? 'selected' : '' %>>Featured only</option>
+        <option value="standard" <%= filters.featured === 'standard' ? 'selected' : '' %>>Standard only</option>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/testimonies" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <% if (testimonies.length) { %>
+      <div class="table-responsive mt-3">
+        <table class="table admin-table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Person</th>
+              <th>Quote</th>
+              <th>Status</th>
+              <th>Featured</th>
+              <th>Updated</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% testimonies.forEach((item) => { %>
+              <tr>
+                <td>
+                  <div class="fw-semibold"><%= item.name %></div>
+                  <small class="text-muted d-block"><%= item.location || 'Sierra Leone' %></small>
+                </td>
+                <td><%= helpers.truncateText(item.quote, 120) %></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td>
+                  <% if (item.is_featured) { %>
+                    <span class="badge text-bg-success-subtle text-success">Featured</span>
+                  <% } else { %>
+                    <span class="badge text-bg-light text-dark">Standard</span>
+                  <% } %>
+                </td>
+                <td><%= item.updatedDisplay %></td>
+                <td class="text-end">
+                  <div class="d-flex justify-content-end flex-wrap gap-2">
+                    <a href="/admin/testimonies/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                    <form action="/admin/testimonies/<%= item.id %>/feature" method="post" class="d-inline">
+                      <button type="submit" class="btn btn-outline-dark btn-sm rounded-pill"><%= item.is_featured ? 'Unfeature' : 'Feature' %></button>
+                    </form>
+                    <form action="/admin/testimonies/<%= item.id %>/archive" method="post" class="d-inline">
+                      <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">Archive</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="admin-empty-state mt-3">
+        <div class="empty-state-icon"><i class="bi bi-chat-heart"></i></div>
+        <h3 class="h5 mb-2">No testimonies match this view</h3>
+        <p class="text-muted mb-3">Create a testimony record to populate the public stories page and homepage story previews.</p>
+        <a href="/admin/testimonies/create" class="btn btn-sunrise rounded-pill">Create First Testimony</a>
+      </div>
+    <% } %>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

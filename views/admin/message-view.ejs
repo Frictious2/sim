@@ -1,0 +1,45 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Message from <%= message.name %></h2>
+        <p class="text-muted mb-0">Review the full contact message and update its status as your team responds.</p>
+      </div>
+      <a href="/admin/messages" class="btn btn-outline-dark rounded-pill btn-sm">Back to Messages</a>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-8">
+        <div class="admin-detail-card h-100">
+          <span>Message</span>
+          <strong class="d-block mt-2 mb-3"><%= message.subject || 'General inquiry' %></strong>
+          <p class="mb-0"><%= message.message %></p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>From</span><strong><%= message.name %></strong></div>
+          <div class="admin-detail-card"><span>Email</span><strong><%= message.email %></strong></div>
+          <div class="admin-detail-card"><span>Phone</span><strong><%= message.phone || 'Not provided' %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><%= message.statusLabel %></strong></div>
+          <div class="admin-detail-card"><span>Received</span><strong><%= message.createdDisplay %></strong></div>
+        </div>
+      </div>
+    </div>
+
+    <form action="/admin/messages/<%= message.id %>/status" method="post" class="row g-3 mt-3">
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Update status</label>
+        <select class="form-select" name="status">
+          <% ['new', 'read', 'replied', 'archived'].forEach((status) => { %>
+            <option value="<%= status %>" <%= message.status === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+          <% }) %>
+        </select>
+      </div>
+      <input type="hidden" name="redirectTo" value="detail">
+      <div class="col-12">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Status</button>
+      </div>
+    </form>
+  </div>
+</section>

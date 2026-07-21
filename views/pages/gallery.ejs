@@ -1,2 +1,97 @@
-<%- include('../partials/page-header', { eyebrow: 'Gallery', heading: 'A visual window into mission life and community presence.', description: 'Placeholder imagery helps shape a trustworthy, humanitarian, and community-centered visual tone.' }) %>
-<section class="section-pad pt-0 bg-cream"><div class="container"><div class="row g-4"><% content.gallery.forEach((item) => { %><div class="col-md-6 col-lg-4"><div class="gallery-card h-100"><img src="<%= item.image %>" alt="<%= item.title %>" class="img-fluid rounded-4 gallery-image"><div class="pt-3 fw-semibold"><%= item.title %></div></div></div><% }) %></div></div></section>
+﻿<%- include('../partials/page-banner', {
+  eyebrow: 'Gallery',
+  heading: 'A visual window into outreach, worship, learning, and community life across the mission field.',
+  description: 'Explore moments from ministry visits, children’s activities, church gatherings, outreach days, and practical support work through this visual gallery experience.'
+}) %>
+
+<section class="section-pad pt-0 bg-white gallery-intro-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-7">
+        <span class="eyebrow text-dark">Gallery overview</span>
+        <h2 class="section-title text-dark mt-3">Images help make the mission visible, human, and memorable.</h2>
+        <p class="text-muted">The Salone Interior Missions gallery is designed to help visitors see the life behind the ministry: children learning together, communities gathering in prayer, pastors being encouraged, and practical support reaching people with dignity.</p>
+        <p class="text-muted mb-0">This page uses placeholder imagery for the UI phase while preparing a flexible layout for future albums, filtering, and optional lightbox experiences.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card bg-sand h-100">
+          <h3 class="h5">What the gallery highlights</h3>
+          <ul class="check-list mt-3 mb-0">
+            <li>Outreach and village ministry moments</li>
+            <li>Children, families, and learning spaces</li>
+            <li>Church gatherings and leadership encouragement</li>
+            <li>Community support and ministry events</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream gallery-filters-section">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+      <button type="button" class="gallery-filter-chip active-option">Outreach</button>
+      <button type="button" class="gallery-filter-chip">Children</button>
+      <button type="button" class="gallery-filter-chip">Church Planting</button>
+      <button type="button" class="gallery-filter-chip">Events</button>
+      <button type="button" class="gallery-filter-chip">Community Support</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white gallery-grid-section">
+  <div class="container">
+    <div class="gallery-masonry">
+      <% content.gallery.forEach((item, index) => { %>
+        <article class="gallery-tile <%= index % 3 === 0 ? 'gallery-tile-tall' : '' %>">
+          <div class="gallery-tile-inner">
+            <img src="<%= item.image %>" alt="<%= item.title %>" class="img-fluid gallery-tile-image">
+            <div class="gallery-tile-overlay">
+              <span class="badge text-bg-light rounded-pill mb-2"><%= item.category || 'Gallery' %></span>
+              <h3 class="h6 mb-0 text-white"><%= item.title %></h3>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream featured-album-section">
+  <div class="container">
+    <div class="featured-album-card">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="eyebrow text-dark">Featured gallery album</span>
+          <h2 class="section-title text-dark mt-3">Kono Learning and Discipleship Weekend</h2>
+          <p class="text-muted">This featured album block previews how future gallery collections can spotlight a specific event, outreach trip, or ministry initiative with a short story and visual highlights.</p>
+          <p class="text-muted mb-4">In this example, a field visit brought together children, local leaders, and ministry partners for reading support, prayer, encouragement, and community presence.</p>
+          <a href="#" class="btn btn-sunrise rounded-pill px-4">View Album</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="album-preview-grid">
+            <% content.gallery.slice(0, 3).forEach((item, index) => { %>
+              <img src="<%= item.image %>" alt="<%= item.title %>" class="img-fluid rounded-4 album-preview-image <%= index === 2 ? 'album-preview-wide' : '' %>">
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">See the mission, support the work</span>
+        <h2 class="section-title mt-3 text-white">These images point to real communities, real ministry, and real opportunities to pray, give, and partner.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/get-involved" class="btn btn-light rounded-pill px-4">Get Involved</a>
+        <a href="/donate" class="btn btn-outline-light rounded-pill px-4">Support the Mission</a>
+      </div>
+    </div>
+  </div>
+</section>

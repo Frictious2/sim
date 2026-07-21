@@ -1,0 +1,94 @@
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-5">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+            <div>
+              <h2 class="h4 mb-1">Prayer partnership</h2>
+              <p class="text-muted mb-0">Track your prayer partnership status and current ministry focus.</p>
+            </div>
+            <a href="/get-involved#prayer-partner" class="btn btn-outline-dark rounded-pill btn-sm">Public signup page</a>
+          </div>
+
+          <% if (prayerPartner) { %>
+            <div class="admin-detail-stack">
+              <div class="admin-detail-card"><span>Status</span><strong><span class="badge <%= prayerPartner.statusMeta.badgeClass %>"><%= prayerPartner.statusLabel %></span></strong></div>
+              <div class="admin-detail-card"><span>Prayer focus</span><strong><%= prayerPartner.focusLabel %></strong></div>
+              <div class="admin-detail-card"><span>Frequency</span><strong><%= prayerPartner.frequencyLabel %></strong></div>
+              <div class="admin-detail-card"><span>Signed up</span><strong><%= prayerPartner.createdDisplay %></strong></div>
+            </div>
+
+            <div class="content-card mt-4 bg-sand">
+              <h3 class="h5 mb-3">Update preferences</h3>
+              <form method="post" action="/dashboard/prayer" class="row g-3">
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Prayer focus</label>
+                  <select class="form-select" name="prayerFocus">
+                    <% prayerFocusValues.forEach((item) => { %>
+                      <option value="<%= item.value %>" <%= prayerPartner.prayer_focus === item.value ? 'selected' : '' %>><%= item.label %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Frequency</label>
+                  <select class="form-select" name="frequency">
+                    <% prayerFrequencyValues.forEach((item) => { %>
+                      <option value="<%= item.value %>" <%= prayerPartner.frequency === item.value ? 'selected' : '' %>><%= item.label %></option>
+                    <% }) %>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-sunrise rounded-pill w-100">Save Prayer Preferences</button>
+                </div>
+              </form>
+            </div>
+          <% } else { %>
+            <div class="admin-empty-state">
+              <div class="empty-state-icon"><i class="bi bi-heart-pulse"></i></div>
+              <h3 class="h5 mb-2">No prayer partner signup yet</h3>
+              <p class="text-muted mb-3">Join the SIM prayer partner list to receive focused prayer themes from the ministry.</p>
+              <a href="/get-involved#prayer-partner" class="btn btn-sunrise rounded-pill">Become a Prayer Partner</a>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-7">
+      <div class="content-card h-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">My prayer requests</h2>
+            <p class="text-muted mb-0">Prayer requests sent with your account email will appear here.</p>
+          </div>
+          <a href="/contact#prayer-request" class="btn btn-outline-dark rounded-pill btn-sm">Submit a prayer request</a>
+        </div>
+
+        <% if (prayerRequests && prayerRequests.length) { %>
+          <div class="d-grid gap-3">
+            <% prayerRequests.forEach((item) => { %>
+              <article class="portal-summary-card">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-2">
+                  <div>
+                    <div class="small text-uppercase text-muted fw-semibold"><%= item.isPublicLabel %></div>
+                    <div class="small text-muted"><%= item.createdDisplay %></div>
+                  </div>
+                  <span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span>
+                </div>
+                <p class="text-muted mb-0"><%= item.request_text %></p>
+              </article>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="admin-empty-state">
+            <div class="empty-state-icon"><i class="bi bi-chat-heart"></i></div>
+            <h3 class="h5 mb-2">No prayer requests yet</h3>
+            <p class="text-muted mb-3">When you submit a prayer request with your account email, it will be listed here for easy reference.</p>
+            <a href="/contact#prayer-request" class="btn btn-sunrise rounded-pill">Share a Prayer Request</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>

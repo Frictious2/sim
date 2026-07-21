@@ -1,0 +1,27 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Sponsorship assignments</h2>
+        <p class="text-muted mb-0">Match registered sponsors with children, projects, or mission workers and manage the assignment lifecycle.</p>
+      </div>
+      <a href="/admin/sponsorship-assignments/create" class="btn btn-sunrise rounded-pill">Create Assignment</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/sponsorship-assignments">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search sponsor, child, project, or worker">
+      <select class="form-select" name="status"><option value="">All statuses</option><% assignmentStatuses.forEach((status) => { %><option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option><% }) %></select>
+      <select class="form-select" name="assignmentType"><option value="">All types</option><% assignmentTypes.forEach((type) => { %><option value="<%= type %>" <%= filters.assignmentType === type ? 'selected' : '' %>><%= type.replace(/_/g, ' ') %></option><% }) %></select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/sponsorship-assignments" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <% if (assignments.length) { %>
+      <div class="table-responsive mt-3"><table class="table admin-table align-middle mb-0"><thead><tr><th>Sponsor</th><th>Assignment</th><th>Status</th><th>Assigned</th><th class="text-end">Actions</th></tr></thead><tbody><% assignments.forEach((item) => { %><tr><td><div class="fw-semibold"><%= item.sponsor_name || 'Unknown sponsor' %></div><small class="text-muted d-block"><%= item.sponsor_email || 'No email' %></small></td><td><div class="fw-semibold"><%= item.assignmentTypeLabel %></div><small class="text-muted d-block"><%= item.targetLabel || 'Target not found' %></small></td><td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td><td><%= item.assignedDisplay %></td><td class="text-end"><a href="/admin/sponsorship-assignments/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">View</a></td></tr><% }) %></tbody></table></div>
+    <% } else { %>
+      <div class="admin-empty-state mt-3"><div class="empty-state-icon"><i class="bi bi-link-45deg"></i></div><h3 class="h5 mb-2">No sponsorship assignments yet</h3><p class="text-muted mb-3">Assignments will appear here once a sponsor is matched to a child, project, or mission worker.</p><a href="/admin/sponsorship-assignments/create" class="btn btn-sunrise rounded-pill">Create Assignment</a></div>
+    <% } %>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

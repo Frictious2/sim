@@ -1,0 +1,20 @@
+<div class="rich-editor-field">
+  <label class="form-label fw-semibold"><%= label %> <% if (required) { %><span class="text-danger">*</span><% } %></label>
+  <% if (helperText) { %>
+    <div class="form-text mb-2"><%= helperText %></div>
+  <% } %>
+  <div
+    class="rich-text-editor"
+    data-rich-editor
+    data-target="<%= fieldId %>"
+    data-placeholder="<%= placeholder || '' %>"
+    data-required="<%= required ? 'true' : 'false' %>"
+  ><%- value || '' %></div>
+  <textarea
+    class="form-control d-none"
+    id="<%= fieldId %>"
+    name="<%= name %>"
+    rows="<%= typeof rows !== 'undefined' ? rows : 10 %>"
+    <%= required ? 'required' : '' %>
+  ><%= value || '' %></textarea>
+</div>

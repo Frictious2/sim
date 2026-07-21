@@ -1,1 +1,98 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Donations</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Donor</th><th>Campaign</th><th>Amount</th><th>Status</th></tr></thead><tbody><% content.adminDonations.forEach((item) => { %><tr><td><%= item.donor %></td><td><%= item.campaign %></td><td><%= item.amount %></td><td><span class="badge text-bg-light"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-toolbar">
+      <div>
+        <h2 class="admin-panel-title mb-1">Donation records</h2>
+        <p class="text-muted mb-0">Review pending donations, verify proof uploads, and keep manual payment records tidy and accountable.</p>
+      </div>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/donations">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search donor names, emails, references, or notes">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% donationStatuses.forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="designation">
+        <option value="">All designations</option>
+        <% donationDesignations.forEach((designation) => { %>
+          <option value="<%= designation %>" <%= filters.designation === designation ? 'selected' : '' %>><%= designation.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="paymentMethod">
+        <option value="">All payment methods</option>
+        <% donationMethods.forEach((method) => { %>
+          <option value="<%= method %>" <%= filters.paymentMethod === method ? 'selected' : '' %>><%= method.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/donations" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <div class="admin-list-summary mt-3">Showing <strong><%= pagination.from %>-<%= pagination.to %></strong> of <strong><%= pagination.total %></strong> donations</div>
+
+    <div class="table-responsive mt-3">
+      <table class="table align-middle dashboard-table mb-0">
+        <thead>
+          <tr>
+            <th>Donor</th>
+            <th>Designation</th>
+            <th>Method</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Received</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (donations.length) { %>
+            <% donations.forEach((item) => { %>
+              <tr>
+                <td><strong><%= item.donorName %></strong><div class="small text-muted"><%= item.donorEmail %></div></td>
+                <td><%= item.designationLabel %></td>
+                <td><%= item.paymentMethodLabel %></td>
+                <td><strong><%= item.amountDisplay %></strong></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td><%= item.createdDisplay %></td>
+                <td>
+                  <div class="table-actions">
+                    <a href="/admin/donations/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">View</a>
+                    <% if (item.status !== 'verified') { %><form action="/admin/donations/<%= item.id %>/verify" method="post" class="d-inline"><button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Verify</button></form><% } %>
+                    <% if (item.status !== 'rejected') { %><form action="/admin/donations/<%= item.id %>/reject" method="post" class="d-inline"><input type="hidden" name="rejectionReason" value="Requires follow-up review"><button type="submit" class="btn btn-outline-dark btn-sm rounded-pill">Reject</button></form><% } %>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="7"><div class="admin-empty-state"><div class="empty-state-icon"><i class="bi bi-wallet2"></i></div><h3 class="h5 mb-2">No donations match this view</h3><p class="text-muted mb-3">Guest and supporter donation records will begin appearing here as soon as they are submitted.</p></div></td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-card bg-sand mt-4">
+      <div class="admin-panel-head">
+        <div>
+          <h3 class="h5 mb-1">Add manual donation</h3>
+          <p class="text-muted mb-0">Use this for offline cash, bank, or staff-entered giving records.</p>
+        </div>
+      </div>
+      <form class="row g-3 mt-1" method="post" action="/admin/donations/manual">
+        <div class="col-md-4"><input class="form-control" name="donorName" placeholder="Donor name" required></div>
+        <div class="col-md-4"><input class="form-control" type="email" name="donorEmail" placeholder="Email address" required></div>
+        <div class="col-md-4"><input class="form-control" name="donorPhone" placeholder="Phone number"></div>
+        <div class="col-md-3"><input class="form-control" name="amount" placeholder="Amount" required></div>
+        <div class="col-md-3"><select class="form-select" name="donationType"><% ['one_time', 'monthly', 'quarterly', 'annual'].forEach((type) => { %><option value="<%= type %>"><%= type.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option><% }) %></select></div>
+        <div class="col-md-3"><select class="form-select" name="designation"><% donationDesignations.forEach((designation) => { %><option value="<%= designation %>"><%= designation.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option><% }) %></select></div>
+        <div class="col-md-3"><select class="form-select" name="paymentMethod"><% donationMethods.forEach((method) => { %><option value="<%= method %>"><%= method.replace(/_/g, ' ').replace(/w/g, (char) => char.toUpperCase()) %></option><% }) %></select></div>
+        <div class="col-md-6"><input class="form-control" name="paymentReference" placeholder="Payment reference"></div>
+        <div class="col-md-6"><input class="form-control" name="message" placeholder="Internal note"></div>
+        <div class="col-12"><button type="submit" class="btn btn-sunrise rounded-pill">Save Manual Donation</button></div>
+      </form>
+    </div>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

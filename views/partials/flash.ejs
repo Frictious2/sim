@@ -1,3 +1,27 @@
+<% if (flashMessages && flashMessages.success && flashMessages.success.length) { %>
+  <div class="container mt-3">
+    <% flashMessages.success.forEach((message) => { %>
+      <div class="alert alert-success rounded-4 border-0 shadow-sm mb-2"><%= message %></div>
+    <% }) %>
+  </div>
+<% } %>
+
+<% if (flashMessages && flashMessages.error && flashMessages.error.length) { %>
+  <div class="container mt-3">
+    <% flashMessages.error.forEach((message) => { %>
+      <div class="alert alert-danger rounded-4 border-0 shadow-sm mb-2"><%= message %></div>
+    <% }) %>
+  </div>
+<% } %>
+
+<% if (flashMessages && flashMessages.info && flashMessages.info.length) { %>
+  <div class="container mt-3">
+    <% flashMessages.info.forEach((message) => { %>
+      <div class="alert alert-info rounded-4 border-0 shadow-sm mb-2"><%= message %></div>
+    <% }) %>
+  </div>
+<% } %>
+
 <% if (demoAlert === 'success') { %>
   <div class="container mt-3">
     <div class="alert alert-success rounded-4 border-0 shadow-sm">Sample success alert for the UI phase. Forms are presentational only in this build.</div>

@@ -1,7 +1,7 @@
 <%- include('../partials/page-banner', {
   eyebrow: 'About Salone Interior Missions',
-  heading: 'A Christ-centered ministry serving Sierra Leone’s interior communities with Gospel hope and practical compassion.',
-  description: 'Learn the story behind the ministry, the convictions that guide the work, and the long-term vision for evangelism, discipleship, church planting, and community transformation.'
+  heading: 'A Christ-centered ministry serving Sierra LeoneÂ’s interior communities with Gospel hope and practical compassion.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Learn the story behind the ministry, the convictions that guide the work, and the long-term vision for evangelism, discipleship, church planting, and community transformation.'
 }) %>
 
 <section class="section-pad pt-0 bg-white about-story-section">
@@ -15,7 +15,11 @@
       <div class="col-lg-6">
         <span class="eyebrow text-dark">Who we are</span>
         <h2 class="section-title text-dark mt-3">A ministry shaped by presence, prayer, and faithful partnership.</h2>
-        <p class="text-muted">Salone Interior Missions exists to carry the Gospel into underserved interior communities of Sierra Leone while helping local churches, families, and leaders grow in strength, dignity, and hope.</p>
+        <% if (pageRecord && pageRecord.body) { %>
+          <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+        <% } else { %>
+          <p class="text-muted">Salone Interior Missions exists to carry the Gospel into underserved interior communities of Sierra Leone while helping local churches, families, and leaders grow in strength, dignity, and hope.</p>
+        <% } %>
         <p class="text-muted">What began as a burden for forgotten communities has grown into a ministry of village outreach, discipleship gatherings, child support, leadership development, and practical care. We believe transformation is strongest when it is rooted in local relationships and sustained over time.</p>
         <p class="text-muted mb-0">Our story is not built around visibility from a distance, but around walking closely with pastors, evangelists, children, and households who are already carrying the daily realities of ministry and community life.</p>
       </div>

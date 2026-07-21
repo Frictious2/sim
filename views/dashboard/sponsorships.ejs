@@ -1,1 +1,119 @@
-<section class="dashboard-section"><div class="content-card"><h2 class="h4">Sponsorship history</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Started</th><th>Type</th><th>Target</th><th>Amount</th><th>Status</th></tr></thead><tbody><% content.userSponsorships.forEach((item) => { %><tr><td><%= item.date %></td><td><%= item.type %></td><td><%= item.target %></td><td><%= item.amount %></td><td><span class="badge text-bg-success-subtle text-success"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></section>
+<section class="dashboard-section">
+  <div class="content-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="h4 mb-1">My sponsorship interests</h2>
+        <p class="text-muted mb-0">See which sponsorship pathways you have asked about and where each conversation currently stands.</p>
+      </div>
+      <a href="/sponsor" class="btn btn-outline-dark rounded-pill btn-sm">Submit another interest</a>
+    </div>
+
+    <form method="get" action="/dashboard/sponsorships" class="row g-3 mb-4">
+      <div class="col-md-4">
+        <label class="form-label small text-muted">Status</label>
+        <select class="form-select" name="status">
+          <option value="">All statuses</option>
+          <% sponsorshipStatuses.forEach((item) => { %>
+            <option value="<%= item.value %>" <%= filters.status === item.value ? 'selected' : '' %>><%= item.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small text-muted">Sponsorship type</label>
+        <select class="form-select" name="type">
+          <option value="">All types</option>
+          <% sponsorshipTypes.forEach((item) => { %>
+            <option value="<%= item.value %>" <%= filters.type === item.value ? 'selected' : '' %>><%= item.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Apply Filters</button>
+        <a href="/dashboard/sponsorships" class="btn btn-outline-dark rounded-pill px-4">Reset</a>
+      </div>
+    </form>
+
+    <div class="row g-4">
+      <% if (sponsorships && sponsorships.length) { %>
+        <% sponsorships.forEach((item) => { %>
+          <div class="col-lg-6">
+            <article class="sponsorship-dashboard-card h-100">
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <div class="small text-uppercase text-muted fw-semibold"><%= item.typeLabel %></div>
+                  <h3 class="h5 mb-1"><%= item.planLabel %></h3>
+                  <div class="text-muted small">Submitted <%= item.dateLabel %></div>
+                </div>
+                <span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span>
+              </div>
+              <p class="text-muted mb-3"><%= item.nextStep %></p>
+              <div class="mini-stat-row"><span>Preferred amount</span><strong><%= item.amountDisplay %></strong></div>
+              <div class="mini-stat-row"><span>Contact preference</span><strong><%= item.preferred_contact_method || 'No preference shared' %></strong></div>
+              <a href="/dashboard/sponsorships/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill mt-3">View Details</a>
+            </article>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <div class="admin-empty-state">
+            <div class="empty-state-icon"><i class="bi bi-people"></i></div>
+            <h3 class="h5 mb-2">No sponsorship interests yet</h3>
+            <p class="text-muted mb-3">Once you share a sponsorship interest, the SIM team will track its progress here.</p>
+            <a href="/sponsor" class="btn btn-sunrise rounded-pill">Explore Sponsorship</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="dashboard-section pt-0">
+  <div class="content-card">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="h4 mb-1">Assigned sponsorships</h2>
+        <p class="text-muted mb-0">When the SIM team matches you with a child, project, or mission worker, you will see the live assignment here.</p>
+      </div>
+      <a href="/sponsor#child-profiles" class="btn btn-outline-dark rounded-pill btn-sm">Explore More Profiles</a>
+    </div>
+
+    <div class="row g-4">
+      <% if (assignments && assignments.length) { %>
+        <% assignments.forEach((assignment) => { %>
+          <div class="col-xl-6">
+            <article class="child-card h-100">
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <div class="small text-uppercase text-muted fw-semibold"><%= assignment.target.typeLabel %></div>
+                  <h3 class="h5 mb-1"><%= assignment.target.title %></h3>
+                  <div class="text-muted small"><%= assignment.target.subtitle || 'SIM Sponsorship Assignment' %></div>
+                </div>
+                <span class="badge <%= assignment.status === 'active' ? 'text-bg-success-subtle text-success' : (assignment.status === 'paused' ? 'text-bg-warning-subtle text-dark' : 'text-bg-secondary') %>"><%= assignment.statusLabel %></span>
+              </div>
+              <% if (assignment.latestUpdate) { %>
+                <div class="content-card bg-cream mb-3">
+                  <div class="small text-uppercase text-muted fw-semibold"><%= assignment.latestUpdate.visibility %></div>
+                  <div class="fw-semibold"><%= assignment.latestUpdate.title %></div>
+                  <p class="text-muted mb-1"><%= assignment.latestUpdate.summary %></p>
+                  <small class="text-muted"><%= assignment.latestUpdate.createdDisplay %></small>
+                </div>
+              <% } %>
+              <div class="mini-stat-row"><span>Assigned</span><strong><%= assignment.assignmentDateDisplay %></strong></div>
+              <div class="mini-stat-row"><span>Support type</span><strong><%= assignment.target.typeLabel %></strong></div>
+              <a href="/dashboard/sponsorships/assignments/<%= assignment.id %>" class="btn btn-sunrise rounded-pill btn-sm mt-3">View Assignment</a>
+            </article>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <div class="admin-empty-state">
+            <div class="empty-state-icon"><i class="bi bi-heart"></i></div>
+            <h3 class="h5 mb-2">No active sponsorship assignments yet</h3>
+            <p class="text-muted mb-3">Once your sponsorship is matched to a child, program, or mission worker, the details and updates will appear here.</p>
+            <a href="/sponsor#interest-form" class="btn btn-sunrise rounded-pill">Start a Sponsorship Conversation</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>

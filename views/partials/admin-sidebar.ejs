@@ -3,20 +3,39 @@
     <span class="brand-mark">SIM</span>
     <div>
       <div class="fw-bold"><%= site.brand %></div>
-      <small class="text-muted">Admin Console</small>
+      <small class="text-muted">Admin CMS</small>
     </div>
   </div>
+
   <div class="sidebar-profile card-soft mt-4">
-    <div class="avatar-circle">A</div>
+    <div class="avatar-circle"><%= (currentUser ? currentUser.name : content.adminProfile.name).charAt(0) %></div>
     <div>
-      <div class="fw-semibold">Admin User</div>
-      <small class="text-muted">Platform Administrator</small>
+      <div class="fw-semibold"><%= currentUser ? currentUser.name : content.adminProfile.name %></div>
+      <small class="text-muted"><%= currentUser ? currentUser.role : content.adminProfile.role %></small>
     </div>
   </div>
-  <nav class="sidebar-nav mt-4">
-    <% site.adminNav.forEach((item) => { %>
-      <a href="<%= item.href %>" class="sidebar-link <%= currentPath === item.href ? 'active' : '' %>"><%= item.label %></a>
-    <% }) %>
-  </nav>
-  <a href="/" class="btn btn-outline-dark rounded-pill mt-4">Back to Website</a>
+
+  <div class="admin-sidebar-section mt-4">
+    <div class="admin-sidebar-label">Navigation</div>
+    <nav class="sidebar-nav mt-3">
+      <% site.adminNav.forEach((item) => { %>
+        <a href="<%= item.href %>" class="sidebar-link <%= currentPath === item.href ? 'active' : '' %>"><%= item.label %></a>
+      <% }) %>
+    </nav>
+  </div>
+
+  <div class="admin-sidebar-section mt-4">
+    <div class="admin-sidebar-label">Quick actions</div>
+    <div class="d-grid gap-2 mt-3">
+      <a href="/admin/blog-posts" class="btn btn-outline-dark rounded-pill btn-sm">Create Post</a>
+      <a href="/admin/projects" class="btn btn-outline-dark rounded-pill btn-sm">Add Project</a>
+      <a href="/admin/media" class="btn btn-outline-dark rounded-pill btn-sm">Open Media</a>
+      <a href="/admin/messages" class="btn btn-outline-dark rounded-pill btn-sm">Open Inbox</a>
+    </div>
+  </div>
+
+  <div class="admin-sidebar-note mt-4">
+    <strong>Today\'s focus</strong>
+    <span>Review new donor messages, volunteer applications, and homepage content updates.</span>
+  </div>
 </aside>

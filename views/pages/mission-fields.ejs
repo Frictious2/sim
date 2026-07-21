@@ -1,7 +1,7 @@
 <%- include('../partials/page-banner', {
   eyebrow: 'Mission Fields',
-  heading: 'Where the ministry serves and how the work is taking shape across interior communities.',
-  description: 'Explore the regions, communities, needs, and ministry activities that define the mission fields of Salone Interior Missions across Sierra Leone.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'Where the ministry serves and how the work is taking shape across interior communities.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Explore the regions, communities, needs, and ministry activities that define the mission fields of Salone Interior Missions across Sierra Leone.'
 }) %>
 
 <section class="section-pad pt-0 bg-white mission-fields-intro-section">
@@ -10,7 +10,11 @@
       <div class="col-lg-7">
         <span class="eyebrow text-dark">Mission field overview</span>
         <h2 class="section-title text-dark mt-3">Each field tells a story of Gospel outreach, pastoral care, and community transformation.</h2>
-        <p class="text-muted">Salone Interior Missions serves in communities where spiritual hunger and practical needs often meet. Some areas need stronger church support and leadership training. Others need child sponsorship, literacy help, women empowerment, or sustained outreach presence. In every field, the goal is the same: to make Christ known and to walk with people in ways that strengthen both faith and daily life.</p>
+        <% if (pageRecord && pageRecord.body) { %>
+          <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+        <% } else { %>
+          <p class="text-muted">Salone Interior Missions serves in communities where spiritual hunger and practical needs often meet. Some areas need stronger church support and leadership training. Others need child sponsorship, literacy help, women empowerment, or sustained outreach presence. In every field, the goal is the same: to make Christ known and to walk with people in ways that strengthen both faith and daily life.</p>
+        <% } %>
         <p class="text-muted mb-0">These mission fields are not abstract locations on a map. They are communities with names, families, churches, leaders, and stories. This page helps supporters understand where the work is happening and what kind of transformation is being pursued.</p>
       </div>
       <div class="col-lg-5">
@@ -89,7 +93,7 @@
           </div>
           <p class="text-muted">A field where literacy outreach, child support, and pastoral encouragement intersect with the daily realities of rural family life.</p>
           <div class="field-detail"><strong>Key needs:</strong><span>School materials, discipleship follow-up, child sponsorship, and leader support.</span></div>
-          <div class="field-detail"><strong>Featured work:</strong><span>Reading circles, children’s discipleship gatherings, and encouragement visits to local churches.</span></div>
+          <div class="field-detail"><strong>Featured work:</strong><span>Reading circles, childrenÂ’s discipleship gatherings, and encouragement visits to local churches.</span></div>
         </article>
       </div>
       <div class="col-lg-6">
@@ -112,7 +116,7 @@
             <span class="badge text-bg-light rounded-pill">Southern Region</span>
           </div>
           <p class="text-muted">A field where women empowerment, youth discipleship, and practical family support are opening doors for deeper ministry and local resilience.</p>
-          <div class="field-detail"><strong>Key needs:</strong><span>Women’s training support, youth mentorship, family strengthening, and community care resources.</span></div>
+          <div class="field-detail"><strong>Key needs:</strong><span>WomenÂ’s training support, youth mentorship, family strengthening, and community care resources.</span></div>
           <div class="field-detail"><strong>Featured work:</strong><span>Prayer groups, enterprise encouragement, youth teaching gatherings, and family support visits.</span></div>
         </article>
       </div>

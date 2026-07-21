@@ -1,1 +1,74 @@
-<section class="dashboard-section"><div class="content-card"><div class="row g-4 align-items-start"><div class="col-lg-8"><h2 class="h4">Profile details</h2><div class="row g-3 mt-1"><div class="col-md-6"><label class="small text-muted">Name</label><div class="fs-5 fw-semibold"><%= content.userProfile.name %></div></div><div class="col-md-6"><label class="small text-muted">Role</label><div class="fs-5 fw-semibold"><%= content.userProfile.role %></div></div><div class="col-md-6"><label class="small text-muted">Email</label><div class="fs-5 fw-semibold"><%= content.userProfile.email %></div></div><div class="col-md-6"><label class="small text-muted">Phone</label><div class="fs-5 fw-semibold"><%= content.userProfile.phone %></div></div><div class="col-12"><label class="small text-muted">Location</label><div class="fs-5 fw-semibold"><%= content.userProfile.location %></div></div><div class="col-12"><label class="small text-muted">Bio</label><p class="mb-0 text-muted"><%= content.userProfile.bio %></p></div></div></div><div class="col-lg-4"><div class="content-card bg-sand h-100"><h3 class="h5">Dashboard note</h3><p class="text-muted mb-0">This supporter profile area uses static content to demonstrate spacing, hierarchy, and responsive card composition for the future authenticated experience.</p></div></div></div></div></section>
+<section class="dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-8">
+      <div class="content-card h-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+          <div>
+            <h2 class="h4 mb-1">Profile details</h2>
+            <p class="text-muted mb-0">Keep your supporter information up to date so the SIM team can follow up well.</p>
+          </div>
+          <a href="/dashboard/change-password" class="btn btn-outline-dark rounded-pill btn-sm">Change password</a>
+        </div>
+
+        <form method="post" action="/dashboard/profile" class="row g-4">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Full name <span class="text-danger">*</span></label>
+            <input class="form-control" name="name" value="<%= profileForm.name %>" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Email address</label>
+            <input class="form-control" value="<%= profileForm.email %>" disabled>
+            <div class="form-text">Email is fixed for now. Contact the SIM team if it needs to be changed.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Phone</label>
+            <input class="form-control" name="phone" value="<%= profileForm.phone %>" placeholder="+232 70 000000">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Preferred contact method</label>
+            <select class="form-select" name="preferredContactMethod">
+              <option value="email" <%= profileForm.preferredContactMethod === 'email' ? 'selected' : '' %>>Email</option>
+              <option value="phone" <%= profileForm.preferredContactMethod === 'phone' ? 'selected' : '' %>>Phone</option>
+              <option value="whatsapp" <%= profileForm.preferredContactMethod === 'whatsapp' ? 'selected' : '' %>>WhatsApp</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Address</label>
+            <input class="form-control" name="address" value="<%= profileForm.address %>" placeholder="Street address or local area">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">City</label>
+            <input class="form-control" name="city" value="<%= profileForm.city %>">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Country</label>
+            <input class="form-control" name="country" value="<%= profileForm.country %>">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Organization or church</label>
+            <input class="form-control" name="organizationName" value="<%= profileForm.organizationName %>">
+          </div>
+          <div class="col-12 d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Profile</button>
+            <a href="/dashboard" class="btn btn-outline-dark rounded-pill px-4">Back to Dashboard</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-xl-4">
+      <div class="dashboard-stack d-grid gap-4">
+        <div class="content-card bg-sand">
+          <h3 class="h5 mb-3">Account summary</h3>
+          <div class="mini-stat-row"><span>Role</span><strong><%= userProfile && userProfile.role ? userProfile.role : 'Supporter' %></strong></div>
+          <div class="mini-stat-row"><span>Member since</span><strong><%= helpers.formatDate(userProfile ? userProfile.created_at : '') || 'Recently joined' %></strong></div>
+          <div class="mini-stat-row"><span>Preferred contact</span><strong><%= profileForm.preferredContactMethod ? profileForm.preferredContactMethod.charAt(0).toUpperCase() + profileForm.preferredContactMethod.slice(1) : 'Email' %></strong></div>
+        </div>
+        <div class="content-card">
+          <h3 class="h5 mb-3">Why this matters</h3>
+          <p class="text-muted mb-0">Updated contact details help the SIM team follow up on sponsorship questions, volunteer applications, and supporter care without delays.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1"><%= formTitle %></h2>
+        <p class="text-muted mb-0">Keep public details dignified and limited. Use updates below for sponsor communication over time.</p>
+      </div>
+      <a href="/admin/children" class="btn btn-outline-dark rounded-pill btn-sm">Back to Children</a>
+    </div>
+
+    <form action="<%= formAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-md-4"><label class="form-label fw-semibold">First name <span class="text-danger">*</span></label><input class="form-control" name="firstName" value="<%= child ? child.first_name : '' %>" required></div>
+      <div class="col-md-4"><label class="form-label fw-semibold">Last name</label><input class="form-control" name="lastName" value="<%= child ? child.last_name : '' %>"></div>
+      <div class="col-md-4"><label class="form-label fw-semibold">Gender <span class="text-danger">*</span></label><select class="form-select" name="gender" required><% childGenders.forEach((gender) => { %><option value="<%= gender %>" <%= child && child.gender === gender ? 'selected' : '' %>><%= gender %></option><% }) %></select></div>
+      <div class="col-md-4"><label class="form-label fw-semibold">Date of birth</label><input class="form-control" type="date" name="dateOfBirth" value="<%= child ? child.date_of_birth : '' %>"></div>
+      <div class="col-md-4"><label class="form-label fw-semibold">Age</label><input class="form-control" type="number" name="age" value="<%= child ? child.age : '' %>"></div>
+      <div class="col-md-4"><label class="form-label fw-semibold">Status</label><select class="form-select" name="status"><% childStatuses.forEach((status) => { %><option value="<%= status %>" <%= child && child.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option><% }) %></select></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">Community <span class="text-danger">*</span></label><input class="form-control" name="community" value="<%= child ? child.community : '' %>" required></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">District</label><input class="form-control" name="district" value="<%= child ? child.district : '' %>"></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">School name</label><input class="form-control" name="schoolName" value="<%= child ? child.school_name : '' %>"></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">Class level</label><input class="form-control" name="classLevel" value="<%= child ? child.class_level : '' %>"></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">Guardian name</label><input class="form-control" name="guardianName" value="<%= child ? child.guardian_name : '' %>"></div>
+      <div class="col-md-6"><label class="form-label fw-semibold">Guardian contact</label><input class="form-control" name="guardianContact" value="<%= child ? child.guardian_contact : '' %>"></div>
+      <div class="col-12"><label class="form-label fw-semibold">Profile image URL</label><input class="form-control" data-image-preview-input="child-profile" name="profileImageUrl" value="<%= child ? child.profile_image_url : '' %>" placeholder="/uploads/media/example.webp"><div class="form-text">Upload images in Media Library, then paste the URL here.</div></div>
+      <div class="col-12"><div class="admin-image-preview-card" data-image-preview-target="child-profile"><div class="admin-image-preview-empty">Image preview will appear here.</div></div></div>
+      <div class="col-12"><label class="form-label fw-semibold">Biography</label><textarea class="form-control" name="biography" rows="5"><%= child ? child.biography : '' %></textarea></div>
+      <div class="col-12 d-flex flex-wrap gap-2"><button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Child Profile</button><a href="/admin/children" class="btn btn-outline-dark rounded-pill px-4">Cancel</a></div>
+    </form>
+  </div>
+</section>
+
+<% if (typeof updates !== 'undefined' && typeof updateFormAction !== 'undefined') { %>
+<section class="dashboard-section admin-dashboard-section pt-0">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head"><div><h2 class="admin-panel-title mb-1">Sponsor updates</h2><p class="text-muted mb-0">Share progress, prayer requests, and learning milestones with the right visibility level.</p></div></div>
+    <form action="<%= updateFormAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-md-6"><label class="form-label fw-semibold">Update title <span class="text-danger">*</span></label><input class="form-control" name="title" value="<%= updateForm ? updateForm.title : '' %>" required></div>
+      <div class="col-md-3"><label class="form-label fw-semibold">Update type</label><select class="form-select" name="updateType"><% ['progress','education','health','general','prayer_request'].forEach((type) => { %><option value="<%= type %>" <%= updateForm && updateForm.update_type === type ? 'selected' : '' %>><%= type.replace(/_/g, ' ') %></option><% }) %></select></div>
+      <div class="col-md-3"><label class="form-label fw-semibold">Visibility</label><select class="form-select" name="visibility"><% ['private_sponsor','public'].forEach((visibility) => { %><option value="<%= visibility %>" <%= updateForm && updateForm.visibility === visibility ? 'selected' : '' %>><%= visibility.replace(/_/g, ' ') %></option><% }) %></select></div>
+      <div class="col-12"><label class="form-label fw-semibold">Image URL</label><input class="form-control" name="imageUrl" value="<%= updateForm ? updateForm.image_url : '' %>"></div>
+      <div class="col-12"><label class="form-label fw-semibold">Update text <span class="text-danger">*</span></label><textarea class="form-control" name="updateText" rows="6" required><%= updateForm ? updateForm.update_text : '' %></textarea></div>
+      <div class="col-12 d-flex flex-wrap gap-2"><button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Update</button><% if (updateForm && updateForm.id) { %><a href="/admin/children/<%= child.id %>/edit" class="btn btn-outline-dark rounded-pill px-4">Cancel Edit</a><% } %></div>
+    </form>
+
+    <% if (updates && updates.length) { %>
+      <div class="table-responsive mt-4"><table class="table admin-table align-middle mb-0"><thead><tr><th>Title</th><th>Type</th><th>Visibility</th><th>Created</th><th class="text-end">Actions</th></tr></thead><tbody><% updates.forEach((item) => { %><tr><td><div class="fw-semibold"><%= item.title %></div></td><td><%= item.typeLabel %></td><td><%= item.visibilityLabel %></td><td><%= item.createdDisplay %></td><td class="text-end"><div class="d-flex justify-content-end gap-2 flex-wrap"><a href="/admin/children/<%= child.id %>/edit?update=<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a><form method="post" action="/admin/children/<%= child.id %>/updates/<%= item.id %>/archive" class="d-inline"><button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">Archive</button></form></div></td></tr><% }) %></tbody></table></div>
+    <% } %>
+  </div>
+</section>
+<% } %>

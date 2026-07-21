@@ -1,0 +1,23 @@
+<div class="modal fade" id="<%= id %>" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog <%= typeof size !== 'undefined' ? size : '' %> modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content admin-modal-shell">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <% if (typeof eyebrow !== 'undefined' && eyebrow) { %><div class="small text-uppercase text-muted fw-semibold"><%= eyebrow %></div><% } %>
+          <h2 class="h4 mb-0 mt-1"><%= title %></h2>
+          <% if (typeof description !== 'undefined' && description) { %><p class="text-muted mb-0 mt-2"><%= description %></p><% } %>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body <%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+        <%- body %>
+      </div>
+      <div class="modal-footer border-0 pt-0 <%= typeof footerClass !== 'undefined' ? footerClass : '' %>">
+        <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-bs-dismiss="modal"><%= typeof cancelLabel !== 'undefined' ? cancelLabel : 'Close' %></button>
+        <% if (typeof confirmLabel !== 'undefined' && confirmLabel) { %>
+          <button type="button" class="<%= typeof confirmClass !== 'undefined' ? confirmClass : 'btn btn-sunrise' %> rounded-pill px-4"><%= confirmLabel %></button>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

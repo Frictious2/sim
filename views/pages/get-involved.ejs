@@ -1,0 +1,206 @@
+<%- include('../partials/page-banner', {
+  eyebrow: 'Get Involved',
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'There are many meaningful ways to join what God is doing through Salone Interior Missions.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Whether you give, pray, volunteer, partner as a church, or invite the ministry to speak, this page is designed to help you find your next step with clarity and confidence.'
+}) %>
+
+<section class="section-pad pt-0 bg-white get-involved-intro-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-7">
+        <span class="eyebrow text-dark">Take action</span>
+        <h2 class="section-title text-dark mt-3">Join the mission in a way that fits your calling, capacity, and community.</h2>
+        <% if (pageRecord && pageRecord.body) { %>
+          <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+        <% } else { %>
+          <p class="text-muted">Salone Interior Missions grows through people who respond with generosity, prayer, service, partnership, and advocacy. Some choose to give. Others sponsor a child, volunteer skills and time, mobilize a church, or invite the ministry to share the story. Each step matters.</p>
+        <% } %>
+        <p class="text-muted mb-0">This page brings those opportunities together so visitors can move from inspiration into practical engagement with confidence and joy.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card bg-sand h-100">
+          <h3 class="h5">Ways people commonly engage</h3>
+          <ul class="check-list mt-3 mb-0">
+            <li>Financial support for mission priorities</li>
+            <li>Child sponsorship and prayer</li>
+            <li>Volunteer interest and field support</li>
+            <li>Church partnerships and ministry invitations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream engagement-options-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Engagement options</span>
+      <h2 class="section-title text-dark mt-3">Choose a way to participate in the mission.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-heart-fill"></i></div>
+          <h3 class="h5 mt-4">Donate</h3>
+          <p class="text-muted">Give toward outreach, discipleship, child support, leadership training, and practical community care.</p>
+          <a href="/donate" class="btn btn-outline-dark rounded-pill btn-sm">Give Now</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-people-fill"></i></div>
+          <h3 class="h5 mt-4">Sponsor a Child</h3>
+          <p class="text-muted">Support a child with dignity through education-related help, care encouragement, and prayerful partnership.</p>
+          <a href="/sponsor" class="btn btn-outline-dark rounded-pill btn-sm">Explore Sponsorship</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-hand-thumbs-up"></i></div>
+          <h3 class="h5 mt-4">Volunteer</h3>
+          <p class="text-muted">Offer time, practical skills, encouragement, or ministry service as future volunteer pathways become available.</p>
+          <a href="#volunteer-interest" class="btn btn-outline-dark rounded-pill btn-sm">Show Interest</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-stars"></i></div>
+          <h3 class="h5 mt-4">Become a Prayer Partner</h3>
+          <p class="text-muted">Stand with the ministry through regular intercession for communities, leaders, families, and Gospel witness.</p>
+          <a href="#prayer-partner" class="btn btn-outline-dark rounded-pill btn-sm">Pray With Us</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-building"></i></div>
+          <h3 class="h5 mt-4">Partner as a Church</h3>
+          <p class="text-muted">Mobilize your church through prayer, giving, sponsorship, advocacy, and long-term mission friendship.</p>
+          <a href="#church-partnership" class="btn btn-outline-dark rounded-pill btn-sm">Partner as a Church</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="engagement-card h-100">
+          <div class="icon-badge"><i class="bi bi-mic-fill"></i></div>
+          <h3 class="h5 mt-4">Invite SIM to Speak</h3>
+          <p class="text-muted">Invite the ministry to share stories, mission updates, and partnership opportunities with your church or event.</p>
+          <a href="/contact" class="btn btn-outline-dark rounded-pill btn-sm">Request a Visit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="volunteer-interest" class="section-pad bg-white volunteer-interest-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5">
+        <span class="eyebrow text-dark">Volunteer interest</span>
+        <h2 class="section-title text-dark mt-3">Let us know how you would like to serve.</h2>
+        <p class="text-muted">Use this form to begin a real volunteer conversation with the ministry team. SIM staff can review your interest, track status updates, and follow up through the admin workspace.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="content-card bg-sand">
+          <form class="row g-3" method="post" action="/volunteer/apply">
+            <div class="col-md-6"><input class="form-control" name="fullName" value="<%= formData.fullName || (currentUser ? currentUser.name : '') %>" placeholder="Full name" required></div>
+            <div class="col-md-6"><input class="form-control" type="email" name="email" value="<%= formData.email || (currentUser ? currentUser.email : '') %>" placeholder="Email address" required></div>
+            <div class="col-md-6"><input class="form-control" name="phone" value="<%= formData.phone || '' %>" placeholder="Phone number"></div>
+            <div class="col-md-6"><input class="form-control" name="location" value="<%= formData.location || '' %>" placeholder="Location"></div>
+            <div class="col-md-6">
+              <select class="form-select" name="areaOfInterest" required>
+                <option value="">Select an area of interest</option>
+                <option value="prayer" <%= formData.areaOfInterest === 'prayer' ? 'selected' : '' %>>Prayer support</option>
+                <option value="administration" <%= formData.areaOfInterest === 'administration' ? 'selected' : '' %>>Administrative help</option>
+                <option value="training" <%= formData.areaOfInterest === 'training' ? 'selected' : '' %>>Training support</option>
+                <option value="field_outreach" <%= formData.areaOfInterest === 'field_outreach' ? 'selected' : '' %>>Field outreach</option>
+                <option value="media" <%= formData.areaOfInterest === 'media' ? 'selected' : '' %>>Media and storytelling</option>
+                <option value="children_ministry" <%= formData.areaOfInterest === 'children_ministry' ? 'selected' : '' %>>Children's ministry</option>
+                <option value="other" <%= formData.areaOfInterest === 'other' ? 'selected' : '' %>>Other</option>
+              </select>
+            </div>
+            <div class="col-md-6"><input class="form-control" name="availability" value="<%= formData.availability || '' %>" placeholder="Availability"></div>
+            <div class="col-12"><textarea class="form-control" name="experience" rows="4" placeholder="Relevant experience or training"><%= formData.experience || '' %></textarea></div>
+            <div class="col-12"><textarea class="form-control" name="motivation" rows="5" placeholder="Tell us how you would like to serve"><%= formData.motivation || '' %></textarea></div>
+            <div class="col-12"><button type="submit" class="btn btn-sunrise rounded-pill px-4">Submit Interest</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prayer-partner" class="section-pad bg-cream prayer-partner-section">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
+        <div class="content-card h-100">
+          <span class="eyebrow text-dark">Prayer partner signup</span>
+          <h2 class="section-title text-dark mt-3">Support the mission through faithful intercession.</h2>
+          <p class="text-muted">Prayer partners help carry the ministry spiritually by standing with communities, pastors, children, outreach teams, and partner churches before God. This signup now feeds a simple prayer-partner review desk for the SIM team.</p>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card bg-white h-100">
+          <form class="d-flex flex-column gap-3" method="post" action="/prayer-partner/signup">
+            <input class="form-control" name="name" value="<%= formData.name || (currentUser ? currentUser.name : '') %>" placeholder="Your name" required>
+            <input class="form-control" type="email" name="email" value="<%= formData.email || (currentUser ? currentUser.email : '') %>" placeholder="Email address" required>
+            <input class="form-control" name="phone" value="<%= formData.phone || '' %>" placeholder="Phone number">
+            <select class="form-select" name="prayerFocus">
+              <option value="general" <%= formData.prayerFocus === 'general' || !formData.prayerFocus ? 'selected' : '' %>>General mission focus</option>
+              <option value="mission_fields" <%= formData.prayerFocus === 'mission_fields' ? 'selected' : '' %>>Mission fields</option>
+              <option value="children" <%= formData.prayerFocus === 'children' ? 'selected' : '' %>>Children</option>
+              <option value="volunteers" <%= formData.prayerFocus === 'volunteers' ? 'selected' : '' %>>Volunteers</option>
+              <option value="church_planting" <%= formData.prayerFocus === 'church_planting' ? 'selected' : '' %>>Church planting</option>
+              <option value="community_support" <%= formData.prayerFocus === 'community_support' ? 'selected' : '' %>>Community support</option>
+            </select>
+            <select class="form-select" name="frequency" required>
+              <option value="">Prayer frequency</option>
+              <option value="daily" <%= formData.frequency === 'daily' ? 'selected' : '' %>>Daily</option>
+              <option value="weekly" <%= formData.frequency === 'weekly' ? 'selected' : '' %>>Weekly</option>
+              <option value="monthly" <%= formData.frequency === 'monthly' ? 'selected' : '' %>>Monthly</option>
+            </select>
+            <button type="submit" class="btn btn-sunrise rounded-pill">Become a Prayer Partner</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="church-partnership" class="section-pad bg-white church-partnership-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6 order-2 order-lg-1">
+        <span class="eyebrow text-dark">Church partnership</span>
+        <h2 class="section-title text-dark mt-3">Mobilize your church to pray, give, learn, and serve alongside the mission.</h2>
+        <p class="text-muted">Churches can partner with Salone Interior Missions in meaningful ways: by praying regularly for the field, supporting mission priorities financially, sponsoring children, hosting mission updates, or building long-term relationships around shared ministry vision.</p>
+        <div class="row g-3 mt-2">
+          <div class="col-sm-6"><div class="partner-point"><strong>Mission Sundays</strong><span>Host a service or gathering focused on stories, needs, and partnership opportunities.</span></div></div>
+          <div class="col-sm-6"><div class="partner-point"><strong>Prayer mobilization</strong><span>Join with intercession for leaders, communities, and ministry progress.</span></div></div>
+          <div class="col-sm-6"><div class="partner-point"><strong>Project support</strong><span>Adopt a field priority, child sponsorship goal, or community initiative.</span></div></div>
+          <div class="col-sm-6"><div class="partner-point"><strong>Shared witness</strong><span>Help your church connect global mission to faithful local discipleship.</span></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2">
+        <div class="image-stack-card">
+          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80" alt="Church partnership and mission gathering" class="img-fluid rounded-5 get-involved-image">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Join the mission</span>
+        <h2 class="section-title mt-3 text-white">Take your next step today through giving, prayer, service, partnership, or invitation.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/donate" class="btn btn-light rounded-pill px-4">Donate Now</a>
+        <a href="/contact" class="btn btn-outline-light rounded-pill px-4">Contact SIM</a>
+      </div>
+    </div>
+  </div>
+</section>

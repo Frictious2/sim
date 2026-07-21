@@ -2,18 +2,43 @@
 <html lang="en">
 <%- include('../partials/head') %>
 <body class="dashboard-body admin-body">
-  <div class="dashboard-shell d-lg-flex">
+  <div class="dashboard-shell admin-shell d-lg-flex">
     <aside class="dashboard-sidebar admin-sidebar"><%- include('../partials/admin-sidebar') %></aside>
-    <main class="dashboard-main flex-grow-1">
-      <div class="dashboard-topbar d-flex justify-content-between align-items-center gap-3">
-        <div>
-          <h1 class="h3 mb-1"><%= title %></h1>
-          <p class="text-muted mb-0">Static admin interface for layout and content presentation.</p>
+    <main class="dashboard-main admin-main flex-grow-1">
+      <%- include('../partials/flash') %>
+      <header class="admin-topbar">
+        <div class="admin-topbar-copy">
+          <div class="small text-uppercase text-muted fw-semibold">Staff workspace</div>
+          <h1 class="admin-page-title mb-1"><%= title %></h1>
+          <p class="text-muted mb-0">A focused CMS workspace for ministry operations, communication, and stewardship.</p>
         </div>
-      </div>
+        <div class="admin-topbar-actions">
+          <div class="admin-search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control" placeholder="Search donors, content, or records">
+          </div>
+          <button class="btn admin-quick-action" type="button">Need Review <span class="badge rounded-pill text-bg-warning ms-2">12</span></button>
+          <div class="dropdown">
+            <button class="btn admin-profile-trigger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="avatar-circle small-avatar"><%= content.adminProfile.name.charAt(0) %></span>
+              <span class="text-start">
+                <strong><%= content.adminProfile.name %></strong>
+                <small class="d-block text-muted"><%= content.adminProfile.role %></small>
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-4">
+              <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+              <li><a class="dropdown-item" href="/dashboard">View user dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/">Back to website</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
       <%- body %>
     </main>
   </div>
   <%- include('../partials/scripts') %>
+  <script src="/js/admin-ui.js"></script>
 </body>
 </html>

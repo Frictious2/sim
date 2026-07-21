@@ -1,0 +1,65 @@
+<section class="auth-page-shell">
+  <div class="container py-5">
+    <div class="auth-split-card overflow-hidden">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-lg-5">
+          <div class="auth-brand-panel h-100">
+            <span class="eyebrow">Welcome back</span>
+            <h1 class="display-5 fw-bold mt-3">Stay close to the mission through prayer, giving, and partnership.</h1>
+            <p class="lead text-white-50 mt-4">Log in to access your supporter dashboard, follow your giving journey, and stay connected to the story of what God is doing through Salone Interior Missions.</p>
+            <div class="auth-brand-points mt-4">
+              <div class="auth-brand-point">View your giving and sponsorship activity</div>
+              <div class="auth-brand-point">Stay connected to ministry updates</div>
+              <div class="auth-brand-point">Manage your profile and partnership journey</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="auth-form-panel">
+            <div class="auth-form-wrap mx-auto">
+              <div class="small text-uppercase text-muted fw-semibold">Login</div>
+              <h2 class="section-title text-dark mt-3">Access your account</h2>
+              <p class="text-muted">Sign in to access your supporter dashboard and stay connected to the mission.</p>
+
+              <% if (typeof adminSeedHint !== 'undefined' && adminSeedHint) { %>
+                <div class="alert alert-warning rounded-4 border-0 shadow-sm mt-3 mb-0">
+                  No admin account appears to exist yet. After importing the schema, run <code>node scripts/seed-admin.js</code>.
+                </div>
+              <% } %>
+
+              <div class="d-grid gap-2 mt-4">
+                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-google me-2"></i>Continue with Google</button>
+                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-facebook me-2"></i>Continue with Facebook</button>
+              </div>
+
+              <div class="auth-divider my-4"><span>or sign in with email</span></div>
+
+              <form class="row g-3" action="/login" method="post" novalidate>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Email address</label>
+                  <input class="form-control" type="email" name="email" placeholder="you@example.com" value="<%= formData && formData.email ? formData.email : '' %>" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Password</label>
+                  <input class="form-control" type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="col-12 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+                  <div class="form-check m-0">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                  </div>
+                  <a href="#" class="auth-link">Forgot password?</a>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-sunrise rounded-pill w-100 py-3">Log In</button>
+                </div>
+              </form>
+
+              <p class="text-muted mt-4 mb-0">New to the platform? <a href="/register" class="auth-link fw-semibold">Create an account</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

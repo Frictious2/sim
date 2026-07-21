@@ -1,0 +1,63 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="content-card admin-panel-card admin-form-card">
+        <div class="admin-panel-head">
+          <div>
+            <h2 class="admin-panel-title mb-1">Edit Email Template</h2>
+            <p class="text-muted mb-0">Use placeholders like <code>{{name}}</code>, <code>{{amount}}</code>, <code>{{receipt_number}}</code>, <code>{{message}}</code>, and <code>{{admin_link}}</code>.</p>
+          </div>
+        </div>
+
+        <form action="/admin/email-templates/<%= template.id %>" method="post" class="row g-3 mt-1">
+          <div class="col-12">
+            <label class="form-label fw-semibold">Template name</label>
+            <input class="form-control" value="<%= template.name %>" disabled>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Template key</label>
+            <input class="form-control" value="<%= template.template_key %>" disabled>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Subject <span class="text-danger">*</span></label>
+            <input class="form-control" name="subject" value="<%= template.subject %>">
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">HTML body <span class="text-danger">*</span></label>
+            <textarea class="form-control" name="htmlBody" rows="10"><%= template.html_body %></textarea>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold">Text body</label>
+            <textarea class="form-control" name="textBody" rows="6"><%= template.text_body || '' %></textarea>
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="emailTemplateActive" name="isActive" <%= template.is_active ? 'checked' : '' %>>
+              <label class="form-check-label" for="emailTemplateActive">Template is active</label>
+            </div>
+          </div>
+          <div class="col-12 d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Template</button>
+            <a href="/admin/email-templates" class="btn btn-outline-dark rounded-pill px-4">Back to Templates</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="content-card admin-panel-card">
+        <div class="small text-uppercase text-muted fw-semibold">Preview</div>
+        <h3 class="h5 mt-2 mb-3"><%= preview.subject %></h3>
+        <div class="email-preview-surface">
+          <%- preview.html %>
+        </div>
+        <% if (preview.text) { %>
+          <div class="mt-3">
+            <div class="small text-uppercase text-muted fw-semibold mb-2">Plain text</div>
+            <pre class="email-preview-text mb-0"><%= preview.text %></pre>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>

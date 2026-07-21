@@ -1,11 +1,167 @@
 <section class="dashboard-section">
-  <div class="row g-4 mb-4">
-    <% content.userStats.forEach((item) => { %>
-      <div class="col-md-4"><%- include('../partials/dashboard-widget', { item }) %></div>
-    <% }) %>
+  <div class="dashboard-welcome-card mb-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-8">
+        <span class="eyebrow text-dark">Welcome back</span>
+        <h2 class="section-title text-dark mt-3 mb-3">Hello, <%= currentUser ? currentUser.name.split(' ')[0] : 'Friend' %>. Your partnership is helping the mission stay steady, prayerful, and close to the communities we serve.</h2>
+        <p class="text-muted mb-0">This dashboard keeps your giving, sponsorship interest, volunteer applications, and prayer engagement in one simple place.</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="dashboard-spotlight-card">
+          <div class="small text-uppercase text-muted fw-semibold">Prayer partner status</div>
+          <div class="h4 mt-2 mb-2"><%= prayerPartner ? prayerPartner.statusLabel : 'Not signed up yet' %></div>
+          <p class="text-muted mb-0"><%= prayerPartner ? prayerPartner.statusMeta.description : 'Join the prayer partner list to receive focused ministry prayer points from SIM.' %></p>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="dashboard-actions-bar content-card mb-4">
+    <div class="row g-3 align-items-center">
+      <div class="col-lg-5">
+        <h3 class="h5 mb-1">Quick actions</h3>
+        <p class="text-muted mb-0">Take the next step in giving, sponsorship, serving, or prayer.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+          <% quickActions.forEach((action) => { %>
+            <a href="<%= action.href %>" class="btn <%= action.style %> rounded-pill px-4"><%= action.label %></a>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-xl-3"><%- include('../partials/dashboard-widget', { item: { value: engagementSummary.totalDonationAmount, label: 'Total donated', icon: 'bi bi-wallet2' } }) %></div>
+    <div class="col-sm-6 col-xl-3"><%- include('../partials/dashboard-widget', { item: { value: String(engagementSummary.pendingDonations), label: 'Pending donations', icon: 'bi bi-hourglass-split' } }) %></div>
+    <div class="col-sm-6 col-xl-3"><%- include('../partials/dashboard-widget', { item: { value: String(engagementSummary.verifiedDonations), label: 'Verified donations', icon: 'bi bi-patch-check' } }) %></div>
+    <div class="col-sm-6 col-xl-3"><%- include('../partials/dashboard-widget', { item: { value: String(engagementSummary.activeSponsorships), label: 'Active sponsorship interests', icon: 'bi bi-people' } }) %></div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-lg-4">
+      <div class="content-card h-100">
+        <h3 class="h5 mb-3">Volunteer summary</h3>
+        <div class="mini-stat-row"><span>Total applications</span><strong><%= engagementSummary.applicationCount %></strong></div>
+        <div class="mini-stat-row"><span>Under review</span><strong><%= engagementSummary.reviewingApplications %></strong></div>
+        <div class="mini-stat-row"><span>Approved</span><strong><%= engagementSummary.approvedApplications %></strong></div>
+        <div class="mini-stat-row"><span>Prayer partner</span><strong><%= prayerPartner ? prayerPartner.frequencyLabel : 'Not yet signed up' %></strong></div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="content-card h-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h3 class="h5 mb-1">Recent donations</h3>
+            <p class="text-muted mb-0">Your latest giving activity and current review status.</p>
+          </div>
+          <a href="/dashboard/donations" class="btn btn-outline-dark rounded-pill btn-sm">View all donations</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle dashboard-table mb-0">
+            <thead>
+              <tr><th>Date</th><th>Designation</th><th>Type</th><th>Amount</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              <% if (recentDonations && recentDonations.length) { %>
+                <% recentDonations.forEach((item) => { %>
+                  <tr>
+                    <td><%= item.dateDisplay %></td>
+                    <td><%= item.designationLabel %></td>
+                    <td><%= item.donationTypeLabel %></td>
+                    <td><strong><%= item.amountDisplay %></strong></td>
+                    <td><span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span></td>
+                    <td><a href="/dashboard/donations/<%= item.id %>" class="btn btn-outline-dark rounded-pill btn-sm">View</a></td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="6">
+                    <div class="admin-empty-state py-4">
+                      <div class="empty-state-icon"><i class="bi bi-wallet2"></i></div>
+                      <h3 class="h5 mb-2">No donations yet</h3>
+                      <p class="text-muted mb-3">Once you submit a donation record, it will appear here with its current review status.</p>
+                      <a href="/donate" class="btn btn-sunrise rounded-pill">Make a Donation</a>
+                    </div>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row g-4">
-    <div class="col-xl-7"><div class="content-card h-100"><h2 class="h4">Recent donation activity</h2><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Date</th><th>Campaign</th><th>Amount</th><th>Status</th></tr></thead><tbody><% content.userDonations.forEach((item) => { %><tr><td><%= item.date %></td><td><%= item.campaign %></td><td><%= item.amount %></td><td><span class="badge text-bg-light"><%= item.status %></span></td></tr><% }) %></tbody></table></div></div></div>
-    <div class="col-xl-5"><div class="content-card h-100"><h2 class="h4">Active sponsorships</h2><% content.userSponsorships.forEach((item) => { %><div class="list-item-row"><div><div class="fw-semibold"><%= item.type %></div><small class="text-muted"><%= item.target %> • <%= item.date %></small></div><span class="badge text-bg-success-subtle text-success"><%= item.status %></span></div><% }) %></div></div>
+    <div class="col-xl-5">
+      <div class="content-card h-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h3 class="h5 mb-1">Sponsorship interests</h3>
+            <p class="text-muted mb-0">See the sponsorship conversations you currently have open.</p>
+          </div>
+          <a href="/dashboard/sponsorships" class="btn btn-outline-dark rounded-pill btn-sm">View all</a>
+        </div>
+        <% if (recentSponsorships && recentSponsorships.length) { %>
+          <div class="d-grid gap-3">
+            <% recentSponsorships.forEach((item) => { %>
+              <div class="portal-summary-card">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <div class="small text-uppercase text-muted fw-semibold"><%= item.typeLabel %></div>
+                    <div class="fw-semibold"><%= item.planLabel %></div>
+                    <div class="small text-muted"><%= item.amountDisplay %></div>
+                  </div>
+                  <span class="badge <%= item.statusMeta.badgeClass %>"><%= item.statusLabel %></span>
+                </div>
+                <p class="text-muted small mb-0 mt-2"><%= item.nextStep %></p>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="admin-empty-state py-4">
+            <div class="empty-state-icon"><i class="bi bi-people"></i></div>
+            <h3 class="h5 mb-2">No sponsorship interests yet</h3>
+            <p class="text-muted mb-3">Share the type of sponsorship support you are interested in, and the SIM team will follow up.</p>
+            <a href="/sponsor" class="btn btn-sunrise rounded-pill">Explore Sponsorship</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="col-xl-7">
+      <div class="content-card h-100 latest-update-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div>
+            <h3 class="h5 mb-1">Latest SIM updates</h3>
+            <p class="text-muted mb-0">Recent stories and ministry updates from the field.</p>
+          </div>
+          <a href="/blog" class="btn btn-outline-dark rounded-pill btn-sm">Visit the blog</a>
+        </div>
+        <% if (latestUpdates && latestUpdates.length) { %>
+          <div class="d-grid gap-3">
+            <% latestUpdates.forEach((item) => { %>
+              <article class="portal-summary-card">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                  <span class="badge text-bg-warning-subtle text-dark rounded-pill"><%= item.category %></span>
+                  <small class="text-muted"><%= item.dateDisplay %></small>
+                </div>
+                <h4 class="h6 mb-2"><%= item.title %></h4>
+                <p class="text-muted mb-3"><%= item.excerpt || 'Read the latest ministry story and field report from SIM.' %></p>
+                <a href="<%= item.href %>" class="btn btn-outline-dark rounded-pill btn-sm">Read update</a>
+              </article>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="admin-empty-state py-4">
+            <div class="empty-state-icon"><i class="bi bi-journal-richtext"></i></div>
+            <h3 class="h5 mb-2">No updates yet</h3>
+            <p class="text-muted mb-0">Published SIM updates will appear here as soon as the communications team posts them.</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
   </div>
 </section>

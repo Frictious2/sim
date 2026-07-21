@@ -1,0 +1,68 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Children registry</h2>
+        <p class="text-muted mb-0">Manage child sponsorship profiles, protected details, and sponsor-facing updates.</p>
+      </div>
+      <a href="/admin/children/create" class="btn btn-sunrise rounded-pill">Create Child Profile</a>
+    </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/children">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search code, name, community, or district">
+      <select class="form-select" name="status">
+        <option value="">All statuses</option>
+        <% childStatuses.forEach((status) => { %>
+          <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="community">
+        <option value="">All communities</option>
+        <% communities.forEach((community) => { %>
+          <option value="<%= community %>" <%= filters.community === community ? 'selected' : '' %>><%= community %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/children" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
+
+    <% if (children.length) { %>
+      <div class="table-responsive mt-3">
+        <table class="table admin-table align-middle mb-0">
+          <thead><tr><th>Code</th><th>Child</th><th>Community</th><th>Status</th><th>Created</th><th class="text-end">Actions</th></tr></thead>
+          <tbody>
+            <% children.forEach((item) => { %>
+              <tr>
+                <td><span class="fw-semibold"><%= item.child_code %></span></td>
+                <td>
+                  <div class="fw-semibold"><%= item.first_name %> <%= item.last_name || '' %></div>
+                  <small class="text-muted d-block"><%= item.gender %><%= item.age ? ` • Age ${item.age}` : '' %></small>
+                </td>
+                <td><%= item.community %><% if (item.district) { %><small class="text-muted d-block"><%= item.district %></small><% } %></td>
+                <td><span class="badge <%= item.statusBadgeClass %>"><%= item.statusLabel %></span></td>
+                <td><%= item.createdDisplay %></td>
+                <td class="text-end">
+                  <div class="d-flex justify-content-end gap-2 flex-wrap">
+                    <a href="/admin/children/<%= item.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                    <form method="post" action="/admin/children/<%= item.id %>/archive" class="d-inline">
+                      <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">Archive</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="admin-empty-state mt-3">
+        <div class="empty-state-icon"><i class="bi bi-person-hearts"></i></div>
+        <h3 class="h5 mb-2">No child profiles yet</h3>
+        <p class="text-muted mb-3">Create protected child profiles here before assigning sponsors.</p>
+        <a href="/admin/children/create" class="btn btn-sunrise rounded-pill">Create Child Profile</a>
+      </div>
+    <% } %>
+
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  </div>
+</section>

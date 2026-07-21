@@ -1,34 +1,241 @@
-<%- include('../partials/page-banner', { eyebrow: 'Donate', heading: 'Give with warmth, clarity, and confidence.', description: 'The donation UI emphasizes trust and stewardship while staying intentionally static for this phase.' }) %>
-<section class="section-pad pt-0 bg-cream">
+<%- include('../partials/page-banner', {
+  eyebrow: 'Donate',
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'Give with confidence to support Gospel witness, practical compassion, and long-term community transformation.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'This donation experience is designed to feel simple, trustworthy, and ready for future payment integration while clearly guiding supporters toward meaningful giving.'
+}) %>
+
+<section class="section-pad pt-0 bg-white donate-why-section">
   <div class="container">
-    <div class="row g-4 mb-4">
-      <% content.donationLevels.forEach((level) => { %>
-        <div class="col-md-6 col-lg-3">
-          <div class="content-card text-center h-100">
-            <div class="display-6 fw-bold"><%= level.amount %></div>
-            <p class="text-muted mb-0"><%= level.label %></p>
-          </div>
-        </div>
-      <% }) %>
-    </div>
-    <div class="content-card bg-white">
-      <div class="row g-4 align-items-center">
-        <div class="col-lg-5">
-          <h3 class="h4">Donation form</h3>
-          <p class="text-muted mb-0">Prepared for future payment integration while already delivering a credible donor-facing experience.</p>
-        </div>
-        <div class="col-lg-7">
-          <form class="row g-3">
-            <div class="col-md-6"><input class="form-control" placeholder="Donor name"></div>
-            <div class="col-md-6"><input class="form-control" type="email" placeholder="Donor email"></div>
-            <div class="col-md-4"><input class="form-control" placeholder="Amount"></div>
-            <div class="col-md-4"><select class="form-select"><option>One-time</option><option>Monthly</option><option>Quarterly</option></select></div>
-            <div class="col-md-4"><input class="form-control" placeholder="Campaign"></div>
-            <div class="col-12"><button type="button" class="btn btn-sunrise rounded-pill px-4">Give to the Mission</button></div>
-          </form>
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <span class="eyebrow text-dark">Why give</span>
+        <h2 class="section-title text-dark mt-3">Your generosity helps carry the Gospel and strengthen communities in practical ways.</h2>
+        <% if (pageRecord && pageRecord.body) { %>
+          <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+        <% } else { %>
+          <p class="text-muted">Every gift helps Salone Interior Missions serve interior communities through evangelism, discipleship, child support, church strengthening, leadership development, and compassionate care. Giving is not only a transaction. It is a partnership in prayerful, faithful ministry.</p>
+        <% } %>
+        <p class="text-muted mb-0">This page is built to prepare for future payment integration while already offering a donor experience that feels clear, calm, and trustworthy.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="content-card bg-sand h-100">
+          <h3 class="h5">What giving supports</h3>
+          <ul class="check-list mt-3 mb-0">
+            <li>Village outreach and Gospel witness</li>
+            <li>Child support and education-related care</li>
+            <li>Pastor encouragement and leadership training</li>
+            <li>Church planting and community strengthening</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </section>
-<%- include('../partials/newsletter-section', { newsletter: content.newsletter }) %>
+
+<section class="section-pad bg-cream giving-interface-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-7">
+        <div class="donation-interface-card h-100">
+          <div class="mb-4">
+            <span class="eyebrow text-dark">Donation options</span>
+            <h2 class="section-title text-dark mt-3">Choose how you would like to give.</h2>
+          </div>
+          <form class="row g-3" method="post" action="/donate" enctype="multipart/form-data">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Giving frequency</label>
+              <select class="form-select" name="donationType" required>
+                <option value="one_time" <%= formData.donationType === 'one_time' || !formData.donationType ? 'selected' : '' %>>One-time</option>
+                <option value="monthly" <%= formData.donationType === 'monthly' ? 'selected' : '' %>>Monthly</option>
+                <option value="quarterly" <%= formData.donationType === 'quarterly' ? 'selected' : '' %>>Quarterly</option>
+                <option value="annual" <%= formData.donationType === 'annual' ? 'selected' : '' %>>Annual</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Preset amounts</label>
+              <div class="row g-3">
+                <% ['25', '50', '100', '250'].forEach((preset) => { %>
+                  <div class="col-6 col-md-3">
+                    <button type="button" class="amount-option w-100" data-donation-amount="<%= preset %>">NLe <%= preset %></button>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Amount</label>
+              <div class="input-group custom-amount-group">
+                <span class="input-group-text">NLe</span>
+                <input class="form-control" name="amount" value="<%= formData.amount || '' %>" placeholder="Enter amount" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Designation</label>
+              <select class="form-select" name="designation" required>
+                <option value="general_mission" <%= formData.designation === 'general_mission' || !formData.designation ? 'selected' : '' %>>General mission support</option>
+                <option value="child_sponsorship" <%= formData.designation === 'child_sponsorship' ? 'selected' : '' %>>Child sponsorship</option>
+                <option value="outreach" <%= formData.designation === 'outreach' ? 'selected' : '' %>>Outreach programs</option>
+                <option value="church_planting" <%= formData.designation === 'church_planting' ? 'selected' : '' %>>Church planting</option>
+                <option value="community_support" <%= formData.designation === 'community_support' ? 'selected' : '' %>>Community support</option>
+                <option value="other" <%= formData.designation === 'other' ? 'selected' : '' %>>Other</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Full name</label>
+              <input class="form-control" name="donorName" value="<%= formData.donorName || (currentUser ? currentUser.name : '') %>" placeholder="Your full name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Email address</label>
+              <input class="form-control" type="email" name="donorEmail" value="<%= formData.donorEmail || (currentUser ? currentUser.email : '') %>" placeholder="Email address" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Phone number</label>
+              <input class="form-control" name="donorPhone" value="<%= formData.donorPhone || '' %>" placeholder="Phone number">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Payment method</label>
+              <select class="form-select" name="paymentMethod" required>
+                <option value="mobile_money" <%= formData.paymentMethod === 'mobile_money' || !formData.paymentMethod ? 'selected' : '' %>>Mobile money</option>
+                <option value="bank_transfer" <%= formData.paymentMethod === 'bank_transfer' ? 'selected' : '' %>>Bank transfer</option>
+                <option value="cash" <%= formData.paymentMethod === 'cash' ? 'selected' : '' %>>Cash</option>
+                <option value="other" <%= formData.paymentMethod === 'other' ? 'selected' : '' %>>Other</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Payment reference</label>
+              <input class="form-control" name="paymentReference" value="<%= formData.paymentReference || '' %>" placeholder="Transaction or receipt reference">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Proof upload</label>
+              <input class="form-control" type="file" name="proofFile" accept=".jpg,.jpeg,.png,.webp,.pdf">
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Optional note or prayer request</label>
+              <textarea class="form-control" name="message" rows="4" placeholder="Share a note for the team"><%= formData.message || '' %></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-sunrise rounded-pill px-4">Submit Donation Record</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="giving-summary-card mb-4">
+          <div class="small text-uppercase text-muted fw-semibold">Giving summary</div>
+          <div class="display-5 fw-bold mt-2">$50</div>
+          <p class="text-muted mt-3 mb-0">One-time gift toward <strong>General mission support</strong></p>
+        </div>
+
+        <div class="giving-summary-card">
+          <div class="small text-uppercase text-muted fw-semibold">What this could help support</div>
+          <div class="impact-preview-list mt-3">
+            <div class="impact-preview-item"><strong>Outreach visits</strong><span>Help resource village evangelism and follow-up discipleship.</span></div>
+            <div class="impact-preview-item"><strong>Childrens care support</strong><span>Assist with education-related and practical needs.</span></div>
+            <div class="impact-preview-item"><strong>Leadership encouragement</strong><span>Strengthen pastor and ministry worker training gatherings.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white trust-indicators-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Trust indicators</span>
+      <h2 class="section-title text-dark mt-3">A giving experience designed to feel transparent and reassuring.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-3">
+        <div class="trust-signal-card h-100">
+          <div class="icon-badge"><i class="bi bi-shield-lock"></i></div>
+          <h3 class="h5 mt-4">Prepared for secure giving</h3>
+          <p class="text-muted mb-0">The layout is structured to support future secure payment integration and a calm donor flow.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="trust-signal-card h-100">
+          <div class="icon-badge"><i class="bi bi-eye"></i></div>
+          <h3 class="h5 mt-4">Clear designations</h3>
+          <p class="text-muted mb-0">Donors can see where support is intended to go across ministry and community priorities.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="trust-signal-card h-100">
+          <div class="icon-badge"><i class="bi bi-people"></i></div>
+          <h3 class="h5 mt-4">Local partnership model</h3>
+          <p class="text-muted mb-0">Support is connected to trusted field relationships, local leaders, and community-based ministry work.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="trust-signal-card h-100">
+          <div class="icon-badge"><i class="bi bi-chat-heart"></i></div>
+          <h3 class="h5 mt-4">Story-led stewardship</h3>
+          <p class="text-muted mb-0">Future donor communication can naturally connect giving with field stories, updates, and prayer needs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream donate-faq-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Giving FAQ</span>
+      <h2 class="section-title text-dark mt-3">Answers to common donor questions.</h2>
+    </div>
+    <div class="accordion accordion-flush faq-accordion" id="donateFaq">
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#donateFaqOne">Can I choose where my gift goes?</button>
+        </h2>
+        <div id="donateFaqOne" class="accordion-collapse collapse show" data-bs-parent="#donateFaq">
+          <div class="accordion-body text-muted">Yes. This UI prepares for designated giving options such as general mission support, child sponsorship, outreach programs, church planting, and community support.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#donateFaqTwo">Will recurring giving be supported later?</button>
+        </h2>
+        <div id="donateFaqTwo" class="accordion-collapse collapse" data-bs-parent="#donateFaq">
+          <div class="accordion-body text-muted">Yes. The interface already includes one-time, monthly, and quarterly paths so future payment integration can build on this structure.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#donateFaqThree">Why does the page include donor details before payment?</button>
+        </h2>
+        <div id="donateFaqThree" class="accordion-collapse collapse" data-bs-parent="#donateFaq">
+          <div class="accordion-body text-muted">The page is designed to feel ready for a real giving flow, which typically includes donor details, designations, and clear summary information before payment processing.</div>
+        </div>
+      </div>
+      <div class="accordion-item faq-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#donateFaqFour">Is this donation page functional yet?</button>
+        </h2>
+        <div id="donateFaqFour" class="accordion-collapse collapse" data-bs-parent="#donateFaq">
+          <div class="accordion-body text-muted">Yes, in a simple manual-review form. Donors can submit their details, payment reference, and proof file now while future direct payment options are still being prepared.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section final-give-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Give with encouragement</span>
+        <h2 class="section-title mt-3 text-white">Your generosity can help sustain witness, strengthen churches, support children, and bring practical hope to communities.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/get-involved" class="btn btn-light rounded-pill px-4">See Other Ways to Help</a>
+        <a href="/contact" class="btn btn-outline-light rounded-pill px-4">Ask a Giving Question</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,20 +1,162 @@
-<%- include('../partials/page-banner', { eyebrow: 'Contact', heading: 'Reach out about prayer, partnership, or volunteering.', description: 'A welcoming contact page designed to feel personal, trustworthy, and easy to engage.' }) %>
-<section class="section-pad pt-0 bg-white">
+﻿<%- include('../partials/page-banner', {
+  eyebrow: 'Contact',
+  heading: 'We would love to hear from you about prayer, giving, partnership, or ministry questions.',
+  description: 'Whether you are a donor, church leader, volunteer, or first-time visitor, this page is designed to make reaching Salone Interior Missions clear and welcoming.'
+}) %>
+
+<section class="section-pad pt-0 bg-white contact-intro-section">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-lg-4">
-        <%- include('../partials/page-sidebar', { title: 'Connect Through', links: [{ label: 'Partnership enquiries', href: '/contact' }, { label: 'Support a project', href: '/projects' }, { label: 'Sponsor a child or program', href: '/sponsor' }, { label: 'Give to the mission', href: '/donate' }] }) %>
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <span class="eyebrow text-dark">Get in touch</span>
+        <h2 class="section-title text-dark mt-3">Simple ways to contact the ministry and find the right kind of help.</h2>
+        <p class="text-muted">Salone Interior Missions welcomes questions from supporters, churches, prayer partners, volunteers, and anyone seeking to learn more about the work. This page is built to help visitors quickly identify who to contact and how to begin the conversation.</p>
       </div>
-      <div class="col-lg-8">
-        <div class="content-card bg-sand">
-          <form class="row g-3">
-            <div class="col-md-6"><input class="form-control" placeholder="Your name"></div>
-            <div class="col-md-6"><input class="form-control" type="email" placeholder="Your email"></div>
-            <div class="col-12"><input class="form-control" placeholder="Subject"></div>
-            <div class="col-12"><textarea class="form-control" rows="6" placeholder="How can we help?"></textarea></div>
-            <div class="col-12"><button type="button" class="btn btn-sunrise rounded-pill px-4">Send Message</button></div>
+      <div class="col-lg-7">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="contact-info-card h-100">
+              <div class="icon-badge"><i class="bi bi-geo-alt"></i></div>
+              <h3 class="h5 mt-4">Address</h3>
+              <p class="text-muted mb-0">Salone Interior Missions Office<br>Mission Support Centre<br>Freetown, Sierra Leone</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="contact-info-card h-100">
+              <div class="icon-badge"><i class="bi bi-envelope"></i></div>
+              <h3 class="h5 mt-4">Email</h3>
+              <p class="text-muted mb-0">hello@saloneinteriormissions.org<br>support@saloneinteriormissions.org</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="contact-info-card h-100">
+              <div class="icon-badge"><i class="bi bi-telephone"></i></div>
+              <h3 class="h5 mt-4">Phone</h3>
+              <p class="text-muted mb-0">+232 70 000000<br>+232 76 000000</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="contact-info-card h-100">
+              <div class="icon-badge"><i class="bi bi-clock"></i></div>
+              <h3 class="h5 mt-4">Office Hours</h3>
+              <p class="text-muted mb-0">Monday to Friday<br>9:00 AM - 5:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-cream contact-form-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-7">
+        <div class="contact-form-card h-100">
+          <span class="eyebrow text-dark">Send a message</span>
+          <h2 class="section-title text-dark mt-3">Reach out with a question, story, or partnership enquiry.</h2>
+          <form class="row g-3 mt-2" action="/contact" method="post">
+            <div class="col-md-6"><input class="form-control" name="firstName" placeholder="First name" value="<%= formData && formData.firstName ? formData.firstName : '' %>"></div>
+            <div class="col-md-6"><input class="form-control" name="lastName" placeholder="Last name" value="<%= formData && formData.lastName ? formData.lastName : '' %>"></div>
+            <div class="col-md-6"><input class="form-control" type="email" name="email" placeholder="Email address" value="<%= formData && formData.email ? formData.email : '' %>"></div>
+            <div class="col-md-6"><input class="form-control" name="phone" placeholder="Phone number" value="<%= formData && formData.phone ? formData.phone : '' %>"></div>
+            <div class="col-md-6">
+              <select class="form-select" name="subject">
+                <option value="">Reason for contact</option>
+                <option value="Donation support" <%= formData && formData.subject === 'Donation support' ? 'selected' : '' %>>Donation support</option>
+                <option value="Partnership inquiry" <%= formData && formData.subject === 'Partnership inquiry' ? 'selected' : '' %>>Partnership inquiry</option>
+                <option value="Volunteer inquiry" <%= formData && formData.subject === 'Volunteer inquiry' ? 'selected' : '' %>>Volunteer inquiry</option>
+                <option value="Speaking invitation" <%= formData && formData.subject === 'Speaking invitation' ? 'selected' : '' %>>Speaking invitation</option>
+                <option value="General question" <%= formData && formData.subject === 'General question' ? 'selected' : '' %>>General question</option>
+              </select>
+            </div>
+            <div class="col-md-6"><input class="form-control" name="organization" placeholder="Organization or church (optional)" value="<%= formData && formData.organization ? formData.organization : '' %>"></div>
+            <div class="col-12"><textarea class="form-control" name="message" rows="6" placeholder="How can we help?"><%= formData && formData.message ? formData.message : '' %></textarea></div>
+            <div class="col-12"><button type="submit" class="btn btn-sunrise rounded-pill px-4">Send Message</button></div>
           </form>
         </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="map-placeholder-panel mb-4">
+          <div class="map-placeholder-inner">
+            <div class="map-pin-icon"><i class="bi bi-geo-alt-fill"></i></div>
+            <div class="map-placeholder-title">Map placeholder</div>
+            <div class="map-placeholder-copy">Future location embed for office or ministry contact point</div>
+          </div>
+        </div>
+
+        <div class="content-card bg-white">
+          <h3 class="h5 mb-3">Need help quickly?</h3>
+          <p class="text-muted mb-0">Use the quick help cards below to find the most relevant path for your question.</p>
+        </div>
+
+        <div id="prayer-request" class="content-card bg-white mt-4">
+          <h3 class="h5 mb-3">Share a prayer request</h3>
+          <p class="text-muted">If you would like the ministry team to pray with you, you can leave a request here.</p>
+          <form class="row g-3" method="post" action="/prayer-request">
+            <div class="col-12"><input class="form-control" name="name" value="<%= formData && formData.name ? formData.name : '' %>" placeholder="Your name (optional)"></div>
+            <div class="col-12"><input class="form-control" type="email" name="email" value="<%= formData && formData.email ? formData.email : '' %>" placeholder="Email address (optional)"></div>
+            <div class="col-12"><textarea class="form-control" name="requestText" rows="4" placeholder="How can we pray for you?"><%= formData && formData.requestText ? formData.requestText : '' %></textarea></div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="prayerRequestPublic" name="isPublic" <%= formData && (formData.isPublic === '1' || formData.isPublic === 'true' || formData.isPublic === true) ? 'checked' : '' %>>
+                <label class="form-check-label" for="prayerRequestPublic">This request may be shared with the prayer team</label>
+              </div>
+            </div>
+            <div class="col-12"><button type="submit" class="btn btn-outline-dark rounded-pill px-4">Submit Prayer Request</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad bg-white quick-help-section">
+  <div class="container">
+    <div class="section-intro text-center mb-5">
+      <span class="eyebrow text-dark">Quick help</span>
+      <h2 class="section-title text-dark mt-3">Start with the area that best matches your need.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-4">
+        <div class="help-card h-100">
+          <div class="icon-badge"><i class="bi bi-wallet2"></i></div>
+          <h3 class="h5 mt-4">Donation support</h3>
+          <p class="text-muted">Questions about giving, donation designations, or future payment support options.</p>
+          <a href="/donate" class="btn btn-outline-dark rounded-pill btn-sm">Go to Donate</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="help-card h-100">
+          <div class="icon-badge"><i class="bi bi-people-fill"></i></div>
+          <h3 class="h5 mt-4">Partnership inquiries</h3>
+          <p class="text-muted">Connect about ministry collaboration, sponsorship goals, or broader mission partnership.</p>
+          <a href="/get-involved" class="btn btn-outline-dark rounded-pill btn-sm">Explore Partnership</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <div class="help-card h-100">
+          <div class="icon-badge"><i class="bi bi-hand-thumbs-up"></i></div>
+          <h3 class="h5 mt-4">Volunteer inquiries</h3>
+          <p class="text-muted">Learn how future volunteer pathways can connect your skills, time, and interest to the ministry.</p>
+          <a href="/get-involved" class="btn btn-outline-dark rounded-pill btn-sm">Volunteer Interest</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad donation-cta-section">
+  <div class="container">
+    <div class="donation-cta d-lg-flex align-items-center justify-content-between gap-4">
+      <div>
+        <span class="eyebrow">Prayer note</span>
+        <h2 class="section-title mt-3 text-white">Thank you for caring enough to reach out. We count it a gift whenever people pray, ask questions, and walk closer to the mission.</h2>
+      </div>
+      <div class="d-flex flex-wrap gap-3 mt-4 mt-lg-0">
+        <a href="/get-involved" class="btn btn-light rounded-pill px-4">Get Involved</a>
+        <a href="/donate" class="btn btn-outline-light rounded-pill px-4">Support the Mission</a>
       </div>
     </div>
   </div>

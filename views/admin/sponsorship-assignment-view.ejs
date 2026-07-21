@@ -1,0 +1,56 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="row g-4">
+    <div class="col-xl-7">
+      <div class="content-card admin-panel-card">
+        <div class="admin-panel-head">
+          <div>
+            <h2 class="admin-panel-title mb-1">Sponsorship assignment details</h2>
+            <p class="text-muted mb-0">Review the sponsor, assignment target, and the latest public or sponsor-only updates.</p>
+          </div>
+          <a href="/admin/sponsorship-assignments" class="btn btn-outline-dark rounded-pill btn-sm">Back to Assignments</a>
+        </div>
+
+        <div class="admin-detail-stack mt-4">
+          <div class="admin-detail-card"><span>Sponsor</span><strong><%= assignment.sponsor_name || 'Unknown sponsor' %></strong></div>
+          <div class="admin-detail-card"><span>Assignment type</span><strong><%= assignment.assignmentTypeLabel %></strong></div>
+          <div class="admin-detail-card"><span>Target</span><strong><%= assignment.targetLabel || 'Target unavailable' %></strong></div>
+          <div class="admin-detail-card"><span>Status</span><strong><span class="badge <%= assignment.statusBadgeClass %>"><%= assignment.statusLabel %></span></strong></div>
+          <div class="admin-detail-card"><span>Assigned</span><strong><%= assignment.assignedDisplay %></strong></div>
+          <div class="admin-detail-card"><span>Assigned by</span><strong><%= assignment.assigned_by_name || 'System' %></strong></div>
+        </div>
+
+        <% if (assignment.notes) { %>
+          <div class="content-card mt-4"><h3 class="h5 mb-3">Assignment notes</h3><p class="text-muted mb-0"><%= assignment.notes %></p></div>
+        <% } %>
+
+        <div class="content-card mt-4">
+          <h3 class="h5 mb-3">Recent updates</h3>
+          <% if (updates && updates.length) { %>
+            <div class="timeline-list">
+              <% updates.forEach((item) => { %>
+                <div class="timeline-item">
+                  <strong><%= item.title %></strong>
+                  <div class="small text-muted"><%= item.visibilityLabel %> • <%= item.createdDisplay %></div>
+                  <div class="text-muted mt-1"><%= item.summary %></div>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="text-muted mb-0">No updates have been recorded yet for this assignment target.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-5">
+      <div class="content-card admin-panel-card admin-form-card">
+        <h2 class="admin-panel-title mb-3">Update assignment status</h2>
+        <form method="post" action="/admin/sponsorship-assignments/<%= assignment.id %>/status" class="row g-3">
+          <div class="col-12"><label class="form-label fw-semibold">Status</label><select class="form-select" name="status"><% assignmentStatuses.forEach((status) => { %><option value="<%= status %>" <%= assignment.status === status ? 'selected' : '' %>><%= status.replace(/_/g, ' ') %></option><% }) %></select></div>
+          <div class="col-12"><label class="form-label fw-semibold">Internal note</label><textarea class="form-control" name="notes" rows="6"><%= assignment.notes || '' %></textarea></div>
+          <div class="col-12 d-flex flex-wrap gap-2"><button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Status</button><a href="/admin/sponsorship-assignments" class="btn btn-outline-dark rounded-pill px-4">Close</a></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

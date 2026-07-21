@@ -1,7 +1,8 @@
+const env = require('./config/env');
 const app = require('./app');
 
-const PORT = process.env.PORT || 3000;
+const PORT = env.app.port;
 
 app.listen(PORT, () => {
-  console.log(`Salone Interior Missions Platform UI running on port ${PORT}`);
+  console.log(`${env.app.name} running on port ${PORT}`);
 });

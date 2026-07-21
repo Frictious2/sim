@@ -1,0 +1,19 @@
+<div class="offcanvas offcanvas-end admin-drawer-shell" tabindex="-1" id="<%= id %>" aria-labelledby="<%= id %>Label">
+  <div class="offcanvas-header border-0 pb-0">
+    <div>
+      <% if (typeof eyebrow !== 'undefined' && eyebrow) { %><div class="small text-uppercase text-muted fw-semibold"><%= eyebrow %></div><% } %>
+      <h2 class="h4 mt-1 mb-0" id="<%= id %>Label"><%= title %></h2>
+      <% if (typeof description !== 'undefined' && description) { %><p class="text-muted mb-0 mt-2"><%= description %></p><% } %>
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <%- body %>
+    <div class="d-flex flex-wrap gap-2 mt-4">
+      <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-bs-dismiss="offcanvas"><%= typeof cancelLabel !== 'undefined' ? cancelLabel : 'Close' %></button>
+      <% if (typeof confirmLabel !== 'undefined' && confirmLabel) { %>
+        <button type="button" class="<%= typeof confirmClass !== 'undefined' ? confirmClass : 'btn btn-sunrise' %> rounded-pill px-4"><%= confirmLabel %></button>
+      <% } %>
+    </div>
+  </div>
+</div>
