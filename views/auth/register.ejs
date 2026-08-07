@@ -21,14 +21,7 @@
               <h2 class="section-title text-dark mt-3">Create your account</h2>
               <p class="text-muted">Create your account to begin a donor, sponsor, volunteer, or partner journey with SIM.</p>
 
-              <div class="d-grid gap-2 mt-4">
-                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-google me-2"></i>Continue with Google</button>
-                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-facebook me-2"></i>Continue with Facebook</button>
-              </div>
-
-              <div class="auth-divider my-4"><span>or register with email</span></div>
-
-              <form class="row g-3" action="/register" method="post" novalidate>
+              <form class="row g-3 mt-4" action="/register" method="post" novalidate>
                 <div class="col-md-6">
                   <label class="form-label fw-semibold">Full name</label>
                   <input class="form-control" name="name" placeholder="Your full name" value="<%= formData && formData.name ? formData.name : '' %>" required>

@@ -19,7 +19,7 @@ const PrayerPartner = require('../models/PrayerPartner');
 const PrayerRequest = require('../models/PrayerRequest');
 const env = require('../config/env');
 const { getSettingsGrouped, getPublicSiteContext } = require('../services/siteSettingsService');
-const { logAction, listRecent } = require('../services/auditService');
+const { logAction, listRecent, findForAdmin, findById: findAuditLogById } = require('../services/auditService');
 const { renderTemplate } = require('../services/templateService');
 const { sendTemplatedNotification, sendLoggedEmail } = require('../services/notificationService');
 const { slugify, resolveUniqueSlug } = require('../utils/slug');
@@ -1146,15 +1146,66 @@ exports.exportPrayerRequestsCsv = async (req, res) => {
 
 exports.demoNotes = (req, res) => render(res, 'admin/demo-notes', { title: 'Client Demo Notes' });
 exports.auditLogs = async (req, res) => {
-  const logs = (await listRecent({ limit: 50 }).catch(() => [])).map((item) => ({
+  const filters = {
+    q: String(req.query.q || '').trim(),
+    action: String(req.query.action || '').trim(),
+    entityType: String(req.query.entityType || '').trim(),
+    userId: String(req.query.userId || '').trim(),
+    page: normalizePage(req.query.page),
+    limit: normalizeLimit(req.query.limit, 20, 100)
+  };
+
+  const result = await findForAdmin(filters).catch(() => ({
+    rows: [],
+    total: 0,
+    actions: [],
+    entityTypes: []
+  }));
+  const pagination = buildPagination({ page: filters.page, limit: filters.limit, total: result.total });
+  const logs = result.rows.map((item) => ({
     ...item,
     createdDisplay: formatDateTime(item.created_at),
-    metadataPreview: truncateText(item.metadata_json || '', 120)
+    metadataPreview: truncateText(item.metadata_json || '', 120),
+    entityLabel: item.entity_type || 'General',
+    userLabel: item.user_name || 'System'
   }));
 
   return render(res, 'admin/audit-logs', {
     title: 'Audit Logs',
-    logs
+    logs,
+    filters,
+    pagination,
+    actions: result.actions || [],
+    entityTypes: result.entityTypes || []
+  });
+};
+
+exports.viewAuditLog = async (req, res) => {
+  const auditLog = await findAuditLogById(req.params.id).catch(() => null);
+
+  if (!auditLog) {
+    req.flash('error', 'Audit log entry could not be found.');
+    return res.redirect('/admin/audit-logs');
+  }
+
+  let metadata = null;
+  if (auditLog.metadata_json) {
+    try {
+      metadata = JSON.stringify(JSON.parse(auditLog.metadata_json), null, 2);
+    } catch (error) {
+      metadata = auditLog.metadata_json;
+    }
+  }
+
+  return render(res, 'admin/audit-log-view', {
+    title: 'Audit Log Details',
+    auditLog: {
+      ...auditLog,
+      createdDisplay: formatDateTime(auditLog.created_at),
+      userLabel: auditLog.user_name || 'System',
+      entityLabel: auditLog.entity_type || 'General',
+      metadataPretty: metadata
+    }
   });
 };
 

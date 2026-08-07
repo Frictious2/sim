@@ -1,3 +1,13 @@
+function rememberReturnTo(req) {
+  if (!req.session) {
+    return;
+  }
+
+  if (req.method === 'GET' && req.originalUrl && req.originalUrl.startsWith('/')) {
+    req.session.returnTo = req.originalUrl;
+  }
+}
+
 function attachUserToLocals(req, res, next) {
   res.locals.currentUser = req.session && req.session.user ? req.session.user : null;
   res.locals.isAuthenticated = Boolean(res.locals.currentUser);
@@ -26,6 +36,7 @@ function requireAuth(req, res, next) {
     return next();
   }
 
+  rememberReturnTo(req);
   req.flash('error', 'Please log in to continue.');
   return res.redirect('/login');
 }
@@ -45,6 +56,7 @@ function requireGuest(req, res, next) {
 function requireRole(...allowedRoles) {
   return (req, res, next) => {
     if (!req.session || !req.session.user) {
+      rememberReturnTo(req);
       req.flash('error', 'Please log in to continue.');
 
       if (allowedRoles.includes('admin')) {

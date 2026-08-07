@@ -2,10 +2,28 @@
   <div class="content-card admin-panel-card">
     <div class="admin-panel-head">
       <div>
-        <h2 class="admin-panel-title mb-1">Recent audit logs</h2>
-        <p class="text-muted mb-0">A lightweight record of recent content and media actions across the CMS.</p>
+        <h2 class="admin-panel-title mb-1">Audit logs</h2>
+        <p class="text-muted mb-0">A searchable record of content, media, engagement, and workflow activity across the CMS.</p>
       </div>
     </div>
+
+    <form class="admin-filter-bar mt-4" method="get" action="/admin/audit-logs">
+      <input class="form-control" type="search" name="q" value="<%= filters.q %>" placeholder="Search action, user, entity, or metadata">
+      <select class="form-select" name="action">
+        <option value="">All actions</option>
+        <% actions.forEach((action) => { %>
+          <option value="<%= action %>" <%= filters.action === action ? 'selected' : '' %>><%= action %></option>
+        <% }) %>
+      </select>
+      <select class="form-select" name="entityType">
+        <option value="">All entities</option>
+        <% entityTypes.forEach((entityType) => { %>
+          <option value="<%= entityType %>" <%= filters.entityType === entityType ? 'selected' : '' %>><%= entityType %></option>
+        <% }) %>
+      </select>
+      <button type="submit" class="btn btn-outline-dark rounded-pill">Filter</button>
+      <a href="/admin/audit-logs" class="btn btn-outline-secondary rounded-pill">Reset</a>
+    </form>
 
     <% if (logs.length) { %>
       <div class="table-responsive mt-3">
@@ -16,27 +34,33 @@
               <th>User</th>
               <th>Action</th>
               <th>Entity</th>
-              <th>Details</th>
+              <th class="text-end">Action</th>
             </tr>
           </thead>
           <tbody>
             <% logs.forEach((item) => { %>
               <tr>
                 <td><%= item.createdDisplay %></td>
-                <td><%= item.user_name || 'System' %></td>
+                <td>
+                  <div class="fw-semibold"><%= item.userLabel %></div>
+                  <% if (item.user_email) { %><small class="text-muted d-block"><%= item.user_email %></small><% } %>
+                </td>
                 <td><code><%= item.action %></code></td>
-                <td><%= item.entity_type || 'General' %> <%= item.entity_id ? '#' + item.entity_id : '' %></td>
-                <td><span class="text-muted"><%= item.metadataPreview || 'No additional metadata' %></span></td>
+                <td><%= item.entityLabel %> <%= item.entity_id ? '#' + item.entity_id : '' %></td>
+                <td class="text-end">
+                  <a href="/admin/audit-logs/<%= item.id %>" class="btn btn-outline-dark btn-sm rounded-pill">View Details</a>
+                </td>
               </tr>
             <% }) %>
           </tbody>
         </table>
       </div>
+      <%- include('../partials/pagination', { pagination, filters }) %>
     <% } else { %>
       <div class="admin-empty-state mt-3">
         <div class="empty-state-icon"><i class="bi bi-journal-text"></i></div>
-        <h3 class="h5 mb-2">No audit activity recorded yet</h3>
-        <p class="text-muted mb-0">Recent CMS actions will begin appearing here as staff create, update, archive, and manage content.</p>
+        <h3 class="h5 mb-2">No audit activity matches this view</h3>
+        <p class="text-muted mb-0">Try broadening your search or clearing filters to see more CMS activity.</p>
       </div>
     <% } %>
   </div>

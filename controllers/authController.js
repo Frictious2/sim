@@ -30,6 +30,25 @@ function sanitizeFormData(formData = {}) {
   };
 }
 
+function normalizeEmail(email = '') {
+  return String(email || '').trim().toLowerCase();
+}
+
+function consumeReturnTo(req) {
+  if (!req.session || !req.session.returnTo) {
+    return null;
+  }
+
+  const returnTo = req.session.returnTo;
+  delete req.session.returnTo;
+
+  if (typeof returnTo === 'string' && returnTo.startsWith('/') && !returnTo.startsWith('//')) {
+    return returnTo;
+  }
+
+  return null;
+}
+
 function buildSessionUser(user) {
   return {
     id: user.id,
@@ -63,7 +82,8 @@ function showRegister(req, res) {
 }
 
 async function register(req, res) {
-  const { name = '', email = '', phone = '', password = '', confirmPassword = '' } = req.body;
+  const { name = '', phone = '', password = '', confirmPassword = '' } = req.body;
+  const email = normalizeEmail(req.body.email);
   const formData = sanitizeFormData({ name, email, phone });
 
   if (!name.trim() || !email.trim() || !password || !confirmPassword) {
@@ -109,7 +129,8 @@ async function register(req, res) {
     const user = await authService.registerUser({ name, email, phone, password });
     await persistSessionUser(req, user);
     req.flash('success', 'Your account has been created successfully.');
-    return res.redirect('/dashboard');
+    const returnTo = consumeReturnTo(req);
+    return res.redirect(returnTo || '/dashboard');
   } catch (error) {
     req.flash('error', `Registration could not be completed. ${error.message}`);
     req.flash('formData', JSON.stringify(formData));
@@ -118,7 +139,8 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-  const { email = '', password = '' } = req.body;
+  const email = normalizeEmail(req.body.email);
+  const { password = '' } = req.body;
   const formData = sanitizeFormData({ email });
 
   if (!email.trim() || !password) {
@@ -143,7 +165,18 @@ async function login(req, res) {
     }
 
     await persistSessionUser(req, user);
+    const returnTo = consumeReturnTo(req);
     req.flash('success', `Welcome back, ${user.name}.`);
+
+    if (returnTo && returnTo.startsWith('/admin') && user.role !== 'admin') {
+      req.flash('info', 'This account can sign in successfully, but it does not have admin access.');
+      return res.redirect('/dashboard');
+    }
+
+    if (returnTo) {
+      return res.redirect(returnTo);
+    }
+
     return res.redirect(user.role === 'admin' ? '/admin' : '/dashboard');
   } catch (error) {
     req.flash('error', `Login failed. ${error.message}`);

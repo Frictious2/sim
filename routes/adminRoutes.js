@@ -121,6 +121,7 @@ router.get('/settings', adminController.settings);
 router.post('/settings', adminController.updateSettings);
 router.post('/settings/test-email', adminController.sendTestEmail);
 router.get('/audit-logs', adminController.auditLogs);
+router.get('/audit-logs/:id', adminController.viewAuditLog);
 router.get('/demo-notes', adminController.demoNotes);
 
 module.exports = router;

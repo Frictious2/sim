@@ -27,14 +27,7 @@
                 </div>
               <% } %>
 
-              <div class="d-grid gap-2 mt-4">
-                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-google me-2"></i>Continue with Google</button>
-                <button type="button" class="btn btn-outline-dark rounded-pill social-auth-btn"><i class="bi bi-facebook me-2"></i>Continue with Facebook</button>
-              </div>
-
-              <div class="auth-divider my-4"><span>or sign in with email</span></div>
-
-              <form class="row g-3" action="/login" method="post" novalidate>
+              <form class="row g-3 mt-4" action="/login" method="post" novalidate>
                 <div class="col-12">
                   <label class="form-label fw-semibold">Email address</label>
                   <input class="form-control" type="email" name="email" placeholder="you@example.com" value="<%= formData && formData.email ? formData.email : '' %>" required>

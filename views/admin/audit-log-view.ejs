@@ -1,0 +1,36 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1">Audit log details</h2>
+        <p class="text-muted mb-0">Review the full record, actor, entity reference, and raw metadata for this CMS activity entry.</p>
+      </div>
+      <a href="/admin/audit-logs" class="btn btn-outline-dark rounded-pill btn-sm">Back to Audit Logs</a>
+    </div>
+
+    <div class="row g-4 mt-1">
+      <div class="col-lg-4">
+        <div class="admin-detail-stack">
+          <div class="admin-detail-card"><span>When</span><strong><%= auditLog.createdDisplay %></strong></div>
+          <div class="admin-detail-card"><span>User</span><strong><%= auditLog.userLabel %></strong></div>
+          <div class="admin-detail-card"><span>Email</span><strong><%= auditLog.user_email || 'Not available' %></strong></div>
+          <div class="admin-detail-card"><span>Action</span><strong><code><%= auditLog.action %></code></strong></div>
+          <div class="admin-detail-card"><span>Entity</span><strong><%= auditLog.entityLabel %> <%= auditLog.entity_id ? '#' + auditLog.entity_id : '' %></strong></div>
+          <div class="admin-detail-card"><span>IP Address</span><strong><%= auditLog.ip_address || 'Not recorded' %></strong></div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="admin-detail-card h-100">
+          <span>User agent</span>
+          <strong class="d-block mt-2 mb-3"><%= auditLog.user_agent || 'Not recorded' %></strong>
+          <div class="small text-muted mb-2">Metadata</div>
+          <% if (auditLog.metadataPretty) { %>
+            <pre class="mb-0 audit-log-pre"><%= auditLog.metadataPretty %></pre>
+          <% } else { %>
+            <p class="text-muted mb-0">No additional metadata was stored for this activity.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
