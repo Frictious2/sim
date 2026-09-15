@@ -19,6 +19,10 @@ const { getPublicSiteContext } = require('./services/siteSettingsService');
 
 const app = express();
 
+if (env.session.trustProxy) {
+  app.set('trust proxy', 1);
+}
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
@@ -35,6 +39,7 @@ app.use(session({
   secret: env.session.secret,
   resave: false,
   saveUninitialized: false,
+  proxy: env.session.trustProxy,
   cookie: {
     httpOnly: true,
     sameSite: 'lax',

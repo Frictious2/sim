@@ -8,6 +8,29 @@ const isProduction = appEnv === 'production';
 const isTest = appEnv === 'test';
 const sessionSecret = String(process.env.SESSION_SECRET || '').trim();
 
+function booleanFromEnv(value, fallback = false) {
+  if (value === undefined || value === null || value === '') {
+    return fallback;
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(String(value).trim().toLowerCase());
+}
+
+function sessionCookieSecure() {
+  const configured = String(process.env.SESSION_COOKIE_SECURE || '').trim().toLowerCase();
+  if (configured === 'true') {
+    return true;
+  }
+  if (configured === 'false') {
+    return false;
+  }
+  if (configured === 'auto') {
+    return 'auto';
+  }
+
+  return isProduction;
+}
+
 if (!sessionSecret) {
   throw new Error('SESSION_SECRET is required. Add it to your .env file before starting the app.');
 }
@@ -31,7 +54,8 @@ module.exports = {
   session: {
     secret: sessionSecret,
     cookieName: 'sim.sid',
-    cookieSecure: isProduction,
+    cookieSecure: sessionCookieSecure(),
+    trustProxy: booleanFromEnv(process.env.TRUST_PROXY, isProduction),
     maxAgeMs: 1000 * 60 * 60 * 24 * 7
   },
   mail: {
