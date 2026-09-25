@@ -5,8 +5,11 @@
         <div class="col-lg-5">
           <div class="auth-brand-panel h-100">
             <span class="eyebrow">Join the mission</span>
-            <h1 class="display-5 fw-bold mt-3">Create your account and begin your partnership journey.</h1>
-            <p class="lead text-white-50 mt-4">Register as a donor, sponsor, volunteer, or ministry partner to stay connected with the work of Salone Interior Missions in a more personal and organized way.</p>
+            <h1 class="display-5 fw-bold mt-3"><%= pageRecord && pageRecord.title ? pageRecord.title : 'Create your account and begin your partnership journey.' %></h1>
+            <p class="lead text-white-50 mt-4"><%= pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Register as a donor, sponsor, volunteer, or ministry partner to stay connected with the work of Salone Interior Missions in a more personal and organized way.' %></p>
+            <% if (pageRecord && pageRecord.body) { %>
+              <div class="cms-rich-copy text-white-50 mt-4"><%- pageRecord.body %></div>
+            <% } %>
             <div class="auth-brand-points mt-4">
               <div class="auth-brand-point">Track giving and sponsorship activity</div>
               <div class="auth-brand-point">Receive mission-focused updates</div>
@@ -18,8 +21,8 @@
           <div class="auth-form-panel">
             <div class="auth-form-wrap mx-auto">
               <div class="small text-uppercase text-muted fw-semibold">Register</div>
-              <h2 class="section-title text-dark mt-3">Create your account</h2>
-              <p class="text-muted">Create your account to begin a donor, sponsor, volunteer, or partner journey with SIM.</p>
+              <h2 class="section-title text-dark mt-3"><%= pageRecord && pageRecord.title ? 'Create your SIM account' : 'Create your account' %></h2>
+              <p class="text-muted"><%= pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Create your account to begin a donor, sponsor, volunteer, or partner journey with SIM.' %></p>
 
               <form class="row g-3 mt-4" action="/register" method="post" novalidate>
                 <div class="col-md-6">

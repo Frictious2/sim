@@ -125,6 +125,78 @@ const pages = [
     metaTitle: 'Donate to SIM',
     metaDescription: 'Support Salone Interior Missions through simple, trustworthy giving that advances outreach, discipleship, and community care.',
     status: 'published'
+  },
+  {
+    title: 'Sponsor',
+    slug: 'sponsor',
+    subtitle: 'Sponsor a child, project, or mission worker through prayerful partnership and practical care.',
+    body: 'Sponsorship helps connect generous partners with children, mission workers, and field priorities that need steady encouragement, support, and prayer.',
+    metaTitle: 'Sponsor with SIM',
+    metaDescription: 'Explore child, project, and mission worker sponsorship opportunities with Salone Interior Missions.',
+    status: 'published'
+  },
+  {
+    title: 'Projects',
+    slug: 'projects',
+    subtitle: 'Explore active mission programs supporting evangelism, discipleship, sponsorship, and community transformation.',
+    body: 'Projects help supporters understand the field priorities currently shaping ministry across Sierra Leone interior communities.',
+    metaTitle: 'SIM Projects',
+    metaDescription: 'Explore active Salone Interior Missions projects and programs.',
+    status: 'published'
+  },
+  {
+    title: 'Blog',
+    slug: 'blog',
+    subtitle: 'Read ministry updates, stories, reflections, and field reports from Salone Interior Missions.',
+    body: 'The blog shares ministry milestones, field reflections, prayer needs, and stories of Gospel-centered transformation.',
+    metaTitle: 'SIM Blog',
+    metaDescription: 'Read ministry updates and stories from Salone Interior Missions.',
+    status: 'published'
+  },
+  {
+    title: 'Stories',
+    slug: 'stories',
+    subtitle: 'Stories and testimonies of prayer, hope, discipleship, sponsorship, and community renewal.',
+    body: 'These stories help partners see how prayer, generosity, and local mission presence touch real people and communities.',
+    metaTitle: 'SIM Stories',
+    metaDescription: 'Read testimonies and stories from Salone Interior Missions.',
+    status: 'published'
+  },
+  {
+    title: 'Gallery',
+    slug: 'gallery',
+    subtitle: 'View moments from outreach, discipleship, child support, church gatherings, and community care.',
+    body: 'The gallery provides a visual window into the ministry work, relationships, and field moments across SIM communities.',
+    metaTitle: 'SIM Gallery',
+    metaDescription: 'View photos from Salone Interior Missions outreach and community ministry.',
+    status: 'published'
+  },
+  {
+    title: 'Contact',
+    slug: 'contact',
+    subtitle: 'Reach out for donation support, partnership, volunteering, prayer, or general ministry inquiries.',
+    body: 'Whether you are a visitor, donor, sponsor, volunteer, church, or ministry partner, the SIM team is ready to hear from you and respond with care.',
+    metaTitle: 'Contact SIM',
+    metaDescription: 'Contact Salone Interior Missions for support, partnership, volunteering, prayer, or sponsorship inquiries.',
+    status: 'published'
+  },
+  {
+    title: 'Stay close to the mission through prayer, giving, and partnership.',
+    slug: 'login',
+    subtitle: 'Log in to access your supporter dashboard, follow your giving journey, and stay connected to the story of what God is doing through Salone Interior Missions.',
+    body: 'Your dashboard helps keep your partnership organized as the platform grows with donor, sponsor, volunteer, and prayer partner tools.',
+    metaTitle: 'Login',
+    metaDescription: 'Log in to your Salone Interior Missions supporter dashboard.',
+    status: 'published'
+  },
+  {
+    title: 'Create your account and begin your partnership journey.',
+    slug: 'register',
+    subtitle: 'Register as a donor, sponsor, volunteer, or ministry partner to stay connected with the work of Salone Interior Missions in a personal and organized way.',
+    body: 'A supporter account helps you follow your giving, sponsorship, prayer, and volunteer engagement as SIM continues to expand the platform.',
+    metaTitle: 'Register',
+    metaDescription: 'Create a Salone Interior Missions supporter account.',
+    status: 'published'
   }
 ];
 

@@ -1,8 +1,10 @@
 <%- include('../partials/page-banner', {
   eyebrow: 'Sponsor a Child',
-  heading: 'Give a child consistent support, hopeful encouragement, and a stronger path forward.',
-  description: 'Child sponsorship at Salone Interior Missions is designed to be compassionate, trustworthy, and deeply connected to the life of the local community.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'Give a child consistent support, hopeful encouragement, and a stronger path forward.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Child sponsorship at Salone Interior Missions is designed to be compassionate, trustworthy, and deeply connected to the life of the local community.'
 }) %>
+
+<%- include('../partials/managed-page-body') %>
 
 <section class="section-pad pt-0 bg-white sponsor-intro-section">
   <div class="container">

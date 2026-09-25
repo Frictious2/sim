@@ -1,8 +1,10 @@
 ﻿<%- include('../partials/page-banner', {
   eyebrow: 'Contact',
-  heading: 'We would love to hear from you about prayer, giving, partnership, or ministry questions.',
-  description: 'Whether you are a donor, church leader, volunteer, or first-time visitor, this page is designed to make reaching Salone Interior Missions clear and welcoming.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'We would love to hear from you about prayer, giving, partnership, or ministry questions.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Whether you are a donor, church leader, volunteer, or first-time visitor, this page is designed to make reaching Salone Interior Missions clear and welcoming.'
 }) %>
+
+<%- include('../partials/managed-page-body') %>
 
 <section class="section-pad pt-0 bg-white contact-intro-section">
   <div class="container">

@@ -1,8 +1,10 @@
 ﻿<%- include('../partials/page-banner', {
   eyebrow: 'Stories and Testimonies',
-  heading: 'Stories of hope, courage, prayer, and transformation across the mission field.',
-  description: 'These testimonies help supporters see the ministry not only through programs and priorities, but through the lives, communities, and moments being shaped by faithful service.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'Stories of hope, courage, prayer, and transformation across the mission field.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'These testimonies help supporters see the ministry not only through programs and priorities, but through the lives, communities, and moments being shaped by faithful service.'
 }) %>
+
+<%- include('../partials/managed-page-body') %>
 
 <section class="section-pad pt-0 bg-white stories-intro-section">
   <div class="container">

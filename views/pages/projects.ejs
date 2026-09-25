@@ -1,4 +1,6 @@
-﻿<%- include('../partials/page-banner', { eyebrow: 'Projects and programs', heading: 'Visible opportunities to strengthen communities.', description: 'Browse mission initiatives with clear summaries, imagery, and ministry progress highlights.' }) %>
+﻿<%- include('../partials/page-banner', { eyebrow: 'Projects and programs', heading: pageRecord && pageRecord.title ? pageRecord.title : 'Visible opportunities to strengthen communities.', description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Browse mission initiatives with clear summaries, imagery, and ministry progress highlights.' }) %>
+<%- include('../partials/managed-page-body') %>
+
 <section class="section-pad pt-0 bg-cream">
   <div class="container">
     <div class="row g-4">

@@ -1,0 +1,9 @@
+<% if (typeof pageRecord !== 'undefined' && pageRecord && pageRecord.body) { %>
+  <section class="section-pad pt-0 bg-white managed-page-body-section">
+    <div class="container">
+      <div class="content-card">
+        <div class="cms-rich-copy text-muted"><%- pageRecord.body %></div>
+      </div>
+    </div>
+  </section>
+<% } %>

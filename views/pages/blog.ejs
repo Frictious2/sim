@@ -1,10 +1,12 @@
 ﻿<%- include('../partials/page-banner', {
   eyebrow: 'Blog, News and Updates',
-  heading: 'Follow the stories, field updates, and ministry reflections shaping the mission.',
-  description: 'Read how Salone Interior Missions is serving communities, encouraging churches, supporting children, and sharing the Gospel across Sierra Leone.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'Follow the stories, field updates, and ministry reflections shaping the mission.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Read how Salone Interior Missions is serving communities, encouraging churches, supporting children, and sharing the Gospel across Sierra Leone.'
 }) %>
 
 <% const featuredPost = content.blogPosts[0]; %>
+<%- include('../partials/managed-page-body') %>
+
 <section class="section-pad pt-0 bg-white featured-post-section">
   <div class="container">
     <div class="featured-post-card">

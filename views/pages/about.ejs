@@ -1,6 +1,6 @@
 <%- include('../partials/page-banner', {
   eyebrow: 'About Salone Interior Missions',
-  heading: 'A Christ-centered ministry serving Sierra Leones interior communities with Gospel hope and practical compassion.',
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'A Christ-centered ministry serving Sierra Leones interior communities with Gospel hope and practical compassion.',
   description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Learn the story behind the ministry, the convictions that guide the work, and the long-term vision for evangelism, discipleship, church planting, and community transformation.'
 }) %>
 

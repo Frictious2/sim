@@ -91,11 +91,16 @@ async function renderManagedPage(req, res, slug, view, title, fallbackMetaDescri
   });
 }
 
+async function getManagedPageRecord(slug) {
+  return cmsContentService.getManagedPage(slug).catch(() => null);
+}
+
 exports.about = (req, res) => renderManagedPage(req, res, 'about', 'pages/about', 'About', 'Learn about the story, values, and long-term ministry vision of Salone Interior Missions.');
 exports.mission = (req, res) => renderManagedPage(req, res, 'mission', 'pages/mission', 'Mission', 'Explore the Gospel-rooted mission and vision guiding Salone Interior Missions.');
 exports.missionFields = (req, res) => renderManagedPage(req, res, 'mission-fields', 'pages/mission-fields', 'Mission Fields', 'See where Salone Interior Missions serves and what ministry work is happening across interior communities.');
 exports.getInvolved = (req, res) => renderManagedPage(req, res, 'get-involved', 'pages/get-involved', 'Get Involved', 'Find practical ways to pray, give, volunteer, sponsor, and partner with Salone Interior Missions.');
 exports.sponsor = async (req, res) => {
+  const pageRecord = await getManagedPageRecord('sponsor');
   const catalog = await getPublicSponsorCatalog().catch(() => ({
     children: siteContent.sponsorCatalogChildren || [],
     projects: siteContent.sponsorCatalogProjects || [],
@@ -104,10 +109,21 @@ exports.sponsor = async (req, res) => {
 
   return render(res, 'pages/sponsor', {
     title: 'Sponsor',
-    catalog
+    catalog,
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Sponsor',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Sponsor children, mission projects, or field workers with Salone Interior Missions.'
   });
 };
-exports.contact = (req, res) => render(res, 'pages/contact', { title: 'Contact' });
+exports.contact = async (req, res) => {
+  const pageRecord = await getManagedPageRecord('contact');
+  return render(res, 'pages/contact', {
+    title: 'Contact',
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Contact',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Contact Salone Interior Missions for donations, sponsorship, volunteer, prayer, and partnership inquiries.'
+  });
+};
 exports.donate = (req, res) => renderManagedPage(req, res, 'donate', 'pages/donate', 'Donate', 'Give with confidence to support Gospel witness, practical compassion, and community transformation.');
 exports.donateThankYou = (req, res) => render(res, 'pages/donate-thank-you', {
   title: 'Thank You',
@@ -137,21 +153,25 @@ exports.prayerRequestThankYou = (req, res) => render(res, 'pages/prayer-request-
 
 exports.projects = async (req, res) => {
   const content = await cmsContentService.getProjectsContent();
+  const pageRecord = await getManagedPageRecord('projects');
   return render(res, 'pages/projects', {
     title: 'Projects',
     content,
-    pageTitle: 'Projects',
-    metaDescription: 'Explore active Salone Interior Missions projects serving interior communities through sponsorship, outreach, discipleship, and community care.'
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Projects',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Explore active Salone Interior Missions projects serving interior communities through sponsorship, outreach, discipleship, and community care.'
   });
 };
 
 exports.blog = async (req, res) => {
   const content = await cmsContentService.getBlogListingContent();
+  const pageRecord = await getManagedPageRecord('blog');
   return render(res, 'pages/blog', {
     title: 'Blog',
     content,
-    pageTitle: 'Blog, News and Updates',
-    metaDescription: 'Read ministry updates, stories, and field reflections from Salone Interior Missions.'
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Blog, News and Updates',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Read ministry updates, stories, and field reflections from Salone Interior Missions.'
   });
 };
 
@@ -181,21 +201,25 @@ exports.blogPost = async (req, res) => {
 
 exports.stories = async (req, res) => {
   const content = await cmsContentService.getStoriesContent();
+  const pageRecord = await getManagedPageRecord('stories');
   return render(res, 'pages/stories', {
     title: 'Stories',
     content,
-    pageTitle: 'Stories and Testimonies',
-    metaDescription: 'Read stories of hope, prayer, transformation, and faithful ministry from the mission field.'
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Stories and Testimonies',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Read stories of hope, prayer, transformation, and faithful ministry from the mission field.'
   });
 };
 
 exports.gallery = async (req, res) => {
   const content = await cmsContentService.getGalleryContent();
+  const pageRecord = await getManagedPageRecord('gallery');
   return render(res, 'pages/gallery', {
     title: 'Gallery',
     content,
-    pageTitle: 'Gallery',
-    metaDescription: 'Explore outreach, children, church gatherings, and community moments through the Salone Interior Missions gallery.'
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Gallery',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Explore outreach, children, church gatherings, and community moments through the Salone Interior Missions gallery.'
   });
 };
 

@@ -5,8 +5,11 @@
         <div class="col-lg-5">
           <div class="auth-brand-panel h-100">
             <span class="eyebrow">Welcome back</span>
-            <h1 class="display-5 fw-bold mt-3">Stay close to the mission through prayer, giving, and partnership.</h1>
-            <p class="lead text-white-50 mt-4">Log in to access your supporter dashboard, follow your giving journey, and stay connected to the story of what God is doing through Salone Interior Missions.</p>
+            <h1 class="display-5 fw-bold mt-3"><%= pageRecord && pageRecord.title ? pageRecord.title : 'Stay close to the mission through prayer, giving, and partnership.' %></h1>
+            <p class="lead text-white-50 mt-4"><%= pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Log in to access your supporter dashboard, follow your giving journey, and stay connected to the story of what God is doing through Salone Interior Missions.' %></p>
+            <% if (pageRecord && pageRecord.body) { %>
+              <div class="cms-rich-copy text-white-50 mt-4"><%- pageRecord.body %></div>
+            <% } %>
             <div class="auth-brand-points mt-4">
               <div class="auth-brand-point">View your giving and sponsorship activity</div>
               <div class="auth-brand-point">Stay connected to ministry updates</div>
@@ -18,8 +21,8 @@
           <div class="auth-form-panel">
             <div class="auth-form-wrap mx-auto">
               <div class="small text-uppercase text-muted fw-semibold">Login</div>
-              <h2 class="section-title text-dark mt-3">Access your account</h2>
-              <p class="text-muted">Sign in to access your supporter dashboard and stay connected to the mission.</p>
+              <h2 class="section-title text-dark mt-3"><%= pageRecord && pageRecord.title ? 'Access your SIM account' : 'Access your account' %></h2>
+              <p class="text-muted"><%= pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Sign in to access your supporter dashboard and stay connected to the mission.' %></p>
 
               <% if (typeof adminSeedHint !== 'undefined' && adminSeedHint) { %>
                 <div class="alert alert-warning rounded-4 border-0 shadow-sm mt-3 mb-0">

@@ -1,5 +1,6 @@
 const authService = require('../services/authService');
 const env = require('../config/env');
+const cmsContentService = require('../services/cmsContentService');
 
 function persistSessionUser(req, user) {
   return new Promise((resolve, reject) => {
@@ -60,6 +61,7 @@ function buildSessionUser(user) {
 
 async function showLogin(req, res) {
   let adminSeedHint = false;
+  const pageRecord = await cmsContentService.getManagedPage('login').catch(() => null);
 
   try {
     adminSeedHint = !(await authService.hasAnyAdmin());
@@ -70,14 +72,21 @@ async function showLogin(req, res) {
   return res.render('auth/login', {
     title: 'Login',
     content: require('../data/site-content'),
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Login',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Log in to the Salone Interior Missions supporter dashboard.',
     adminSeedHint
   });
 }
 
-function showRegister(req, res) {
+async function showRegister(req, res) {
+  const pageRecord = await cmsContentService.getManagedPage('register').catch(() => null);
   return res.render('auth/register', {
     title: 'Register',
-    content: require('../data/site-content')
+    content: require('../data/site-content'),
+    pageRecord,
+    pageTitle: (pageRecord && (pageRecord.meta_title || pageRecord.title)) || 'Register',
+    metaDescription: (pageRecord && pageRecord.meta_description) || 'Create a Salone Interior Missions supporter account.'
   });
 }
 

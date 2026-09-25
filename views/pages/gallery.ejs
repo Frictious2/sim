@@ -1,8 +1,10 @@
 ﻿<%- include('../partials/page-banner', {
   eyebrow: 'Gallery',
-  heading: 'A visual window into outreach, worship, learning, and community life across the mission field.',
-  description: 'Explore moments from ministry visits, children’s activities, church gatherings, outreach days, and practical support work through this visual gallery experience.'
+  heading: pageRecord && pageRecord.title ? pageRecord.title : 'A visual window into outreach, worship, learning, and community life across the mission field.',
+  description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Explore moments from ministry visits, children’s activities, church gatherings, outreach days, and practical support work through this visual gallery experience.'
 }) %>
+
+<%- include('../partials/managed-page-body') %>
 
 <section class="section-pad pt-0 bg-white gallery-intro-section">
   <div class="container">
