@@ -10,6 +10,7 @@ const SiteSetting = require('../models/SiteSetting');
 const EmailTemplate = require('../models/EmailTemplate');
 const NotificationLog = require('../models/NotificationLog');
 const Media = require('../models/Media');
+const User = require('../models/User');
 const Donation = require('../models/Donation');
 const DonationStatusLog = require('../models/DonationStatusLog');
 const EngagementNote = require('../models/EngagementNote');
@@ -48,6 +49,8 @@ const PRAYER_PARTNER_STATUSES = ['active', 'inactive', 'unsubscribed'];
 const PRAYER_FOCUS_VALUES = ['general', 'mission_fields', 'children', 'volunteers', 'church_planting', 'community_support'];
 const PRAYER_REQUEST_STATUSES = ['new', 'reviewed', 'prayed', 'archived'];
 const NOTIFICATION_STATUSES = ['skipped', 'sent', 'failed'];
+const USER_ROLES = ['admin', 'user', 'donor', 'sponsor', 'volunteer', 'partner'];
+const USER_STATUSES = ['active', 'inactive', 'suspended'];
 
 function render(res, view, options = {}) {
   return res.render(view, {
@@ -382,7 +385,84 @@ exports.index = async (req, res) => {
   });
 };
 
-exports.users = (req, res) => render(res, 'admin/users', { title: 'Manage Users' });
+exports.users = async (req, res) => {
+  const filters = {
+    q: String(req.query.q || '').trim(),
+    role: pickAllowedValue(String(req.query.role || ''), [''].concat(USER_ROLES), ''),
+    status: pickAllowedValue(String(req.query.status || ''), [''].concat(USER_STATUSES), ''),
+    page: normalizePage(req.query.page),
+    limit: normalizeLimit(req.query.limit, 10)
+  };
+  const result = await User.findForAdmin(filters);
+  const pagination = buildPagination({ page: filters.page, limit: filters.limit, total: result.total });
+  const users = result.rows.map((item) => ({
+    ...item,
+    roleLabel: toPrettyLabel(item.role),
+    statusLabel: toPrettyLabel(item.status),
+    statusBadgeClass: statusBadgeClass(item.status),
+    joinedDisplay: formatDateTime(item.created_at),
+    lastLoginDisplay: item.last_login_at ? formatDateTime(item.last_login_at) : 'Not yet'
+  }));
+
+  return render(res, 'admin/users', {
+    title: 'Manage Users',
+    users,
+    filters,
+    pagination,
+    userRoles: USER_ROLES,
+    userStatuses: USER_STATUSES
+  });
+};
+
+exports.newUser = (req, res) => render(res, 'admin/user-form', {
+  title: 'Add Admin User',
+  formTitle: 'Add a user or admin',
+  formAction: '/admin/users',
+  userItem: getRememberedFormData(res),
+  userRoles: USER_ROLES,
+  userStatuses: USER_STATUSES
+});
+
+exports.createUser = async (req, res) => {
+  const name = String(req.body.name || '').trim();
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const phone = normalizeNullable(req.body.phone);
+  const password = String(req.body.password || '');
+  const confirmPassword = String(req.body.confirmPassword || '');
+  const role = pickAllowedValue(String(req.body.role || 'user'), USER_ROLES, 'user');
+  const status = pickAllowedValue(String(req.body.status || 'active'), USER_STATUSES, 'active');
+
+  if (!name || !isValidEmail(email) || password.length < 8 || password !== confirmPassword) {
+    rememberFormData(req);
+    req.flash('error', 'Please provide a name, valid email, matching passwords of at least 8 characters, and a valid role.');
+    return res.redirect('/admin/users/create');
+  }
+
+  if (phone && !isValidPhone(phone)) {
+    rememberFormData(req);
+    req.flash('error', 'Please provide a valid phone number or leave the phone field blank.');
+    return res.redirect('/admin/users/create');
+  }
+
+  if (await User.emailExists(email)) {
+    rememberFormData(req);
+    req.flash('error', 'A user with that email address already exists.');
+    return res.redirect('/admin/users/create');
+  }
+
+  const createdUser = await User.createUser({ name, email, phone, password, role, status });
+  await logAction({
+    req,
+    action: role === 'admin' ? 'create_admin_user' : 'create_user',
+    entityType: 'user',
+    entityId: createdUser.id,
+    metadata: { email: createdUser.email, role: createdUser.role, status: createdUser.status }
+  });
+
+  req.flash('success', role === 'admin' ? 'Admin user created successfully.' : 'User created successfully.');
+  return res.redirect('/admin/users');
+};
+
 exports.donations = async (req, res) => {
   const filters = {
     q: String(req.query.q || '').trim(),

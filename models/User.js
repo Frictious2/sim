@@ -2,6 +2,49 @@ const bcrypt = require('bcrypt');
 const { getPool } = require('../config/database');
 
 class User {
+  static async findForAdmin({ q = '', role = '', status = '', page = 1, limit = 10 } = {}) {
+    const safePage = Math.max(parseInt(page, 10) || 1, 1);
+    const safeLimit = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 50);
+    const offset = (safePage - 1) * safeLimit;
+    const where = [];
+    const params = [];
+
+    if (q) {
+      where.push('(name LIKE ? OR email LIKE ? OR phone LIKE ?)');
+      params.push(`%${q}%`, `%${q}%`, `%${q}%`);
+    }
+
+    if (role) {
+      where.push('role = ?');
+      params.push(role);
+    }
+
+    if (status) {
+      where.push('status = ?');
+      params.push(status);
+    }
+
+    const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+    const [rows] = await getPool().query(
+      `SELECT id, name, email, phone, role, status, last_login_at, created_at, updated_at
+       FROM users
+       ${whereSql}
+       ORDER BY created_at DESC, id DESC
+       LIMIT ? OFFSET ?`,
+      [...params, safeLimit, offset]
+    );
+
+    const [countRows] = await getPool().query(
+      `SELECT COUNT(*) AS total FROM users ${whereSql}`,
+      params
+    );
+
+    return {
+      rows,
+      total: countRows[0] ? Number(countRows[0].total) : 0
+    };
+  }
+
   static async findByEmail(email) {
     const [rows] = await getPool().query(
       'SELECT * FROM users WHERE email = ? LIMIT 1',

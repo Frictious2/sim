@@ -1,0 +1,56 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1"><%= formTitle %></h2>
+        <p class="text-muted mb-0">Create a staff or supporter account. Choose <strong>Admin</strong> to give another trusted staff member CMS access.</p>
+      </div>
+      <a href="/admin/users" class="btn btn-outline-dark rounded-pill btn-sm">Back to Users</a>
+    </div>
+
+    <form action="<%= formAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-lg-6">
+        <label class="form-label fw-semibold">Full name <span class="text-danger">*</span></label>
+        <input class="form-control" name="name" value="<%= userItem.name || '' %>" required>
+      </div>
+      <div class="col-lg-6">
+        <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+        <input class="form-control" type="email" name="email" value="<%= userItem.email || '' %>" required>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Phone</label>
+        <input class="form-control" name="phone" value="<%= userItem.phone || '' %>" placeholder="+232...">
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Role <span class="text-danger">*</span></label>
+        <select class="form-select" name="role" required>
+          <% userRoles.forEach((role) => { %>
+            <option value="<%= role %>" <%= (userItem.role || 'user') === role ? 'selected' : '' %>><%= role.replace(/_/g, ' ').replace(/^./, (char) => char.toUpperCase()) %></option>
+          <% }) %>
+        </select>
+        <div class="form-text">Select Admin only for trusted staff who should access the CMS.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+        <select class="form-select" name="status" required>
+          <% userStatuses.forEach((status) => { %>
+            <option value="<%= status %>" <%= (userItem.status || 'active') === status ? 'selected' : '' %>><%= status.charAt(0).toUpperCase() + status.slice(1) %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Temporary password <span class="text-danger">*</span></label>
+        <input class="form-control" type="password" name="password" minlength="8" required>
+        <div class="form-text">Use at least 8 characters. The password is hashed before storage.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Confirm password <span class="text-danger">*</span></label>
+        <input class="form-control" type="password" name="confirmPassword" minlength="8" required>
+      </div>
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Create User</button>
+        <a href="/admin/users" class="btn btn-outline-dark rounded-pill px-4">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

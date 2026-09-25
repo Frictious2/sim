@@ -14,7 +14,7 @@
       <div class="col-lg-6">
         <div class="hero-visual-wrap">
           <div class="hero-image-card hero-image-main">
-            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80" alt="Mission outreach in Sierra Leone" class="img-fluid">
+            <img src="<%= content.homeHeroImage || 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80' %>" alt="Mission outreach in Sierra Leone" class="img-fluid">
           </div>
           <div class="hero-image-card hero-image-secondary">
             <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="Children supported through ministry" class="img-fluid">
@@ -42,7 +42,7 @@
     <div class="row g-4 align-items-stretch">
       <div class="col-lg-6">
         <div class="content-card intro-story-card h-100">
-          <span class="eyebrow text-dark">Who we are</span>
+          <span class="eyebrow text-dark"><%= content.homeIntro && content.homeIntro.title ? content.homeIntro.title : 'Who we are' %></span>
           <h2 class="section-title text-dark mt-3"><%= content.homeIntro ? content.homeIntro.subtitle : 'A ministry walking with interior communities through Gospel witness and practical care.' %></h2>
           <div class="cms-rich-copy text-muted"><%- content.homeIntro ? content.homeIntro.content : 'Salone Interior Missions exists to serve churches, families, children, and underserved communities in Sierra Leone with evangelism, discipleship, church planting, and compassionate community support.' %></div>
           <p class="text-muted mb-4">We believe mission is strongest when it is local, relational, accountable, and rooted in long-term transformation rather than short-lived visibility.</p>
@@ -134,7 +134,11 @@
         <div class="col-md-6 col-xl-3">
           <article class="program-premium-card h-100">
             <div class="program-image-placeholder <%= 'program-shade-' + (index + 1) %>">
-              <span><%= program.title %></span>
+              <% if (program.image) { %>
+                <img src="<%= program.image %>" alt="<%= program.title %>" class="img-fluid">
+              <% } else { %>
+                <span><%= program.title %></span>
+              <% } %>
             </div>
             <div class="pt-4">
               <span class="badge text-bg-warning-subtle text-dark rounded-pill"><%= program.badge %></span>
@@ -165,7 +169,7 @@
       </div>
       <div class="col-lg-6 order-1 order-lg-2">
         <div class="why-partner-image-card">
-          <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80" alt="Local ministry partnership" class="img-fluid rounded-5">
+          <img src="<%= content.homePartnershipCta && content.homePartnershipCta.image ? content.homePartnershipCta.image : 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=80' %>" alt="Local ministry partnership" class="img-fluid rounded-5">
         </div>
       </div>
     </div>
@@ -226,6 +230,12 @@
     <div class="partnership-cta-wrap">
       <span class="eyebrow">Pray, give, and partner</span>
       <h2 class="section-title text-white mt-3"><%= content.homePartnershipCta ? content.homePartnershipCta.title : 'Join the mission through prayer, generosity, volunteering, and long-term partnership.' %></h2>
+      <% if (content.homePartnershipCta && (content.homePartnershipCta.subtitle || content.homePartnershipCta.content)) { %>
+        <div class="cms-rich-copy text-white mt-3 col-lg-8">
+          <p class="mb-2"><%= content.homePartnershipCta.subtitle || '' %></p>
+          <%- content.homePartnershipCta.content || '' %>
+        </div>
+      <% } %>
       <div class="d-flex flex-wrap gap-3 mt-4">
         <a href="<%= content.homePartnershipCta && content.homePartnershipCta.buttonUrl ? content.homePartnershipCta.buttonUrl : '/get-involved' %>" class="btn btn-light rounded-pill px-4"><%= content.homePartnershipCta && content.homePartnershipCta.buttonLabel ? content.homePartnershipCta.buttonLabel : 'Become a Prayer Partner' %></a>
         <a href="/get-involved" class="btn btn-outline-light rounded-pill px-4">Get Involved</a>
@@ -249,7 +259,7 @@
             <input type="email" class="form-control" name="email" placeholder="<%= content.newsletter.placeholder %>" required>
             <button type="submit" class="btn btn-sunrise rounded-pill px-4"><%= content.newsletter.button %></button>
           </form>
-          <p class="newsletter-privacy mt-3 mb-0">We will only send ministry updates, stories, and prayer opportunities. No spam.</p>
+          <p class="newsletter-privacy mt-3 mb-0"><%= content.newsletter.privacyText || 'We will only send ministry updates, stories, and prayer opportunities. No spam.' %></p>
         </div>
       </div>
     </div>

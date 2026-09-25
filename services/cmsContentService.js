@@ -105,7 +105,7 @@ function applyHomepageSections(content, sections) {
     };
 
     if (Array.isArray(heroContent.stats) && heroContent.stats.length) {
-      content.homeHeroStats = heroContent.stats;
+      content.homeHeroStats = content.homeHeroStats.map((fallbackStat, index) => heroContent.stats[index] || fallbackStat);
     }
 
     if (hero.image_url) {
@@ -115,12 +115,14 @@ function applyHomepageSections(content, sections) {
 
   const intro = sectionMap.get('intro');
   if (intro) {
+    const introContent = parseJsonContent(intro.content, { body: intro.content });
     content.homeIntro = {
-      title: intro.title,
-      subtitle: intro.subtitle,
-      content: sanitizeRichHtml(parseJsonContent(intro.content, { body: intro.content }).body || intro.content || ''),
-      buttonLabel: intro.button_label,
-      buttonUrl: intro.button_url
+      title: intro.title || 'Who we are',
+      subtitle: intro.subtitle || content.homeIntro?.subtitle,
+      content: sanitizeRichHtml(introContent.body || intro.content || ''),
+      buttonLabel: intro.button_label || introContent.ctaLabel || 'Learn About SIM',
+      buttonUrl: intro.button_url || introContent.ctaUrl || '/about',
+      image: intro.image_url || null
     };
   }
 
@@ -137,9 +139,10 @@ function applyHomepageSections(content, sections) {
     content.homePartnershipCta = {
       title: partnershipCta.title,
       subtitle: partnershipCta.subtitle,
-      content: partnershipCta.content,
+      content: sanitizeRichHtml(partnershipCta.content || ''),
       buttonLabel: partnershipCta.button_label,
-      buttonUrl: partnershipCta.button_url
+      buttonUrl: partnershipCta.button_url,
+      image: partnershipCta.image_url || null
     };
   }
 
@@ -149,6 +152,7 @@ function applyHomepageSections(content, sections) {
       ...content.newsletter,
       title: newsletter.title || content.newsletter.title,
       text: newsletter.subtitle || content.newsletter.text,
+      privacyText: newsletter.content || content.newsletter.privacyText || 'We will only send ministry updates, stories, and prayer opportunities. No spam.',
       button: newsletter.button_label || content.newsletter.button
     };
   }

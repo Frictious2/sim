@@ -10,6 +10,8 @@ router.use(requireAdmin);
 router.use('/media', mediaRoutes);
 router.get('/', adminController.index);
 router.get('/users', adminController.users);
+router.get('/users/create', adminController.newUser);
+router.post('/users', adminController.createUser);
 router.get('/donations', adminController.donations);
 router.get('/donations/export.csv', adminController.exportDonationsCsv);
 router.get('/donations/:id', adminController.viewDonation);
