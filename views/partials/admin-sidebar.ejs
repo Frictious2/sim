@@ -1,6 +1,10 @@
 <aside class="dashboard-sidebar-shell admin-sidebar-shell">
   <div class="sidebar-brand">
-    <span class="brand-mark">SIM</span>
+    <% if (site.logoUrl) { %>
+      <img src="<%= site.logoUrl %>" alt="<%= site.brand %> logo" class="site-logo">
+    <% } else { %>
+      <span class="brand-mark">SIM</span>
+    <% } %>
     <div>
       <div class="fw-bold"><%= site.brand %></div>
       <small class="text-muted">Admin CMS</small>

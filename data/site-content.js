@@ -56,6 +56,8 @@ module.exports = {
   facebookUrl: '#',
   youtubeUrl: '#',
   whatsappNumber: '+23270000000',
+  logoUrl: '',
+  faviconUrl: '',
   defaultMetaTitle: 'Salone Interior Missions Platform',
   defaultMetaDescription: 'A warm, trustworthy digital home for ministry engagement, storytelling, and community transformation in Sierra Leone.',
   publicNav,

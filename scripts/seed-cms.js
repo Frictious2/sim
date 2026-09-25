@@ -136,6 +136,8 @@ const siteSettings = [
   { settingKey: 'facebook_url', settingValue: '#', settingGroup: 'social' },
   { settingKey: 'youtube_url', settingValue: '#', settingGroup: 'social' },
   { settingKey: 'whatsapp_number', settingValue: '+23270000000', settingGroup: 'social' },
+  { settingKey: 'logo_url', settingValue: '', settingGroup: 'branding' },
+  { settingKey: 'favicon_url', settingValue: '', settingGroup: 'branding' },
   { settingKey: 'default_meta_title', settingValue: 'Salone Interior Missions Platform', settingGroup: 'seo' },
   { settingKey: 'default_meta_description', settingValue: 'A warm, trustworthy digital home for ministry engagement, storytelling, and community transformation in Sierra Leone.', settingGroup: 'seo' }
 ];

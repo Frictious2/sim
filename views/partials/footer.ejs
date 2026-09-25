@@ -2,7 +2,14 @@
   <div class="container py-5">
     <div class="row g-4 g-lg-5 align-items-start">
       <div class="col-lg-4">
-        <h5 class="text-white mb-3"><%= site.brand %></h5>
+        <div class="footer-brand d-flex align-items-center gap-2 mb-3">
+          <% if (site.logoUrl) { %>
+            <img src="<%= site.logoUrl %>" alt="<%= site.brand %> logo" class="site-logo site-logo-footer">
+          <% } else { %>
+            <span class="brand-mark">SIM</span>
+          <% } %>
+          <h5 class="text-white mb-0"><%= site.brand %></h5>
+        </div>
         <p class="text-white-50 mb-3">A warm, trustworthy digital home for ministry engagement, sponsorship, storytelling, and community transformation in Sierra Leone.</p>
         <div class="d-flex flex-wrap gap-2">
           <a href="/donate" class="btn btn-sunrise rounded-pill px-4">Donate Now</a>
@@ -50,4 +57,3 @@
     </div>
   </div>
 </footer>
-

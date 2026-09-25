@@ -22,6 +22,8 @@ async function getPublicSiteContext() {
       facebookUrl: map.facebook_url || siteContent.facebookUrl,
       youtubeUrl: map.youtube_url || siteContent.youtubeUrl,
       whatsappNumber: map.whatsapp_number || siteContent.whatsappNumber,
+      logoUrl: map.logo_url || siteContent.logoUrl || '',
+      faviconUrl: map.favicon_url || siteContent.faviconUrl || '',
       defaultMetaTitle: map.default_meta_title || siteContent.defaultMetaTitle || siteContent.brand,
       defaultMetaDescription: map.default_meta_description || siteContent.defaultMetaDescription || 'A warm, trustworthy digital home for mission engagement in Sierra Leone.'
     };
@@ -34,6 +36,8 @@ async function getPublicSiteContext() {
       facebookUrl: siteContent.facebookUrl,
       youtubeUrl: siteContent.youtubeUrl,
       whatsappNumber: siteContent.whatsappNumber,
+      logoUrl: siteContent.logoUrl || '',
+      faviconUrl: siteContent.faviconUrl || '',
       defaultMetaTitle: siteContent.defaultMetaTitle || siteContent.brand,
       defaultMetaDescription: siteContent.defaultMetaDescription || 'A warm, trustworthy digital home for mission engagement in Sierra Leone.'
     };

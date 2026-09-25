@@ -34,6 +34,26 @@
         <div class="form-text">Used in the site header, footer, and default page title fallback.</div>
       </div>
       <div class="col-md-6">
+        <label class="form-label fw-semibold">Logo URL</label>
+        <input class="form-control" data-image-preview-input="site-logo" name="logo_url" value="<%= byKey.logo_url || '' %>" placeholder="/uploads/media/logo.webp">
+        <div class="form-text">Upload the logo in Media Library, then paste the public URL here.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Favicon URL</label>
+        <input class="form-control" data-image-preview-input="site-favicon" name="favicon_url" value="<%= byKey.favicon_url || '' %>" placeholder="/uploads/media/favicon.png">
+        <div class="form-text">Use a square PNG/WebP/ICO-style image for best browser results.</div>
+      </div>
+      <div class="col-md-6">
+        <div class="admin-image-preview-card" data-image-preview-target="site-logo">
+          <div class="admin-image-preview-empty">Logo preview will appear here.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="admin-image-preview-card" data-image-preview-target="site-favicon">
+          <div class="admin-image-preview-empty">Favicon preview will appear here.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
         <label class="form-label fw-semibold">Contact email</label>
         <input class="form-control" name="contact_email" value="<%= byKey.contact_email || '' %>">
       </div>

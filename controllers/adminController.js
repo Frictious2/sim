@@ -2378,6 +2378,8 @@ exports.updateSettings = async (req, res) => {
     { settingKey: 'facebook_url', settingValue: normalizeNullable(req.body.facebook_url), settingGroup: 'social' },
     { settingKey: 'youtube_url', settingValue: normalizeNullable(req.body.youtube_url), settingGroup: 'social' },
     { settingKey: 'whatsapp_number', settingValue: normalizeNullable(req.body.whatsapp_number), settingGroup: 'social' },
+    { settingKey: 'logo_url', settingValue: normalizeNullable(req.body.logo_url), settingGroup: 'branding' },
+    { settingKey: 'favicon_url', settingValue: normalizeNullable(req.body.favicon_url), settingGroup: 'branding' },
     { settingKey: 'default_meta_title', settingValue: normalizeNullable(req.body.default_meta_title), settingGroup: 'seo' },
     { settingKey: 'default_meta_description', settingValue: normalizeNullable(req.body.default_meta_description), settingGroup: 'seo' }
   ];

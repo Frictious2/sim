@@ -1,7 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark site-navbar sticky-top">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-      <span class="brand-mark">SIM</span>
+      <% if (site.logoUrl) { %>
+        <img src="<%= site.logoUrl %>" alt="<%= site.brand %> logo" class="site-logo">
+      <% } else { %>
+        <span class="brand-mark">SIM</span>
+      <% } %>
       <span class="brand-text"><%= site.brand %></span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
