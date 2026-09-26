@@ -62,18 +62,37 @@ main {
 }
 
 .site-logo {
+  display: block;
   width: auto;
-  height: clamp(2.25rem, 5vw, 3.25rem);
-  max-width: min(42vw, 11rem);
+  height: auto;
+  max-height: clamp(2.1rem, 5vw, 3rem);
+  max-width: clamp(5.5rem, 28vw, 10rem);
   object-fit: contain;
   border-radius: 0.65rem;
+  flex: 0 1 auto;
 }
 
 .site-logo-footer {
-  height: clamp(2.75rem, 6vw, 4rem);
-  max-width: min(56vw, 13rem);
+  max-height: clamp(2.75rem, 6vw, 4rem);
+  max-width: clamp(7rem, 42vw, 13rem);
   background: rgba(255, 255, 255, 0.08);
   padding: 0.2rem;
+}
+
+.navbar-brand {
+  min-width: 0;
+  max-width: min(72vw, 24rem);
+}
+
+.navbar-brand .brand-text {
+  min-width: 0;
+}
+
+.managed-section-image {
+  width: 100%;
+  max-height: 30rem;
+  object-fit: cover;
+  box-shadow: var(--shadow-soft);
 }
 
 .brand-text {

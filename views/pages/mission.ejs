@@ -4,6 +4,10 @@
   description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'This page expresses the theological and organizational convictions guiding Salone Interior Missions as it serves interior communities across Sierra Leone.'
 }) %>
 
+<%- include('../partials/managed-page-body') %>
+<%- include('../partials/managed-page-sections') %>
+
+<% if (!(pageRecord && pageRecord.sections && pageRecord.sections.length)) { %>
 <section class="section-pad pt-0 bg-white mission-statement-section">
   <div class="container">
     <div class="row g-5 align-items-center">
@@ -24,6 +28,7 @@
     </div>
   </div>
 </section>
+
 
 <% if (pageRecord && pageRecord.body) { %>
   <section class="section-pad pt-0 bg-white">
@@ -175,3 +180,4 @@
     </div>
   </div>
 </section>
+<% } %>

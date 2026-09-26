@@ -476,9 +476,7 @@ const emailTemplates = [
 async function seedHomepageSections() {
   for (const section of homepageSections) {
     const existing = await HomepageSection.findBySectionKey(section.sectionKey);
-    if (existing) {
-      await HomepageSection.update(existing.id, section);
-    } else {
+    if (!existing) {
       await HomepageSection.create(section);
     }
   }
@@ -492,9 +490,7 @@ async function seedPages(adminUserId) {
       createdBy: adminUserId,
       updatedBy: adminUserId
     };
-    if (existing) {
-      await Page.update(existing.id, payload);
-    } else {
+    if (!existing) {
       await Page.create(payload);
     }
   }
@@ -508,9 +504,7 @@ async function seedBlogPosts(adminUserId) {
       ...post,
       authorId: adminUserId
     };
-    if (existing) {
-      await BlogPost.update(existing.id, payload);
-    } else {
+    if (!existing) {
       await BlogPost.create(payload);
     }
   }
@@ -520,9 +514,7 @@ async function seedProjects() {
   const existingItems = await Project.findAll();
   for (const item of projects) {
     const existing = (await Project.findBySlug(item.slug)) || existingItems.find((entry) => entry.title === item.title);
-    if (existing) {
-      await Project.update(existing.id, item);
-    } else {
+    if (!existing) {
       await Project.create(item);
     }
   }
@@ -532,9 +524,7 @@ async function seedTestimonies() {
   const existingItems = await Testimony.findAll();
   for (const item of testimonies) {
     const existing = existingItems.find((entry) => entry.name === item.name && entry.quote === item.quote);
-    if (existing) {
-      await Testimony.update(existing.id, item);
-    } else {
+    if (!existing) {
       await Testimony.create(item);
     }
   }
@@ -544,16 +534,19 @@ async function seedGalleryItems() {
   const existingItems = await GalleryItem.findAll();
   for (const item of galleryItems) {
     const existing = existingItems.find((entry) => entry.title === item.title);
-    if (existing) {
-      await GalleryItem.update(existing.id, item);
-    } else {
+    if (!existing) {
       await GalleryItem.create(item);
     }
   }
 }
 
 async function seedSiteSettings() {
-  await SiteSetting.upsertMany(siteSettings);
+  for (const item of siteSettings) {
+    const existing = await SiteSetting.findByKey(item.settingKey);
+    if (!existing) {
+      await SiteSetting.upsert(item.settingKey, item.settingValue, item.settingGroup || null);
+    }
+  }
 }
 
 async function seedEmailTemplates() {

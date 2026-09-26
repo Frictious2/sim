@@ -4,8 +4,11 @@
   description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Read how Salone Interior Missions is serving communities, encouraging churches, supporting children, and sharing the Gospel across Sierra Leone.'
 }) %>
 
-<% const featuredPost = content.blogPosts[0]; %>
 <%- include('../partials/managed-page-body') %>
+<%- include('../partials/managed-page-sections') %>
+
+
+<% const featuredPost = content.blogPosts[0]; %>
 
 <section class="section-pad pt-0 bg-white featured-post-section">
   <div class="container">

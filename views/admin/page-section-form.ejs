@@ -1,0 +1,94 @@
+<section class="dashboard-section admin-dashboard-section">
+  <div class="content-card admin-panel-card admin-form-card">
+    <div class="admin-panel-head">
+      <div>
+        <h2 class="admin-panel-title mb-1"><%= formTitle %></h2>
+        <p class="text-muted mb-0">Create editable public page sections with text, imagery, and calls to action.</p>
+      </div>
+      <a href="/admin/pages/<%= pageItem.id %>/edit" class="btn btn-outline-dark rounded-pill btn-sm">Back to Page</a>
+    </div>
+
+    <form action="<%= formAction %>" method="post" class="row g-4 mt-1">
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Section key <span class="text-danger">*</span></label>
+        <input class="form-control" name="sectionKey" value="<%= sectionItem ? sectionItem.section_key : '' %>" placeholder="intro, impact, cta">
+        <div class="form-text">Unique for this page. Lowercase words and dashes work best.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Sort order</label>
+        <input class="form-control" type="number" name="sortOrder" value="<%= sectionItem ? sectionItem.sort_order : 0 %>">
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Layout</label>
+        <select class="form-select" name="layout">
+          <% ['image_right', 'image_left', 'text_only'].forEach((layout) => { %>
+            <option value="<%= layout %>" <%= sectionItem && sectionItem.layout === layout ? 'selected' : '' %>><%= layout.replace(/_/g, ' ') %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Eyebrow</label>
+        <input class="form-control" name="eyebrow" value="<%= sectionItem ? (sectionItem.eyebrow || '') : '' %>">
+      </div>
+      <div class="col-lg-8">
+        <label class="form-label fw-semibold">Title</label>
+        <input class="form-control" name="title" value="<%= sectionItem ? (sectionItem.title || '') : '' %>">
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-semibold">Subtitle</label>
+        <textarea class="form-control" name="subtitle" rows="3"><%= sectionItem ? (sectionItem.subtitle || '') : '' %></textarea>
+      </div>
+      <div class="col-12">
+        <%- include('../partials/rich-text-editor', {
+          label: 'Body',
+          required: false,
+          helperText: 'Use this for the section copy. Unsafe HTML is sanitized before saving.',
+          fieldId: 'pageSectionBody',
+          name: 'body',
+          value: sectionItem ? (sectionItem.body || '') : '',
+          placeholder: 'Add section content...'
+        }) %>
+      </div>
+      <div class="col-lg-8">
+        <label class="form-label fw-semibold">Image URL</label>
+        <input class="form-control" data-image-preview-input="page-section-image" name="imageUrl" value="<%= sectionItem ? (sectionItem.image_url || '') : '' %>" placeholder="/uploads/media/example.webp">
+        <div class="form-text">Upload images in Media Library, then paste the URL here.</div>
+      </div>
+      <div class="col-lg-4">
+        <label class="form-label fw-semibold">Image alt text</label>
+        <input class="form-control" name="imageAlt" value="<%= sectionItem ? (sectionItem.image_alt || '') : '' %>">
+      </div>
+      <div class="col-12">
+        <div class="admin-image-preview-card" data-image-preview-target="page-section-image">
+          <div class="admin-image-preview-empty">Image preview will appear here.</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Primary button label</label>
+        <input class="form-control" name="buttonLabel" value="<%= sectionItem ? (sectionItem.button_label || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Primary button URL</label>
+        <input class="form-control" name="buttonUrl" value="<%= sectionItem ? (sectionItem.button_url || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Secondary button label</label>
+        <input class="form-control" name="secondaryButtonLabel" value="<%= sectionItem ? (sectionItem.secondary_button_label || '') : '' %>">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Secondary button URL</label>
+        <input class="form-control" name="secondaryButtonUrl" value="<%= sectionItem ? (sectionItem.secondary_button_url || '') : '' %>">
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="isActive" id="sectionIsActive" <%= !sectionItem || sectionItem.is_active ? 'checked' : '' %>>
+          <label class="form-check-label" for="sectionIsActive">Section is active</label>
+        </div>
+      </div>
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-sunrise rounded-pill px-4">Save Section</button>
+        <a href="/admin/pages/<%= pageItem.id %>/edit" class="btn btn-outline-dark rounded-pill px-4">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>

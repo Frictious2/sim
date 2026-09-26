@@ -44,6 +44,19 @@
         <input class="form-control" data-image-preview-input="homepage-section-image" name="imageUrl" value="<%= sectionItem.image_url || '' %>">
         <div class="form-text">Upload images in Media Library, then paste the media URL here.</div>
       </div>
+      <% let parsedSectionContent = {}; try { parsedSectionContent = sectionItem.content ? JSON.parse(sectionItem.content) : {}; } catch (error) { parsedSectionContent = {}; } %>
+      <% if (sectionItem.section_key === 'hero') { %>
+        <div class="col-12">
+          <label class="form-label fw-semibold">Secondary hero image URL</label>
+          <input class="form-control" data-image-preview-input="homepage-section-secondary-image" name="secondaryImageUrl" value="<%= parsedSectionContent.secondaryImageUrl || '' %>">
+          <div class="form-text">This controls the smaller layered hero image on the homepage.</div>
+        </div>
+        <div class="col-12">
+          <div class="admin-image-preview-card" data-image-preview-target="homepage-section-secondary-image">
+            <div class="admin-image-preview-empty">Secondary image preview will appear here.</div>
+          </div>
+        </div>
+      <% } %>
       <div class="col-12">
         <div class="admin-image-preview-card" data-image-preview-target="homepage-section-image">
           <div class="admin-image-preview-empty">Image preview will appear here.</div>

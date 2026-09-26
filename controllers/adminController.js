@@ -5,6 +5,7 @@ const HomepageSection = require('../models/HomepageSection');
 const GalleryItem = require('../models/GalleryItem');
 const Testimony = require('../models/Testimony');
 const Page = require('../models/Page');
+const PageSection = require('../models/PageSection');
 const ContactMessage = require('../models/ContactMessage');
 const SiteSetting = require('../models/SiteSetting');
 const EmailTemplate = require('../models/EmailTemplate');
@@ -1703,11 +1704,23 @@ exports.updateHomepageSection = async (req, res) => {
     return res.redirect(`/admin/homepage-content/${section.id}/edit`);
   }
 
+  let sectionContent = normalizeNullable(req.body.content);
+  if (sectionKey === 'hero') {
+    let parsedContent = {};
+    try {
+      parsedContent = sectionContent ? JSON.parse(sectionContent) : {};
+    } catch (error) {
+      parsedContent = {};
+    }
+    parsedContent.secondaryImageUrl = normalizeNullable(req.body.secondaryImageUrl);
+    sectionContent = JSON.stringify(parsedContent, null, 2);
+  }
+
   await HomepageSection.update(section.id, {
     sectionKey,
     title: normalizeNullable(req.body.title),
     subtitle: normalizeNullable(req.body.subtitle),
-    content: normalizeNullable(req.body.content),
+    content: sectionContent,
     buttonLabel: normalizeNullable(req.body.buttonLabel),
     buttonUrl: normalizeNullable(req.body.buttonUrl),
     imageUrl: normalizeNullable(req.body.imageUrl),
@@ -2209,12 +2222,14 @@ exports.editPage = async (req, res) => {
   if (!pageItem) {
     return res.status(404).render('errors/404', { title: 'Page Not Found' });
   }
+  const pageSections = await PageSection.findByPageSlug(pageItem.slug).catch(() => []);
 
   return render(res, 'admin/page-form', {
     title: 'Edit Page',
     formTitle: 'Edit Editable Page',
     formAction: `/admin/pages/${pageItem.id}`,
     pageItem: buildPageFormState(pageItem, getRememberedFormData(res)),
+    pageSections,
     includeRichEditorAssets: true
   });
 };
@@ -2243,6 +2258,9 @@ exports.updatePage = async (req, res) => {
     status: pickAllowedValue(String(req.body.status || pageItem.status), PAGE_STATUSES, pageItem.status),
     updatedBy: req.session.user.id
   });
+  if (slug !== pageItem.slug) {
+    await PageSection.updatePageSlug(pageItem.slug, slug);
+  }
   await logAction({
     req,
     action: 'update_page',
@@ -2271,6 +2289,118 @@ exports.archivePage = async (req, res) => {
   });
   req.flash('success', 'Page moved back to draft.');
   return res.redirect('/admin/pages');
+};
+
+function buildPageSectionPayload(req, pageSlug, fallbackKey = '') {
+  const title = normalizeNullable(req.body.title);
+  const sectionKey = String(req.body.sectionKey || fallbackKey || title || 'section').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  return {
+    pageSlug,
+    sectionKey,
+    eyebrow: normalizeNullable(req.body.eyebrow),
+    title,
+    subtitle: normalizeNullable(req.body.subtitle),
+    body: sanitizeRichHtml(req.body.body || ''),
+    imageUrl: normalizeNullable(req.body.imageUrl),
+    imageAlt: normalizeNullable(req.body.imageAlt),
+    buttonLabel: normalizeNullable(req.body.buttonLabel),
+    buttonUrl: normalizeNullable(req.body.buttonUrl),
+    secondaryButtonLabel: normalizeNullable(req.body.secondaryButtonLabel),
+    secondaryButtonUrl: normalizeNullable(req.body.secondaryButtonUrl),
+    layout: pickAllowedValue(String(req.body.layout || 'image_right'), ['image_right', 'image_left', 'text_only'], 'image_right'),
+    sortOrder: Number(req.body.sortOrder || 0),
+    isActive: normalizeBoolean(req.body.isActive) ? 1 : 0
+  };
+}
+
+exports.newPageSection = async (req, res) => {
+  const pageItem = await Page.findById(req.params.pageId);
+  if (!pageItem) {
+    return res.status(404).render('errors/404', { title: 'Page Not Found' });
+  }
+
+  return render(res, 'admin/page-section-form', {
+    title: 'Create Page Section',
+    formTitle: `Add section to ${pageItem.title}`,
+    formAction: `/admin/pages/${pageItem.id}/sections`,
+    pageItem,
+    sectionItem: null,
+    includeRichEditorAssets: true
+  });
+};
+
+exports.createPageSection = async (req, res) => {
+  const pageItem = await Page.findById(req.params.pageId);
+  if (!pageItem) {
+    return res.status(404).render('errors/404', { title: 'Page Not Found' });
+  }
+
+  const payload = buildPageSectionPayload(req, pageItem.slug);
+  if (!payload.sectionKey) {
+    req.flash('error', 'Please provide a section key or title.');
+    return res.redirect(`/admin/pages/${pageItem.id}/sections/create`);
+  }
+
+  const existing = await PageSection.findByPageAndKey(pageItem.slug, payload.sectionKey);
+  if (existing) {
+    req.flash('error', 'That section key already exists for this page.');
+    return res.redirect(`/admin/pages/${pageItem.id}/sections/create`);
+  }
+
+  const section = await PageSection.create(payload);
+  await logAction({ req, action: 'create_page_section', entityType: 'page_section', entityId: section.id, metadata: { pageSlug: pageItem.slug, sectionKey: payload.sectionKey } });
+  req.flash('success', 'Page section created successfully.');
+  return res.redirect(`/admin/pages/${pageItem.id}/edit`);
+};
+
+exports.editPageSection = async (req, res) => {
+  const pageItem = await Page.findById(req.params.pageId);
+  const sectionItem = await PageSection.findById(req.params.sectionId);
+  if (!pageItem || !sectionItem || sectionItem.page_slug !== pageItem.slug) {
+    return res.status(404).render('errors/404', { title: 'Section Not Found' });
+  }
+
+  return render(res, 'admin/page-section-form', {
+    title: 'Edit Page Section',
+    formTitle: `Edit section for ${pageItem.title}`,
+    formAction: `/admin/pages/${pageItem.id}/sections/${sectionItem.id}`,
+    pageItem,
+    sectionItem,
+    includeRichEditorAssets: true
+  });
+};
+
+exports.updatePageSection = async (req, res) => {
+  const pageItem = await Page.findById(req.params.pageId);
+  const sectionItem = await PageSection.findById(req.params.sectionId);
+  if (!pageItem || !sectionItem || sectionItem.page_slug !== pageItem.slug) {
+    return res.status(404).render('errors/404', { title: 'Section Not Found' });
+  }
+
+  const payload = buildPageSectionPayload(req, pageItem.slug, sectionItem.section_key);
+  const existing = await PageSection.findByPageAndKey(pageItem.slug, payload.sectionKey);
+  if (existing && Number(existing.id) !== Number(sectionItem.id)) {
+    req.flash('error', 'That section key already exists for this page.');
+    return res.redirect(`/admin/pages/${pageItem.id}/sections/${sectionItem.id}/edit`);
+  }
+
+  await PageSection.update(sectionItem.id, payload);
+  await logAction({ req, action: 'update_page_section', entityType: 'page_section', entityId: sectionItem.id, metadata: { pageSlug: pageItem.slug, sectionKey: payload.sectionKey } });
+  req.flash('success', 'Page section updated successfully.');
+  return res.redirect(`/admin/pages/${pageItem.id}/edit`);
+};
+
+exports.deletePageSection = async (req, res) => {
+  const pageItem = await Page.findById(req.params.pageId);
+  const sectionItem = await PageSection.findById(req.params.sectionId);
+  if (!pageItem || !sectionItem || sectionItem.page_slug !== pageItem.slug) {
+    return res.status(404).render('errors/404', { title: 'Section Not Found' });
+  }
+
+  await PageSection.delete(sectionItem.id);
+  await logAction({ req, action: 'delete_page_section', entityType: 'page_section', entityId: sectionItem.id, metadata: { pageSlug: pageItem.slug, sectionKey: sectionItem.section_key } });
+  req.flash('success', 'Page section deleted successfully.');
+  return res.redirect(`/admin/pages/${pageItem.id}/edit`);
 };
 
 exports.emailTemplates = async (req, res) => {

@@ -5,6 +5,7 @@ const Project = require('../models/Project');
 const Testimony = require('../models/Testimony');
 const GalleryItem = require('../models/GalleryItem');
 const Page = require('../models/Page');
+const PageSection = require('../models/PageSection');
 const { formatDate, truncateText, parseJsonContent, stripHtml } = require('../utils/formatting');
 const { sanitizeRichHtml } = require('../utils/sanitizeHtml');
 
@@ -110,6 +111,10 @@ function applyHomepageSections(content, sections) {
 
     if (hero.image_url) {
       content.homeHeroImage = hero.image_url;
+    }
+
+    if (heroContent.secondaryImageUrl) {
+      content.homeHeroSecondaryImage = heroContent.secondaryImageUrl;
     }
   }
 
@@ -320,7 +325,11 @@ async function getManagedPage(slug) {
     }
     return {
       ...page,
-      body: sanitizeRichHtml(page.body || '')
+      body: sanitizeRichHtml(page.body || ''),
+      sections: (await PageSection.findByPageSlug(slug, { activeOnly: true })).map((section) => ({
+        ...section,
+        body: sanitizeRichHtml(section.body || '')
+      }))
     };
   } catch (error) {
     return null;

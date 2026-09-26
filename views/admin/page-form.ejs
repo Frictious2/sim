@@ -59,3 +59,63 @@
     </form>
   </div>
 </section>
+
+<% if (pageItem && pageItem.id) { %>
+  <section class="dashboard-section admin-dashboard-section pt-0">
+    <div class="content-card admin-panel-card">
+      <div class="admin-toolbar">
+        <div>
+          <h2 class="admin-panel-title mb-1">Managed page sections</h2>
+          <p class="text-muted mb-0">Add editable text, images, and CTA blocks for this page. These render on the public page in sort order.</p>
+        </div>
+        <a href="/admin/pages/<%= pageItem.id %>/sections/create" class="btn btn-sunrise rounded-pill">Add Section</a>
+      </div>
+
+      <div class="table-responsive mt-4">
+        <table class="table align-middle dashboard-table mb-0">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Section key</th>
+              <th>Title</th>
+              <th>Image</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (typeof pageSections !== 'undefined' && pageSections.length) { %>
+              <% pageSections.forEach((sectionItem) => { %>
+                <tr>
+                  <td><%= sectionItem.sort_order %></td>
+                  <td><code><%= sectionItem.section_key %></code></td>
+                  <td><strong><%= sectionItem.title || sectionItem.eyebrow || 'Untitled section' %></strong></td>
+                  <td><%= sectionItem.image_url ? 'Configured' : 'None' %></td>
+                  <td><span class="badge <%= sectionItem.is_active ? 'text-bg-success-subtle text-success' : 'text-bg-light text-dark' %>"><%= sectionItem.is_active ? 'Active' : 'Inactive' %></span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="/admin/pages/<%= pageItem.id %>/sections/<%= sectionItem.id %>/edit" class="btn btn-outline-dark btn-sm rounded-pill">Edit</a>
+                      <form action="/admin/pages/<%= pageItem.id %>/sections/<%= sectionItem.id %>/delete" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="6">
+                  <div class="admin-empty-state">
+                    <h3 class="h5 mb-2">No managed sections yet</h3>
+                    <p class="text-muted mb-3">Add sections to make more of this page editable, including images and CTA buttons.</p>
+                    <a href="/admin/pages/<%= pageItem.id %>/sections/create" class="btn btn-sunrise rounded-pill btn-sm">Add First Section</a>
+                  </div>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+<% } %>

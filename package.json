@@ -16,6 +16,7 @@
     "migrate:phase3-2": "node scripts/migrate-phase3-2.js",
     "migrate:phase4": "node scripts/migrate-phase4.js",
     "migrate:branding": "node scripts/migrate-branding-settings.js",
+    "migrate:page-sections": "node scripts/migrate-page-sections.js",
     "seed:cms": "node scripts/seed-cms.js"
   },
   "keywords": [

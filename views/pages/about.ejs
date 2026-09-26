@@ -4,6 +4,10 @@
   description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Learn the story behind the ministry, the convictions that guide the work, and the long-term vision for evangelism, discipleship, church planting, and community transformation.'
 }) %>
 
+<%- include('../partials/managed-page-body') %>
+<%- include('../partials/managed-page-sections') %>
+
+<% if (!(pageRecord && pageRecord.sections && pageRecord.sections.length)) { %>
 <section class="section-pad pt-0 bg-white about-story-section">
   <div class="container">
     <div class="row g-5 align-items-center">
@@ -26,6 +30,7 @@
     </div>
   </div>
 </section>
+
 
 <section class="section-pad bg-cream mission-vision-section">
   <div class="container">
@@ -211,3 +216,4 @@
 </section>
 
 <%- include('../partials/call-to-action') %>
+<% } %>

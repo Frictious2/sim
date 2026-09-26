@@ -1,0 +1,39 @@
+<% if (typeof pageRecord !== 'undefined' && pageRecord && pageRecord.sections && pageRecord.sections.length) { %>
+  <% pageRecord.sections.forEach((sectionItem, index) => { %>
+    <section class="section-pad <%= index % 2 === 0 ? 'bg-white' : 'bg-cream' %> managed-content-section">
+      <div class="container">
+        <div class="row g-5 align-items-center <%= sectionItem.layout === 'image_left' ? 'flex-lg-row-reverse' : '' %>">
+          <div class="<%= sectionItem.image_url ? 'col-lg-7' : 'col-lg-10 mx-auto' %>">
+            <% if (sectionItem.eyebrow) { %>
+              <span class="eyebrow text-dark"><%= sectionItem.eyebrow %></span>
+            <% } %>
+            <% if (sectionItem.title) { %>
+              <h2 class="section-title text-dark mt-3"><%= sectionItem.title %></h2>
+            <% } %>
+            <% if (sectionItem.subtitle) { %>
+              <p class="lead text-muted"><%= sectionItem.subtitle %></p>
+            <% } %>
+            <% if (sectionItem.body) { %>
+              <div class="cms-rich-copy text-muted"><%- sectionItem.body %></div>
+            <% } %>
+            <% if (sectionItem.button_label || sectionItem.secondary_button_label) { %>
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <% if (sectionItem.button_label) { %>
+                  <a class="btn btn-sunrise rounded-pill px-4" href="<%= sectionItem.button_url || '#' %>"><%= sectionItem.button_label %></a>
+                <% } %>
+                <% if (sectionItem.secondary_button_label) { %>
+                  <a class="btn btn-outline-dark rounded-pill px-4" href="<%= sectionItem.secondary_button_url || '#' %>"><%= sectionItem.secondary_button_label %></a>
+                <% } %>
+              </div>
+            <% } %>
+          </div>
+          <% if (sectionItem.image_url) { %>
+            <div class="col-lg-5">
+              <img src="<%= sectionItem.image_url %>" alt="<%= sectionItem.image_alt || sectionItem.title || 'Page section image' %>" class="img-fluid rounded-5 managed-section-image">
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  <% }) %>
+<% } %>

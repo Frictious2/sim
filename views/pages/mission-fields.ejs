@@ -4,6 +4,10 @@
   description: pageRecord && pageRecord.subtitle ? pageRecord.subtitle : 'Explore the regions, communities, needs, and ministry activities that define the mission fields of Salone Interior Missions across Sierra Leone.'
 }) %>
 
+<%- include('../partials/managed-page-body') %>
+<%- include('../partials/managed-page-sections') %>
+
+<% if (!(pageRecord && pageRecord.sections && pageRecord.sections.length)) { %>
 <section class="section-pad pt-0 bg-white mission-fields-intro-section">
   <div class="container">
     <div class="row g-5 align-items-center">
@@ -31,6 +35,7 @@
     </div>
   </div>
 </section>
+
 
 <section class="section-pad bg-cream region-overview-section">
   <div class="container">
@@ -203,3 +208,4 @@
     </div>
   </div>
 </section>
+<% } %>
